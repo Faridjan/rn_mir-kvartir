@@ -3,7 +3,7 @@ import { Text, StyleSheet, View } from 'react-native'
 
 export default class Title extends Component {
 	render() {
-		return <Text style={styles.title}> {this.props.children} </Text>
+		return <Text style={[styles.title, this.props.style]}>{this.props.children}</Text>
 	}
 }
 
