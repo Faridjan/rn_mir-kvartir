@@ -23,6 +23,7 @@ const Tab = createBottomTabNavigator()
 
 // Navigation Config
 const defaultNavigationOptions = {
+	headerTitleAlign: 'center',
 	headerStyle: {
 		backgroundColor: '#fff',
 		shadowColor: '#5bc4ff',
@@ -61,7 +62,7 @@ const CategoryNavigation = () => {
 
 const FAQNavigation = () => {
 	return (
-		<Stack.Navigator>
+		<Stack.Navigator screenOptions={defaultNavigationOptions}>
 			<Stack.Screen name='FAQ' component={FAQScreen} />
 		</Stack.Navigator>
 	)
@@ -69,7 +70,7 @@ const FAQNavigation = () => {
 
 const FoodNavigation = () => {
 	return (
-		<Stack.Navigator>
+		<Stack.Navigator screenOptions={defaultNavigationOptions}>
 			<Stack.Screen name='Food' component={FoodScreen} />
 		</Stack.Navigator>
 	)
@@ -77,7 +78,7 @@ const FoodNavigation = () => {
 
 const ProfileNavigation = () => {
 	return (
-		<Stack.Navigator>
+		<Stack.Navigator screenOptions={defaultNavigationOptions}>
 			<Stack.Screen name='Profile' component={ProfileScreen} />
 		</Stack.Navigator>
 	)

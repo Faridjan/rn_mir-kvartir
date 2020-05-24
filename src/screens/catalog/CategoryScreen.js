@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
 import { Text, View } from 'react-native'
+import Container from '../../components/Container'
 
 export default class CategoryScreen extends Component {
 	render() {
 		return (
-			<View>
+			<Container>
 				<Text> CategoryScreen </Text>
-			</View>
+			</Container>
 		)
 	}
 }
