@@ -1,5 +1,7 @@
 // React
 import React, { Component } from 'react'
+
+// Expo
 import { Ionicons } from '@expo/vector-icons'
 
 // React Navigation
@@ -11,6 +13,7 @@ import SafeAreaView from 'react-native-safe-area-view'
 
 // Screens
 import CategoryScreen from '../screens/catalog/CategoryScreen'
+import SearchScreen from '../screens/catalog/SearchScreen'
 import ProductListScreen from '../screens/catalog/ProductListScreen'
 import ObjectScreen from '../screens/catalog/ObjectScreen'
 import FAQScreen from '../screens/FAQScreen'
@@ -22,6 +25,14 @@ import { THEME } from '../theme'
 
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator()
+
+const getTabBarVisibility = (route) => {
+	const routeName = route.state ? route.state.routes[route.state.index].name : ''
+	if (routeName === 'Search') {
+		return false
+	}
+	return true
+}
 
 // Navigation Config
 const defaultNavigationOptions = {
@@ -58,9 +69,17 @@ const CategoryNavigation = () => {
 			<Stack.Screen
 				name='Category'
 				component={CategoryScreen}
-				options={{
+				options={({ navigation }) => ({
 					title: 'Категории',
-				}}
+					headerRight: () => (
+						<Ionicons
+							name='ios-search'
+							size={24}
+							style={{ marginRight: 15, paddingHorizontal: 5, paddingVertical: 5 }}
+							onPress={() => navigation.navigate('Search')}
+						/>
+					),
+				})}
 			/>
 			<Stack.Screen
 				name='Search'
@@ -146,7 +165,8 @@ const MainBottomTabsNavigation = () => {
 			<Tab.Screen
 				name='Category'
 				component={CategoryNavigation}
-				options={{
+				options={({ route }) => ({
+					tabBarVisible: getTabBarVisibility(route),
 					tabBarLabel: 'Home',
 					tabBarIcon: ({ focused }) =>
 						focused ? (
@@ -164,7 +184,7 @@ const MainBottomTabsNavigation = () => {
 								resizeMode='contain'
 							/>
 						),
-				}}
+				})}
 			/>
 			<Tab.Screen
 				name='FAQ'
