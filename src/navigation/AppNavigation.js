@@ -63,6 +63,13 @@ const CategoryNavigation = () => {
 				}}
 			/>
 			<Stack.Screen
+				name='Search'
+				component={SearchScreen}
+				options={{
+					title: 'Поиск',
+				}}
+			/>
+			<Stack.Screen
 				name='ProductList'
 				component={ProductListScreen}
 				options={{
