@@ -4,6 +4,10 @@ import Container from '../../components/Container'
 import CategoryItem from '../../containers/CategoryItem'
 
 export default class CategoryScreen extends Component {
+	// static screenOptions = {
+	// 	title: 'Home',
+	// }
+
 	render() {
 		return (
 			<Container>

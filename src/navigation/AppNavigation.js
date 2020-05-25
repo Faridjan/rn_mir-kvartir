@@ -6,6 +6,8 @@ import { Ionicons } from '@expo/vector-icons'
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import { SafeAreaProvider } from 'react-native-safe-area-context'
+import SafeAreaView from 'react-native-safe-area-view'
 
 // Screens
 import CategoryScreen from '../screens/catalog/CategoryScreen'
@@ -53,9 +55,27 @@ const MyTheme = {
 const CategoryNavigation = () => {
 	return (
 		<Stack.Navigator screenOptions={defaultNavigationOptions}>
-			<Stack.Screen name='Category' component={CategoryScreen} />
-			<Stack.Screen name='ProductList' component={ProductListScreen} />
-			<Stack.Screen name='Object' component={ObjectScreen} />
+			<Stack.Screen
+				name='Category'
+				component={CategoryScreen}
+				options={{
+					title: 'Категории',
+				}}
+			/>
+			<Stack.Screen
+				name='ProductList'
+				component={ProductListScreen}
+				options={{
+					title: 'Список квартир',
+				}}
+			/>
+			<Stack.Screen
+				name='Object'
+				component={ObjectScreen}
+				options={{
+					title: 'Квартира #',
+				}}
+			/>
 		</Stack.Navigator>
 	)
 }
@@ -71,7 +91,13 @@ const FAQNavigation = () => {
 const FoodNavigation = () => {
 	return (
 		<Stack.Navigator screenOptions={defaultNavigationOptions}>
-			<Stack.Screen name='Food' component={FoodScreen} />
+			<Stack.Screen
+				name='Food'
+				component={FoodScreen}
+				options={{
+					title: 'Еда',
+				}}
+			/>
 		</Stack.Navigator>
 	)
 }
@@ -79,7 +105,13 @@ const FoodNavigation = () => {
 const ProfileNavigation = () => {
 	return (
 		<Stack.Navigator screenOptions={defaultNavigationOptions}>
-			<Stack.Screen name='Profile' component={ProfileScreen} />
+			<Stack.Screen
+				name='Profile'
+				component={ProfileScreen}
+				options={{
+					title: 'Профиль',
+				}}
+			/>
 		</Stack.Navigator>
 	)
 }
@@ -200,8 +232,10 @@ const MainBottomTabsNavigation = () => {
 // Navigation Container
 export const AppNavigation = () => {
 	return (
-		<NavigationContainer theme={MyTheme}>
-			<MainBottomTabsNavigation />
-		</NavigationContainer>
+		<SafeAreaProvider>
+			<NavigationContainer theme={MyTheme}>
+				<MainBottomTabsNavigation />
+			</NavigationContainer>
+		</SafeAreaProvider>
 	)
 }
