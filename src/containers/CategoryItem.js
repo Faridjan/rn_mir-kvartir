@@ -1,21 +1,19 @@
-import React, { Component } from 'react'
-import { Text, StyleSheet, TouchableOpacity } from 'react-native'
+import React from 'react'
+import { Text, StyleSheet, TouchableOpacity, Image } from 'react-native'
+import { withNavigation } from '@react-navigation/compat'
 
-export default class CategoryItem extends Component {
-	render() {
-		const { navigation, imageCategorySource, nameCategory } = this.props
-		return (
-			<TouchableOpacity
-				onPress={navigation.navigate('ProductListScreen')}
-				activeOpacity={1}
-				key={id}
-				style={styles.category}
-			>
-				<Thumbnail resizeMode='contain' square source={imageCategorySource} />
-				<Text>{nameCategory}</Text>
-			</TouchableOpacity>
-		)
-	}
+const CategoryItem = ({ navigation, image, name }) => {
+	return (
+		<TouchableOpacity
+			onPress={() => navigation.navigate('ProductList')}
+			activeOpacity={1}
+			// key={id}
+			style={styles.category}
+		>
+			<Image resizeMode='contain' style={{ width: '100%' }} source={image} />
+			<Text>{name}</Text>
+		</TouchableOpacity>
+	)
 }
 
 const styles = StyleSheet.create({
@@ -26,10 +24,12 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		height: 160,
 		borderWidth: 1,
-		borderRightWidth: index === 0 ? 0 : 1,
-		borderBottomWidth: index === 0 ? 0 : 1,
+		borderRightWidth: 1,
+		borderBottomWidth: 1,
 		borderColor: '#ccc',
-		marginLeft: index == 1 ? -1 : 0,
-		marginTop: index == 2 ? -1 : 0,
+		marginLeft: 0,
+		marginTop: 0,
 	},
 })
+
+export default withNavigation(CategoryItem)
