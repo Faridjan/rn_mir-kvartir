@@ -6,10 +6,13 @@ const checkIndexIsEven = (n) => {
 	return n % 2 == 0
 }
 
-const CategoryItem = ({ navigation, image, name, index }) => {
+const CategoryItem = (props) => {
+	const { navigation, image, name, index, categoryId } = props
 	return (
 		<TouchableOpacity
-			onPress={() => navigation.navigate('ProductList', { headerTitle: name })}
+			onPress={() =>
+				navigation.navigate('ProductList', { headerTitle: name, category: categoryId })
+			}
 			activeOpacity={1}
 			style={styles(index).category}
 		>

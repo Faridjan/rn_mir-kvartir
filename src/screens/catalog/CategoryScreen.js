@@ -58,6 +58,7 @@ export default class CategoryScreen extends Component {
 							renderItem={({ item, index }) => (
 								<CategoryItem
 									name={item.name}
+									categoryId={item.id}
 									index={index}
 									image={
 										item && item.image && item.image.src
