@@ -96,9 +96,7 @@ const CategoryNavigation = () => {
 			<Stack.Screen
 				name='Object'
 				component={ObjectScreen}
-				options={{
-					title: 'Квартира #',
-				}}
+				options={({ route }) => ({ title: route.params.headerTitle })}
 			/>
 		</Stack.Navigator>
 	)

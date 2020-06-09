@@ -13,9 +13,11 @@ import ProductPreview from './containers/ProductPreview'
 class ProductListScreen extends Component {
 	render() {
 		return (
-			<Container style={{ marginTop: 0 }}>
+			<Container style={{ marginTop: 0, paddingTop: 0 }}>
 				<FlatList
 					data={[{ id: 11, title: 'Title Text', price: '3000' }]}
+					contentContainerStyle={{ paddingBottom: 20 }}
+					showsVerticalScrollIndicator={false}
 					keyExtractor={(item) => item.id.toString()}
 					renderItem={({ item, index, separators }) => <ProductPreview item={item} />}
 				/>
@@ -23,7 +25,5 @@ class ProductListScreen extends Component {
 		)
 	}
 }
-
-const styles = StyleSheet.create({})
 
 export default withNavigation(ProductListScreen)
