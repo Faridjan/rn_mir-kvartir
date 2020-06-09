@@ -1,21 +1,85 @@
 import React, { Component } from 'react'
-import { Text, StyleSheet, View } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
+import { SimpleLineIcons, FontAwesome, AntDesign } from '@expo/vector-icons'
 
-// Components
-import Title from 'src/components/Title'
 import Container from 'src/components/Container'
 
-export default class ObjectScreen extends Component {
+// import { createStackNavigator } from 'react-navigation'
+// import { Bottom, FrontHeader, Loader, Slider } from '../components'
+// import { LinearGradient } from 'expo-linear-gradient'
+// import EventBus from 'react-native-event-bus'
+// import HTML from '../components/HTML'
+
+export default class CompanySingle extends Component {
 	render() {
 		return (
-			<Container style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+			<Container>
+				{/* <Slider images={images} /> */}
+
 				<View>
-					<Title>В процессе</Title>
-					<Text>Идет перенос скриптов со старого проекта...</Text>
+					<Text>Описание</Text>
+
+					<TouchableOpacity
+						style={styles.list}
+						onPress={() => {
+							console.log('Test')
+						}}
+					>
+						<View>
+							<Text>Адрес на карте</Text>
+						</View>
+						<View>
+							<SimpleLineIcons style={{ ...styles.icon, fontSize: 25 }} name='map' />
+						</View>
+					</TouchableOpacity>
+
+					<TouchableOpacity style={styles.list} onPress={() => console.log('Test')}>
+						<View>
+							<Text>Забронировать</Text>
+						</View>
+						<View>
+							<AntDesign style={styles.icon} name='calendar' />
+						</View>
+					</TouchableOpacity>
+
+					<TouchableOpacity style={styles.list} onPress={() => console.log('Test')}>
+						<View>
+							<Text>Отзывы</Text>
+						</View>
+						<View>
+							<FontAwesome style={styles.icon} name='comment-o' />
+						</View>
+					</TouchableOpacity>
 				</View>
 			</Container>
 		)
 	}
 }
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+	modalTitle: {
+		marginBottom: 30,
+		textAlign: 'center',
+		fontWeight: 'bold',
+	},
+	list: {
+		borderColor: '#ccc',
+		borderTopWidth: 0,
+		borderBottomWidth: 1,
+		marginLeft: 0,
+		paddingVertical: 10,
+	},
+	input: {
+		borderBottomColor: '#ccc',
+		borderBottomWidth: 1,
+		color: '#444',
+		marginLeft: 0,
+		fontSize: 16,
+		paddingVertical: 5,
+		paddingHorizontal: 0,
+	},
+	icon: {
+		color: '#ff0000',
+		fontSize: 28,
+	},
+})

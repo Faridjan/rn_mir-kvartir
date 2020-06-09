@@ -5,7 +5,7 @@ import { withNavigation } from '@react-navigation/compat'
 // Components
 import Title from '../../components/Title'
 import { TouchableOpacity, FlatList } from 'react-native-gesture-handler'
-import Container from '../../components/Container'
+import Container from 'src/components/Container'
 
 // Containers
 import ProductPreview from './containers/ProductPreview'

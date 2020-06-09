@@ -8,8 +8,6 @@ import { Ionicons } from '@expo/vector-icons'
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { SafeAreaProvider } from 'react-native-safe-area-context'
-import SafeAreaView from 'react-native-safe-area-view'
 
 // Screens
 import CategoryScreen from '../screens/catalog/CategoryScreen'
@@ -255,10 +253,8 @@ const MainBottomTabsNavigation = () => {
 // Navigation Container
 export const AppNavigation = () => {
 	return (
-		<SafeAreaProvider>
-			<NavigationContainer theme={MyTheme}>
-				<MainBottomTabsNavigation />
-			</NavigationContainer>
-		</SafeAreaProvider>
+		<NavigationContainer theme={MyTheme}>
+			<MainBottomTabsNavigation />
+		</NavigationContainer>
 	)
 }

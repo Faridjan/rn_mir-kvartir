@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
-import { Text, StyleSheet, View } from 'react-native'
-import SafeAreaView from 'react-native-safe-area-view'
+import { StyleSheet, View } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 export default class Container extends Component {
 	render() {
 		return (
-			<SafeAreaView style={[styles.container, this.props.style]}>
-				{this.props.children}
+			<SafeAreaView style={{ flex: 1 }}>
+				<View style={[styles.container, this.props.style]}>{this.props.children}</View>
 			</SafeAreaView>
 		)
 	}
