@@ -39,9 +39,10 @@ export default class CategoryScreen extends Component {
 							showsVerticalScrollIndicator={false}
 							contentContainerStyle={styles.flatContainer}
 							numColumns={2}
-							renderItem={({ item }) => (
+							renderItem={({ item, index }) => (
 								<CategoryItem
 									name={item.name}
+									index={index}
 									image={
 										item && item.image && item.image.src
 											? { uri: item.image.src, cache: 'reload' }
