@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, TouchableNativeFeedback } from 'react-native'
 import { SimpleLineIcons, FontAwesome, AntDesign } from '@expo/vector-icons'
 
 import Container from 'src/components/Container'
@@ -19,7 +19,7 @@ export default class CompanySingle extends Component {
 				<View>
 					<Text>Описание</Text>
 
-					<TouchableOpacity
+					<TouchableNativeFeedback
 						style={styles.list}
 						onPress={() => {
 							console.log('Test')
@@ -31,25 +31,25 @@ export default class CompanySingle extends Component {
 						<View>
 							<SimpleLineIcons style={{ ...styles.icon, fontSize: 25 }} name='map' />
 						</View>
-					</TouchableOpacity>
+					</TouchableNativeFeedback>
 
-					<TouchableOpacity style={styles.list} onPress={() => console.log('Test')}>
+					<TouchableNativeFeedback style={styles.list} onPress={() => console.log('Test')}>
 						<View>
 							<Text>Забронировать</Text>
 						</View>
 						<View>
 							<AntDesign style={styles.icon} name='calendar' />
 						</View>
-					</TouchableOpacity>
+					</TouchableNativeFeedback>
 
-					<TouchableOpacity style={styles.list} onPress={() => console.log('Test')}>
+					<TouchableNativeFeedback style={styles.list} onPress={() => console.log('Test')}>
 						<View>
 							<Text>Отзывы</Text>
 						</View>
 						<View>
 							<FontAwesome style={styles.icon} name='comment-o' />
 						</View>
-					</TouchableOpacity>
+					</TouchableNativeFeedback>
 				</View>
 			</Container>
 		)
