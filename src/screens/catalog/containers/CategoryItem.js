@@ -10,7 +10,7 @@ const CategoryItem = ({ navigation, image, name }) => {
 			// key={id}
 			style={styles.category}
 		>
-			<Image resizeMode='contain' style={{ width: '100%' }} source={image} />
+			<Image resizeMode='contain' style={{ width: '100%', height: 60 }} source={image} />
 			<Text>{name}</Text>
 		</TouchableOpacity>
 	)
