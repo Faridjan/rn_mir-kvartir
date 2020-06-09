@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Text, StyleSheet, View, ActivityIndicator, FlatList } from 'react-native'
 import { withNavigation } from '@react-navigation/compat'
+import concat from 'lodash/concat'
 
 // Components
 import Title from '../../components/Title'
@@ -76,6 +77,34 @@ class ProductListScreen extends Component {
 		}
 	}
 
+	handleLoadMore = () => {
+		const { loadingMore } = this.state
+
+		if (loadingMore) {
+			this.setState(
+				(prevState) => ({
+					page: prevState.page + 1,
+					loadingMore: true,
+				}),
+				() => {
+					this.fetchProducts()
+				},
+			)
+		}
+	}
+
+	handleRefresh = () => {
+		this.setState(
+			{
+				page: 1,
+				refreshing: true,
+			},
+			() => {
+				this.fetchProducts()
+			},
+		)
+	}
+
 	render() {
 		const { category, name, data, loading, loadingMore, refreshing } = this.state
 		return (
@@ -91,6 +120,7 @@ class ProductListScreen extends Component {
 							contentContainerStyle={{ paddingBottom: 20 }}
 							showsVerticalScrollIndicator={false}
 							keyExtractor={(item) => item.id.toString()}
+							onEndReached={this.handleLoadMore}
 							renderItem={({ item, index, separators }) => <ProductPreview item={item} />}
 						/>
 					</Container>

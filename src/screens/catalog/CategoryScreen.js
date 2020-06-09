@@ -5,6 +5,8 @@ import CategoryItem from './containers/CategoryItem'
 
 import { getCategories } from 'src/modules/category/service'
 
+const noImage = require('src/assets/imgCateDefault.png')
+
 export default class CategoryScreen extends Component {
 	constructor(props) {
 		super(props)
