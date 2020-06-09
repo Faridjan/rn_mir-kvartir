@@ -5,7 +5,7 @@ import { withNavigation } from '@react-navigation/compat'
 const CategoryItem = ({ navigation, image, name }) => {
 	return (
 		<TouchableOpacity
-			onPress={() => navigation.navigate('ProductList')}
+			onPress={() => navigation.navigate('ProductList', { headerTitle: name })}
 			activeOpacity={1}
 			// key={id}
 			style={styles.category}
