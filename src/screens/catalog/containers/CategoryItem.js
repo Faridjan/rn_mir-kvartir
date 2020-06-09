@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, StyleSheet, TouchableNativeFeedback, Image } from 'react-native'
+import { Text, StyleSheet, View, TouchableOpacity, Image } from 'react-native'
 import { withNavigation } from '@react-navigation/compat'
 
 const checkIndexIsEven = (n) => {
@@ -9,7 +9,7 @@ const checkIndexIsEven = (n) => {
 const CategoryItem = (props) => {
 	const { navigation, image, name, index, categoryId } = props
 	return (
-		<TouchableNativeFeedback
+		<TouchableOpacity
 			onPress={() =>
 				navigation.navigate('ProductList', { headerTitle: name, category: categoryId })
 			}
@@ -18,7 +18,7 @@ const CategoryItem = (props) => {
 		>
 			<Image resizeMode='contain' style={{ width: '100%', height: 60 }} source={image} />
 			<Text>{name}</Text>
-		</TouchableNativeFeedback>
+		</TouchableOpacity>
 	)
 }
 
