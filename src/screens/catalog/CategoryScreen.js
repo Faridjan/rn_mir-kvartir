@@ -6,9 +6,14 @@ import CategoryItem from './containers/CategoryItem'
 import { getCategories } from 'src/modules/category/service'
 
 export default class CategoryScreen extends Component {
-	state = {
-		loading: true,
-		data: null,
+	constructor(props) {
+		super(props)
+		this.state = {
+			loading: true,
+			data: null,
+			seed: 1,
+			refreshing: false,
+		}
 	}
 
 	async componentDidMount() {
@@ -20,9 +25,18 @@ export default class CategoryScreen extends Component {
 		const data = await getCategories(query)
 		this.setState({ data })
 	}
+
 	render() {
 		const { data } = this.state
 		const listData = data ? data.filter((c) => c.parent === 0) : 0
+
+		const handleRefresh = () => {
+			// this.setState({
+			// 	page: 1,
+			// 	refreshing: true,
+			// 	seed: this.state.seed + 1,
+			// })
+		}
 
 		return (
 			<>
@@ -39,6 +53,8 @@ export default class CategoryScreen extends Component {
 							showsVerticalScrollIndicator={false}
 							contentContainerStyle={styles.flatContainer}
 							numColumns={2}
+							refreshing={this.state.refreshing}
+							onRefresh={handleRefresh}
 							renderItem={({ item, index }) => (
 								<CategoryItem
 									name={item.name}
