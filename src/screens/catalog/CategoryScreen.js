@@ -12,33 +12,88 @@ export default class CategoryScreen extends Component {
 		super(props)
 		this.state = {
 			loading: true,
-			data: null,
-			seed: 1,
 			refreshing: false,
+			loadingMore: false,
+			data: [],
+			page: 1,
 		}
 	}
 
-	async componentDidMount() {
+	componentDidMount() {
+		this.fetchCategories()
+	}
+
+	getData = (page) => {
+		const { category } = this.state
+
 		const query = {
-			per_page: 100,
+			status: 'publish',
 			lang: 'ru',
+			per_page: 7,
+			page: page,
 		}
 
-		const data = await getCategories(query)
-		this.setState({ data })
+		return getCategories(query)
+	}
+
+	fetchCategories = async (page = this.state.page) => {
+		try {
+			const dataGet = await this.getData(page)
+
+			if (dataGet.length <= 7 && dataGet.length > 0) {
+				this.setState((preState) => {
+					return {
+						loading: false,
+						refreshing: false,
+						loadingMore: dataGet.length === 7,
+						data: page === 1 ? dataGet : concat(preState.data, dataGet),
+					}
+				})
+			} else {
+				this.setState({
+					loadingMore: false,
+					loading: false,
+					refreshing: false,
+				})
+			}
+		} catch (e) {
+			this.setState({
+				loading: false,
+			})
+		}
+	}
+
+	handleLoadMore = () => {
+		const { loadingMore } = this.state
+
+		if (loadingMore) {
+			this.setState(
+				(prevState) => ({
+					page: prevState.page + 1,
+					loadingMore: true,
+				}),
+				() => {
+					this.fetchCategories()
+				},
+			)
+		}
+	}
+
+	handleRefresh = () => {
+		this.setState(
+			{
+				page: 1,
+				refreshing: true,
+			},
+			() => {
+				this.fetchCategories()
+			},
+		)
 	}
 
 	render() {
-		const { data } = this.state
+		const { data, refreshing } = this.state
 		const listData = data ? data.filter((c) => c.parent === 0) : 0
-
-		const handleRefresh = () => {
-			// this.setState({
-			// 	page: 1,
-			// 	refreshing: true,
-			// 	seed: this.state.seed + 1,
-			// })
-		}
 
 		return (
 			<>
@@ -55,8 +110,9 @@ export default class CategoryScreen extends Component {
 							showsVerticalScrollIndicator={false}
 							contentContainerStyle={styles.flatContainer}
 							numColumns={2}
-							refreshing={this.state.refreshing}
-							onRefresh={handleRefresh}
+							onEndReached={this.handleLoadMore}
+							refreshing={refreshing}
+							onRefresh={this.handleRefresh}
 							renderItem={({ item, index }) => (
 								<CategoryItem
 									name={item.name}

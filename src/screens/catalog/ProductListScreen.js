@@ -16,7 +16,7 @@ import ProductPreview from './containers/ProductPreview'
 class ProductListScreen extends Component {
 	constructor(props, context) {
 		super(props, context)
-		const { navigation, route } = props
+		const { route } = props
 
 		const category = route.params.category
 		let name = route.params.headerTitle
@@ -42,7 +42,7 @@ class ProductListScreen extends Component {
 		const query = {
 			status: 'publish',
 			lang: 'ru',
-			per_page: 4,
+			per_page: 7,
 			page: page,
 			category,
 		}
@@ -54,12 +54,12 @@ class ProductListScreen extends Component {
 		try {
 			const dataGet = await this.getData(page)
 
-			if (dataGet.length <= 4 && dataGet.length > 0) {
+			if (dataGet.length <= 7 && dataGet.length > 0) {
 				this.setState((preState) => {
 					return {
 						loading: false,
 						refreshing: false,
-						loadingMore: dataGet.length === 4,
+						loadingMore: dataGet.length === 7,
 						data: page === 1 ? dataGet : concat(preState.data, dataGet),
 					}
 				})
@@ -121,6 +121,8 @@ class ProductListScreen extends Component {
 							showsVerticalScrollIndicator={false}
 							keyExtractor={(item) => item.id.toString()}
 							onEndReached={this.handleLoadMore}
+							refreshing={refreshing}
+							onRefresh={this.handleRefresh}
 							renderItem={({ item, index, separators }) => <ProductPreview item={item} />}
 						/>
 					</Container>
