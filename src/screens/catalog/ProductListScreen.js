@@ -45,7 +45,6 @@ class ProductListScreen extends Component {
 			per_page: 7,
 			page: page,
 			category,
-			fields: 'id,images,name,price,meta_data',
 		}
 
 		return getProducts(query)

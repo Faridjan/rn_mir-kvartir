@@ -24,8 +24,6 @@ export default class CategoryScreen extends Component {
 	}
 
 	getData = (page) => {
-		const { category } = this.state
-
 		const query = {
 			status: 'publish',
 			lang: 'ru',
@@ -93,8 +91,7 @@ export default class CategoryScreen extends Component {
 
 	render() {
 		const { data, refreshing, loading } = this.state
-		const listData = data ? data.filter((c) => c.parent === 0) : 0
-
+		const listData = data.filter((c) => c.parent === 0)
 		return (
 			<>
 				{loading ? (
