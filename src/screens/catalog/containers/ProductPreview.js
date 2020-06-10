@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, StyleSheet, View, Image, TouchableNativeFeedback } from 'react-native'
+import { Text, StyleSheet, View, Image, TouchableOpacity } from 'react-native'
 import { withNavigation } from '@react-navigation/compat'
 
 const noImage = require('src/assets/imgCateDefault.png')
@@ -15,17 +15,13 @@ class ProductPreview extends Component {
 		let typeAddPrice = meta_data.find((val) => val.key === 'type_add_price')
 
 		return (
-			<TouchableNativeFeedback
+			<TouchableOpacity
 				onPress={() => {
 					navigation.navigate('Object', { headerTitle: item.title })
 				}}
 			>
 				<View style={styles.preview}>
-					<Image
-						resizeMode='cover'
-						style={styles.img}
-						source={images && images[0] ? { uri: images[0].src, cache: 'cached' } : noImage}
-					/>
+					<Image resizeMode="cover" style={styles.img} source={images && images[0] ? { uri: images[0].src, cache: 'cached' } : noImage} />
 					<View style={styles.textContainer}>
 						<Text style={styles.name}>{item.name}</Text>
 
@@ -41,7 +37,7 @@ class ProductPreview extends Component {
 						</Text>
 					</View>
 				</View>
-			</TouchableNativeFeedback>
+			</TouchableOpacity>
 		)
 	}
 }
