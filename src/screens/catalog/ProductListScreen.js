@@ -112,7 +112,7 @@ class ProductListScreen extends Component {
 			<>
 				{loading ? (
 					<View style={{ flex: 1, justifyContent: 'center', alignContent: 'center' }}>
-						<ActivityIndicator size='large' />
+						<ActivityIndicator size='large' color='red' />
 					</View>
 				) : data.length ? (
 					<Container style={{ marginTop: 0, paddingTop: 0 }}>
