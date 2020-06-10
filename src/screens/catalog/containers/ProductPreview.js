@@ -21,7 +21,7 @@ class ProductPreview extends Component {
 				}}
 			>
 				<View style={styles.preview}>
-					<Image resizeMode="cover" style={styles.img} source={images && images[0] ? { uri: images[0].src, cache: 'cached' } : noImage} />
+					<Image resizeMode="cover" style={styles.img} source={images && images[0] ? { uri: images[0].src, cache: 'reload' } : noImage} />
 					<View style={styles.textContainer}>
 						<Text style={styles.name}>{item.name}</Text>
 
