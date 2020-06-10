@@ -92,16 +92,16 @@ export default class CategoryScreen extends Component {
 	}
 
 	render() {
-		const { data, refreshing } = this.state
+		const { data, refreshing, loading } = this.state
 		const listData = data ? data.filter((c) => c.parent === 0) : 0
 
 		return (
 			<>
-				{listData === 0 ? (
+				{loading ? (
 					<View style={{ flex: 1, justifyContent: 'center', alignContent: 'center' }}>
 						<ActivityIndicator size='large' />
 					</View>
-				) : (
+				) : data.length ? (
 					<Container>
 						<FlatList
 							data={listData}
@@ -127,6 +127,8 @@ export default class CategoryScreen extends Component {
 							)}
 						/>
 					</Container>
+				) : (
+					<Text>Пусто</Text>
 				)}
 			</>
 		)

@@ -16,7 +16,9 @@ class ProductPreview extends Component {
 
 		return (
 			<TouchableNativeFeedback
-				onPress={() => navigation.navigate('Object', { headerTitle: item.title })}
+				onPress={() => {
+					navigation.navigate('Object', { headerTitle: item.title })
+				}}
 			>
 				<View style={styles.preview}>
 					<Image
