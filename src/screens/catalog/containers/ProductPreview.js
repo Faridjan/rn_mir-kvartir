@@ -3,7 +3,7 @@ import { Text, StyleSheet, View, Image, TouchableNativeFeedback } from 'react-na
 import { withNavigation } from '@react-navigation/compat'
 
 const noImage = require('src/assets/imgCateDefault.png')
-
+const toLocaleStringPrice = (data) => data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')
 class ProductPreview extends Component {
 	render() {
 		const { item, navigation } = this.props
@@ -22,7 +22,7 @@ class ProductPreview extends Component {
 					<Image
 						resizeMode='cover'
 						style={styles.img}
-						source={images && images[0] ? { uri: images[0].shop_single, cache: 'reload' } : noImage}
+						source={images && images[0] ? { uri: images[0].src, cache: 'cached' } : noImage}
 					/>
 					<View style={styles.textContainer}>
 						<Text style={styles.name}>{item.name}</Text>
@@ -34,7 +34,7 @@ class ProductPreview extends Component {
 						) : null}
 
 						<Text style={styles.priceContainer}>
-							<Text style={styles.price}>{item.price} </Text>
+							<Text style={styles.price}>{toLocaleStringPrice(price)} </Text>
 							<Text>{price && typeBasePrice ? typeBasePrice.value : null}</Text>
 						</Text>
 					</View>

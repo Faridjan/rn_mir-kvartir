@@ -107,6 +107,7 @@ class ProductListScreen extends Component {
 
 	render() {
 		const { category, name, data, loading, loadingMore, refreshing } = this.state
+
 		return (
 			<>
 				{loading ? (
