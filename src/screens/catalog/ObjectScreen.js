@@ -69,24 +69,24 @@ export default class CompanySingle extends Component {
 		return images
 	}
 
-	getMetaData = (meta, string, getVal) => {
+	getMetaData = (meta, string) => {
 		const foundResult = meta.find((val) => val.key === string)
-		if (foundResult) {
-			return getVal ? foundResult.value : foundResult
-		}
-		return null
+		return foundResult ? foundResult.value : null
 	}
 
 	render() {
+		const { navigation } = this.props
 		const { product, fullText } = this.state
 		const { price, name, description, meta_data } = product
 
-		let address = this.getMetaData(meta_data, 'adress_room', false)
-		let typeBasePrice = this.getMetaData(meta_data, 'type_base_price', true)
-		let addPrice = this.getMetaData(meta_data, 'add_price', true)
-		let typeAddPrice = this.getMetaData(meta_data, 'type_add_price', true)
+		let address = this.getMetaData(meta_data, 'adress_room')
+		let typeBasePrice = this.getMetaData(meta_data, 'type_base_price')
+		let addPrice = this.getMetaData(meta_data, 'add_price')
+		let typeAddPrice = this.getMetaData(meta_data, 'type_add_price')
 
 		const images = this.images()
+
+		console.log(address)
 
 		return (
 			<ScrollView>
@@ -120,6 +120,7 @@ export default class CompanySingle extends Component {
 								/>
 							) : null}
 						</View>
+
 						<TouchableOpacity
 							style={styles.list}
 							onPress={() => {
@@ -127,7 +128,9 @@ export default class CompanySingle extends Component {
 							}}
 						>
 							<View>
-								<Text>Адрес на карте</Text>
+								<Text>
+									{`${address.street_name_short} ${address.street_number}` || 'Адрес на карте'}
+								</Text>
 							</View>
 							<View>
 								<SimpleLineIcons style={{ ...styles.icon, fontSize: 25 }} name='map' />
@@ -169,7 +172,10 @@ const styles = StyleSheet.create({
 		borderTopWidth: 0,
 		borderBottomWidth: 1,
 		marginLeft: 0,
-		paddingVertical: 10,
+		padding: 15,
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		alignItems: 'center',
 	},
 	input: {
 		borderBottomColor: '#ccc',
