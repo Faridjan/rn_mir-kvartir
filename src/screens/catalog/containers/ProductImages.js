@@ -56,7 +56,6 @@ class ProductImages extends Component {
 	render() {
 		const { images } = this.props
 		const { visible, indexCurrency } = this.state
-
 		return (
 			<View style={styles.container}>
 				<FlatList
@@ -76,7 +75,7 @@ class ProductImages extends Component {
 					<Pagination
 						containerStyle={styles.viewPagination}
 						activeVisit={indexCurrency}
-						count={images.size}
+						count={images.length}
 					/>
 				</View>
 				<Modal visible={visible} transparent={true}>
