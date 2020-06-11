@@ -11,6 +11,31 @@ import TextHtml from 'src/components/TextHtml'
 // Containers
 import ProductImages from './containers/ProductImages'
 
+const toLocaleStringPrice = (data) => data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')
+
+class DescriptionItem extends React.PureComponent {
+	render() {
+		let { text, onPress } = this.props
+		const regexText = /(<([^>]+)>)/gi
+		let cleanText = text.replace(regexText, '')
+		return (
+			<View>
+				<Text style={{ marginBottom: 10, fontSize: 18 }}>Описание</Text>
+				{this.props.fullText ? (
+					<TextHtml value={text} />
+				) : (
+					<View style={{}}>
+						<Text numberOfLines={4}>{cleanText}</Text>
+						<TouchableOpacity onPress={onPress}>
+							<Text style={{ color: '#999999', fontSize: 16, paddingTop: 6 }}>Подробнее</Text>
+						</TouchableOpacity>
+					</View>
+				)}
+			</View>
+		)
+	}
+}
+
 export default class CompanySingle extends Component {
 	constructor(props) {
 		super(props)
@@ -21,6 +46,7 @@ export default class CompanySingle extends Component {
 			product: item,
 			images: item.images,
 			variation: [],
+			fullText: false,
 		}
 	}
 
@@ -43,18 +69,24 @@ export default class CompanySingle extends Component {
 		return images
 	}
 
-	render() {
-		const { product } = this.state
-		const { price, name, short_description, description, meta_data } = product
+	getMetaData = (meta, string, getVal) => {
+		const foundResult = meta.find((val) => val.key === string)
+		if (foundResult) {
+			return getVal ? foundResult.value : foundResult
+		}
+		return null
+	}
 
-		let address = meta_data.find((val) => val.key === 'adress_room')
-		let typeBasePrice = meta_data.find((val) => val.key === 'type_base_price')
-		let addPrice = meta_data.find((val) => val.key === 'add_price')
-		let typeAddPrice = meta_data.find((val) => val.key === 'type_add_price')
+	render() {
+		const { product, fullText } = this.state
+		const { price, name, description, meta_data } = product
+
+		let address = this.getMetaData(meta_data, 'adress_room', false)
+		let typeBasePrice = this.getMetaData(meta_data, 'type_base_price', true)
+		let addPrice = this.getMetaData(meta_data, 'add_price', true)
+		let typeAddPrice = this.getMetaData(meta_data, 'type_add_price', true)
 
 		const images = this.images()
-		const firstImage = images[0]
-		const image = firstImage && firstImage['src'] ? firstImage['src'] : ''
 
 		return (
 			<ScrollView>
@@ -64,11 +96,29 @@ export default class CompanySingle extends Component {
 
 				<Container>
 					<View>
+						<View style={styles.viewPrice}>
+							{price ? (
+								<Text style={styles.priceGroup}>
+									<Text style={styles.price}>{toLocaleStringPrice(price)} </Text>
+									<Text style={styles.priceType}>{typeBasePrice}</Text>
+								</Text>
+							) : null}
+							{addPrice ? (
+								<Text style={styles.priceGroup}>
+									<Text style={styles.price}>{toLocaleStringPrice(addPrice)} </Text>
+									<Text style={styles.priceType}> {typeAddPrice}</Text>
+								</Text>
+							) : null}
+						</View>
+
 						<View style={{ marginBottom: 16 }}>
-							<TextHtml
-								value={description}
-								// style={merge(changeSize('h6'), changeColor(theme.Text.third.color))}
-							/>
+							{description ? (
+								<DescriptionItem
+									fullText={fullText}
+									onPress={() => this.setState({ fullText: true })}
+									text={description}
+								/>
+							) : null}
 						</View>
 						<TouchableOpacity
 							style={styles.list}
@@ -133,5 +183,18 @@ const styles = StyleSheet.create({
 	icon: {
 		color: '#ff0000',
 		fontSize: 28,
+	},
+	viewPrice: {
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		alignItems: 'center',
+		marginBottom: 26,
+	},
+	// priceGroup: {
+	// 	flexDirection: 'column',
+	// },
+	price: {
+		fontSize: 22,
+		fontWeight: 'bold',
 	},
 })
