@@ -65,22 +65,37 @@ const CategoryNavigation = () => {
 	return (
 		<Stack.Navigator screenOptions={defaultNavigationOptions}>
 			<Stack.Screen
-				name="Category"
+				name='Category'
 				component={CategoryScreen}
 				options={({ navigation }) => ({
 					title: 'Категории',
-					headerRight: () => <Ionicons name="ios-search" size={24} style={{ marginRight: 15, paddingHorizontal: 5, paddingVertical: 5 }} onPress={() => navigation.navigate('Search')} />,
+					headerRight: () => (
+						<Ionicons
+							name='ios-search'
+							size={24}
+							style={{ marginRight: 15, paddingHorizontal: 5, paddingVertical: 5 }}
+							onPress={() => navigation.navigate('Search')}
+						/>
+					),
 				})}
 			/>
 			<Stack.Screen
-				name="Search"
+				name='Search'
 				component={SearchScreen}
 				options={{
 					title: 'Поиск',
 				}}
 			/>
-			<Stack.Screen name="ProductList" component={ProductListScreen} options={({ route }) => ({ title: route.params.headerTitle })} />
-			<Stack.Screen name="Object" component={ObjectScreen} options={({ route }) => ({ title: route.params.headerTitle })} />
+			<Stack.Screen
+				name='ProductList'
+				component={ProductListScreen}
+				options={({ route }) => ({ title: route.params.headerTitle })}
+			/>
+			<Stack.Screen
+				name='Object'
+				component={ObjectScreen}
+				options={({ route }) => ({ title: route.params.headerTitle })}
+			/>
 		</Stack.Navigator>
 	)
 }
@@ -88,7 +103,7 @@ const CategoryNavigation = () => {
 const FAQNavigation = () => {
 	return (
 		<Stack.Navigator screenOptions={defaultNavigationOptions}>
-			<Stack.Screen name="FAQ" component={FAQScreen} />
+			<Stack.Screen name='FAQ' component={FAQScreen} />
 		</Stack.Navigator>
 	)
 }
@@ -97,7 +112,7 @@ const FoodNavigation = () => {
 	return (
 		<Stack.Navigator screenOptions={defaultNavigationOptions}>
 			<Stack.Screen
-				name="Food"
+				name='Food'
 				component={FoodScreen}
 				options={{
 					title: 'Еда',
@@ -111,7 +126,7 @@ const ProfileNavigation = () => {
 	return (
 		<Stack.Navigator screenOptions={defaultNavigationOptions}>
 			<Stack.Screen
-				name="Profile"
+				name='Profile'
 				component={ProfileScreen}
 				options={{
 					title: 'Профиль',
@@ -141,52 +156,92 @@ const MainBottomTabsNavigation = () => {
 			}}
 		>
 			<Tab.Screen
-				name="Category"
+				name='Category'
 				component={CategoryNavigation}
 				options={({ route }) => ({
 					tabBarVisible: getTabBarVisibility(route),
 					tabBarLabel: 'Home',
 					tabBarIcon: ({ focused }) =>
 						focused ? (
-							<Image source={require('../assets/home_active.jpg')} style={{ height: 30 }} square resizeMode="contain" />
+							<Image
+								source={require('../assets/home_active.jpg')}
+								style={{ height: 30 }}
+								square
+								resizeMode='contain'
+							/>
 						) : (
-							<Image source={require('../assets/home.jpg')} style={{ height: 30 }} square resizeMode="contain" />
+							<Image
+								source={require('../assets/home.jpg')}
+								style={{ height: 30 }}
+								square
+								resizeMode='contain'
+							/>
 						),
 				})}
 			/>
 			<Tab.Screen
-				name="FAQ"
+				name='FAQ'
 				component={FAQNavigation}
 				options={{
 					tabBarIcon: ({ focused }) =>
 						focused ? (
-							<Image source={require('../assets/faq_active.jpg')} style={{ height: 30 }} square resizeMode="contain" />
+							<Image
+								source={require('../assets/faq_active.jpg')}
+								style={{ height: 30 }}
+								square
+								resizeMode='contain'
+							/>
 						) : (
-							<Image source={require('../assets/faq.jpg')} style={{ height: 30 }} square resizeMode="contain" />
+							<Image
+								source={require('../assets/faq.jpg')}
+								style={{ height: 30 }}
+								square
+								resizeMode='contain'
+							/>
 						),
 				}}
 			/>
 			<Tab.Screen
-				name="Food"
+				name='Food'
 				component={FoodNavigation}
 				options={{
 					tabBarIcon: ({ focused }) =>
 						focused ? (
-							<Image source={require('../assets/food_active.jpg')} style={{ height: 30 }} square resizeMode="contain" />
+							<Image
+								source={require('../assets/food_active.jpg')}
+								style={{ height: 30 }}
+								square
+								resizeMode='contain'
+							/>
 						) : (
-							<Image source={require('../assets/food.jpg')} style={{ height: 30 }} square resizeMode="contain" />
+							<Image
+								source={require('../assets/food.jpg')}
+								style={{ height: 30 }}
+								square
+								resizeMode='contain'
+							/>
 						),
 				}}
 			/>
 			<Tab.Screen
-				name="Profile"
+				name='Profile'
 				component={ProfileNavigation}
 				options={{
 					tabBarIcon: ({ focused }) =>
 						focused ? (
-							<Image source={require('../assets/profile_active.jpg')} style={{ height: 30 }} square resizeMode="contain" />
+							<Image
+								source={require('../assets/profile_active.jpg')}
+								style={{ height: 30 }}
+								square
+								resizeMode='contain'
+							/>
 						) : (
-							<Image source={require('../assets/profile.jpg')} style={{ height: 30 }} square resizeMode="contain" />
+							<Image
+								source={require('../assets/profile.jpg')}
+								style={{ height: 30 }}
+								square
+								resizeMode='contain'
+							/>
 						),
 				}}
 			/>

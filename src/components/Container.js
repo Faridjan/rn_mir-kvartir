@@ -11,7 +11,6 @@ export default class Container extends Component {
 const styles = StyleSheet.create({
 	container: {
 		padding: 8,
-		marginTop: 30,
 		flex: 1,
 	},
 })

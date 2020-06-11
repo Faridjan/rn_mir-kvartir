@@ -7,7 +7,7 @@ const toLocaleStringPrice = (data) => data.toString().replace(/\B(?=(\d{3})+(?!\
 class ProductPreview extends Component {
 	render() {
 		const { item, navigation } = this.props
-		const { name, images, price, type, id, purchasable, stock_status, meta_data } = item
+		const { images, price, meta_data } = item
 
 		let address = meta_data.find((val) => val.key === 'adress_room')
 		let typeBasePrice = meta_data.find((val) => val.key === 'type_base_price')
@@ -17,11 +17,15 @@ class ProductPreview extends Component {
 		return (
 			<TouchableOpacity
 				onPress={() => {
-					navigation.navigate('Object', { headerTitle: item.title })
+					navigation.navigate('Object', { headerTitle: item.name, item })
 				}}
 			>
 				<View style={styles.preview}>
-					<Image resizeMode="cover" style={styles.img} source={images && images[0] ? { uri: images[0].src, cache: 'reload' } : noImage} />
+					<Image
+						resizeMode='cover'
+						style={styles.img}
+						source={images && images[0] ? { uri: images[0].src, cache: 'reload' } : noImage}
+					/>
 					<View style={styles.textContainer}>
 						<Text style={styles.name}>{item.name}</Text>
 
