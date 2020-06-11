@@ -16,6 +16,7 @@ import ImageViewer from 'react-native-image-zoom-viewer'
 // import Pagination from 'src/containers/Pagination';
 
 import Container from 'src/components/Container'
+import Pagination from 'src/components/Pagination'
 
 import { getStatusBarHeight } from 'react-native-status-bar-height'
 
@@ -71,9 +72,13 @@ class ProductImages extends Component {
 						itemVisiblePercentThreshold: 50,
 					}}
 				/>
-				{/* <View style={styles.viewFooter}>
-                    <Pagination containerStyle={styles.viewPagination} activeVisit={indexCurrency} count={images.size} />
-                </View> */}
+				<View style={styles.viewFooter}>
+					<Pagination
+						containerStyle={styles.viewPagination}
+						activeVisit={indexCurrency}
+						count={images.size}
+					/>
+				</View>
 				<Modal visible={visible} transparent={true}>
 					<ImageViewer
 						onCancel={() => this.setState({ visible: false })}
@@ -118,14 +123,15 @@ const styles = StyleSheet.create({
 		left: 0,
 		right: 0,
 		flexDirection: 'row',
-		alignItems: 'flex-end',
+		justifyContent: 'center',
+		alignItems: 'center',
 		marginBottom: 16,
 		paddingHorizontal: 0,
 	},
 	viewPagination: {
-		flexWrap: 'wrap',
-		flex: 1,
-		marginRight: 12,
+		// flexWrap: 'wrap',
+		// flex: 1,
+		// marginRight: 12,
 	},
 	iconWishlist: {
 		marginLeft: 16,
