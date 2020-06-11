@@ -26,9 +26,9 @@ class DescriptionItem extends React.PureComponent {
 				) : (
 					<View style={{}}>
 						<Text numberOfLines={4}>{cleanText}</Text>
-						<TouchableOpacity onPress={onPress}>
-							<Text style={{ color: '#999999', fontSize: 16, paddingTop: 6 }}>Подробнее</Text>
-						</TouchableOpacity>
+						<Text onPress={onPress} style={{ color: 'red', fontStyle: 'italic', fontSize: 16 }}>
+							Подробнее
+						</Text>
 					</View>
 				)}
 			</View>
@@ -77,7 +77,7 @@ export default class CompanySingle extends Component {
 	render() {
 		const { navigation } = this.props
 		const { product, fullText } = this.state
-		const { price, name, description, meta_data } = product
+		const { id, price, name, description, meta_data } = product
 
 		let address = this.getMetaData(meta_data, 'adress_room')
 		let typeBasePrice = this.getMetaData(meta_data, 'type_base_price')
@@ -123,9 +123,12 @@ export default class CompanySingle extends Component {
 
 						<TouchableOpacity
 							style={styles.list}
-							onPress={() => {
-								console.log('Test')
-							}}
+							onPress={() =>
+								navigation.push('Reviews', {
+									id,
+									headerTitle: 'Адрес на карте',
+								})
+							}
 						>
 							<View>
 								<Text>
@@ -137,7 +140,15 @@ export default class CompanySingle extends Component {
 							</View>
 						</TouchableOpacity>
 
-						<TouchableOpacity style={styles.list} onPress={() => console.log('Test')}>
+						<TouchableOpacity
+							style={styles.list}
+							onPress={() =>
+								navigation.push('Reviews', {
+									id,
+									headerTitle: 'Бронирование',
+								})
+							}
+						>
 							<View>
 								<Text>Забронировать</Text>
 							</View>
@@ -146,7 +157,15 @@ export default class CompanySingle extends Component {
 							</View>
 						</TouchableOpacity>
 
-						<TouchableOpacity style={styles.list} onPress={() => console.log('Test')}>
+						<TouchableOpacity
+							style={styles.list}
+							onPress={() =>
+								navigation.push('Reviews', {
+									id,
+									headerTitle: 'Отзывы',
+								})
+							}
+						>
 							<View>
 								<Text>Отзывы</Text>
 							</View>

@@ -12,6 +12,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 // Screens
 import CategoryScreen from '../screens/catalog/CategoryScreen'
 import SearchScreen from '../screens/catalog/SearchScreen'
+import ReviewsScreen from '../screens/catalog/ReviewsScreen'
 import ProductListScreen from '../screens/catalog/ProductListScreen'
 import ObjectScreen from '../screens/catalog/ObjectScreen'
 import FAQScreen from '../screens/FAQScreen'
@@ -94,6 +95,11 @@ const CategoryNavigation = () => {
 			<Stack.Screen
 				name='Object'
 				component={ObjectScreen}
+				options={({ route }) => ({ title: route.params.headerTitle })}
+			/>
+			<Stack.Screen
+				name='Reviews'
+				component={ReviewsScreen}
 				options={({ route }) => ({ title: route.params.headerTitle })}
 			/>
 		</Stack.Navigator>
