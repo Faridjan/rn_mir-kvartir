@@ -13,6 +13,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import CategoryScreen from '../screens/catalog/CategoryScreen'
 import SearchScreen from '../screens/catalog/SearchScreen'
 import ReviewsScreen from '../screens/catalog/ReviewsScreen'
+import MapLocationScreen from '../screens/catalog/MapLocationScreen'
 import ProductListScreen from '../screens/catalog/ProductListScreen'
 import ObjectScreen from '../screens/catalog/ObjectScreen'
 import FAQScreen from '../screens/FAQScreen'
@@ -27,7 +28,7 @@ const Tab = createBottomTabNavigator()
 
 const getTabBarVisibility = (route) => {
 	const routeName = route.state ? route.state.routes[route.state.index].name : ''
-	if (routeName === 'Search') {
+	if (routeName === 'Search' || routeName === 'MapLocation') {
 		return false
 	}
 	return true
@@ -95,6 +96,11 @@ const CategoryNavigation = () => {
 			<Stack.Screen
 				name='Object'
 				component={ObjectScreen}
+				options={({ route }) => ({ title: route.params.headerTitle })}
+			/>
+			<Stack.Screen
+				name='MapLocation'
+				component={MapLocationScreen}
 				options={({ route }) => ({ title: route.params.headerTitle })}
 			/>
 			<Stack.Screen

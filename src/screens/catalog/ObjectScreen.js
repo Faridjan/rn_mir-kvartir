@@ -86,8 +86,6 @@ export default class CompanySingle extends Component {
 
 		const images = this.images()
 
-		console.log(address)
-
 		return (
 			<ScrollView>
 				<View style={{ height: 400 }}>
@@ -124,9 +122,9 @@ export default class CompanySingle extends Component {
 						<TouchableOpacity
 							style={styles.list}
 							onPress={() =>
-								navigation.push('Reviews', {
-									id,
+								navigation.push('MapLocation', {
 									headerTitle: 'Адрес на карте',
+									address,
 								})
 							}
 						>
