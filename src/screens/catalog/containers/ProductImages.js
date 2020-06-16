@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
 		top: 0,
 		left: 0,
 		// alignItems: 'flex-start',
-		paddingTop: 0,
+		paddingTop: getStatusBarHeight(),
 		zIndex: 999999,
 	},
 	iconClose: {
