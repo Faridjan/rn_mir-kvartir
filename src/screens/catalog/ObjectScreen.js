@@ -87,7 +87,7 @@ export default class CompanySingle extends Component {
 		const images = this.images()
 
 		return (
-			<ScrollView style={styles.mainWrapper}>
+			<ScrollView>
 				<View style={{ height: 400 }}>
 					<ProductImages images={images} name_product={name} height={400} />
 				</View>
@@ -179,9 +179,6 @@ export default class CompanySingle extends Component {
 }
 
 const styles = StyleSheet.create({
-	mainWrapper: {
-		marginBottom: 30,
-	},
 	modalTitle: {
 		marginBottom: 30,
 		textAlign: 'center',

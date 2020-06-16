@@ -130,7 +130,7 @@ class FAQScreen extends React.Component {
 		const { photo_gallery, adress_room, phone_number, instagram, web_page, work_time } = acf
 
 		return (
-			<ScrollView style={styles.mainWrapper}>
+			<ScrollView>
 				<View style={{ height: 400 }}>
 					<ProductImages
 						images={photo_gallery.images_faq[0]}
@@ -265,9 +265,6 @@ class FAQScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
-	mainWrapper: {
-		marginBottom: 30,
-	},
 	modalTitle: {
 		marginBottom: 30,
 		textAlign: 'center',
