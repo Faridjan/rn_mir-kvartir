@@ -116,6 +116,7 @@ const FAQNavigation = () => {
 	return (
 		<Stack.Navigator screenOptions={defaultNavigationOptions}>
 			<Stack.Screen name='FAQ' component={FAQScreen} />
+			<Stack.Screen name='MapLocation' component={MapLocationScreen} />
 		</Stack.Navigator>
 	)
 }

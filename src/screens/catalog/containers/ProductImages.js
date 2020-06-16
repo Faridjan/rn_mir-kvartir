@@ -33,6 +33,7 @@ class ProductImages extends Component {
 
 	renderItem = ({ item }) => {
 		const { height } = this.props
+		const src = item.full_image_url ? item.full_image_url : item.src
 		return (
 			<TouchableOpacity
 				activeOpacity={1}
@@ -40,7 +41,7 @@ class ProductImages extends Component {
 				onPress={() => this.setState({ visible: true })}
 			>
 				<Image
-					source={{ uri: item.src, cache: 'reload' }}
+					source={{ uri: src, cache: 'reload' }}
 					resizeMode='cover'
 					style={{ height: height, width: width }}
 					PlaceholderContent={<ActivityIndicator />}
@@ -56,6 +57,7 @@ class ProductImages extends Component {
 	render() {
 		const { images } = this.props
 		const { visible, indexCurrency } = this.state
+
 		return (
 			<View style={styles.container}>
 				<FlatList
@@ -84,9 +86,11 @@ class ProductImages extends Component {
 						loadingRender={() => <ActivityIndicator />}
 						enableSwipeDown={true}
 						index={indexCurrency}
-						imageUrls={images.map((image) => ({
-							url: image['src'],
-						}))}
+						imageUrls={images.map((image) => {
+							return {
+								url: image.full_image_url ? image.full_image_url : image.src,
+							}
+						})}
 						renderHeader={() => (
 							<Container style={styles.viewHeaderImages}>
 								<AntDesign
@@ -141,7 +145,7 @@ const styles = StyleSheet.create({
 		left: 0,
 		// alignItems: 'flex-start',
 		paddingTop: 0,
-		zIndex: 9999,
+		zIndex: 999999,
 	},
 	iconClose: {
 		paddingVertical: 12,

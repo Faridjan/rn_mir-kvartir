@@ -128,7 +128,9 @@ class ProductListScreen extends Component {
 						/>
 					</Container>
 				) : (
-					<Text>Пусто</Text>
+					<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+						<Text>Пусто</Text>
+					</View>
 				)}
 			</>
 		)
