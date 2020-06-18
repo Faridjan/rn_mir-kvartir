@@ -224,7 +224,9 @@ class FAQScreen extends React.Component {
 							style={styles.list}
 							onPress={() =>
 								navigation.push('Reviews', {
-									id,
+									product_id: id,
+									image: photo_gallery.images_faq[0][0],
+									name: title.rendered,
 									headerTitle: 'Отзывы',
 								})
 							}
