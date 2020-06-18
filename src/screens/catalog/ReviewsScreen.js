@@ -62,6 +62,8 @@ class ReviewScreen extends React.Component {
 		const name = route.params['name']
 		const product_id = route.params['product_id']
 
+		console.log(image)
+
 		return (
 			<Container>
 				<ScrollView style={styles.content}>
@@ -77,7 +79,7 @@ class ReviewScreen extends React.Component {
 					<Button
 						title='Оставить отзыв'
 						onPress={() =>
-							this.props.navigation.navigate(ReviewFormScreen, {
+							this.props.navigation.navigate('ReviewForm', {
 								image: image,
 								name: name,
 								product_id: product_id,

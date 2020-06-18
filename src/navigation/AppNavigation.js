@@ -1,5 +1,6 @@
 // React
 import React, { Component } from 'react'
+import { Image } from 'react-native'
 
 // Expo
 import { Ionicons } from '@expo/vector-icons'
@@ -13,13 +14,13 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import CategoryScreen from '../screens/catalog/CategoryScreen'
 import SearchScreen from '../screens/catalog/SearchScreen'
 import ReviewsScreen from '../screens/catalog/ReviewsScreen'
+import ReviewFormScreen from '../screens/catalog/ReviewFormScreen'
 import MapLocationScreen from '../screens/catalog/MapLocationScreen'
 import ProductListScreen from '../screens/catalog/ProductListScreen'
 import ObjectScreen from '../screens/catalog/ObjectScreen'
 import FAQScreen from '../screens/FAQScreen'
 import FoodScreen from '../screens/FoodScreen'
 import ProfileScreen from '../screens/ProfileScreen'
-import { Image } from 'react-native'
 
 import { THEME } from '../theme'
 
@@ -107,6 +108,11 @@ const CategoryNavigation = () => {
 				name='Reviews'
 				component={ReviewsScreen}
 				options={({ route }) => ({ title: route.params.headerTitle })}
+			/>
+			<Stack.Screen
+				name='ReviewForm'
+				component={ReviewFormScreen}
+				options={({ route }) => ({ title: 'Оставить отзыв' })}
 			/>
 		</Stack.Navigator>
 	)

@@ -159,6 +159,8 @@ export default class CompanySingle extends Component {
 							style={styles.list}
 							onPress={() =>
 								navigation.push('Reviews', {
+									image: images[0],
+									name,
 									product_id: id,
 									headerTitle: 'Отзывы',
 								})
