@@ -1,10 +1,11 @@
 import React from 'react'
-import { View, ScrollView, Image, Text, Button, Input, KeyboardAvoidingView } from 'react-native'
+import { View, ScrollView, Image, Text, Button, KeyboardAvoidingView } from 'react-native'
 
 import Rating from 'src/components/Rating'
 
 // Components
 import Container from 'src/components/Container'
+import Input from 'src/components/input/Input'
 
 import { addProductReviews } from 'src/modules/product/service'
 
@@ -80,6 +81,48 @@ class ReviewFormScreen extends React.Component {
 								onStartRating={(value) => this.setState({ rating: value })}
 							/>
 						</View>
+
+						<View style={{ marginBottom: 10 }}>
+							<Input
+								label='Ваш отзыв'
+								multiline
+								numberOfLines={8}
+								value={review}
+								onChangeText={(value) => this.setState({ review: value })}
+							/>
+
+							{/* {!isLogin && (
+								<Input
+									label='Ваше имя'
+									value={reviewer}
+									onChangeText={(value) => this.setState({ reviewer: value })}
+								/>
+							)}
+							{!isLogin && (
+								<Input
+									label='Ваш E-mail'
+									value={reviewer_email}
+									onChangeText={(value) => this.setState({ reviewer_email: value })}
+								/>
+							)} */}
+
+							<Input
+								label='Ваше имя'
+								value={reviewer}
+								onChangeText={(value) => this.setState({ reviewer: value })}
+							/>
+							<Input
+								label='Ваш E-mail'
+								value={reviewer_email}
+								onChangeText={(value) => this.setState({ reviewer_email: value })}
+							/>
+						</View>
+						<Button
+							// loading={dataReview.get('loadingAdd')}
+							title='Отправить'
+							containerStyle={{ marginBottom: 20 }}
+							onPress={this.addReview}
+						/>
 					</ScrollView>
 				</KeyboardAvoidingView>
 			</Container>
