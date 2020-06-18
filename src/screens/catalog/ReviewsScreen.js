@@ -1,14 +1,9 @@
 // React
 import React from 'react'
-import { StyleSheet, View, ScrollView, ActivityIndicator } from 'react-native'
+import { StyleSheet, View, ScrollView, ActivityIndicator, Button } from 'react-native'
 
 // Modules
 import concat from 'lodash/concat'
-// import { Header, ThemedView } from 'src/components'
-// import Button from 'src/containers/Button'
-// import Container from 'src/containers/Container'
-// import { TextHeader, IconHeader } from 'src/containers/HeaderComponent'
-// import InfoRating from './containers/InfoRating'
 import CommentItem from './containers/CommentItem'
 
 // Components
@@ -16,8 +11,6 @@ import Container from 'src/components/Container'
 
 // Utils
 import { getProductReviews } from 'src/modules/product/service'
-// import { dataReviewSelector } from 'src/modules/product/selectors'
-// import { mainStack } from 'src/config/navigator'
 
 class ReviewScreen extends React.Component {
 	constructor(props) {
@@ -80,21 +73,18 @@ class ReviewScreen extends React.Component {
 						dataReview.map((review) => <CommentItem key={review.id} data={review} />)
 					)}
 				</ScrollView>
-				{/* <View style={styles.footer}>
+				<View style={styles.footer}>
 					<Button
 						title='Оставить отзыв'
 						onPress={() =>
-							this.props.navigation.navigate(mainStack.product_review_form, {
+							this.props.navigation.navigate(ReviewFormScreen, {
 								image: image,
 								name: name,
 								product_id: product_id,
 							})
 						}
-						type='outline'
-						size={'small'}
-						buttonStyle={styles.button}
 					/>
-				</View> */}
+				</View>
 			</Container>
 		)
 	}
@@ -104,13 +94,10 @@ const styles = StyleSheet.create({
 	content: {
 		flex: 1,
 	},
-	// footer: {
-	// 	marginVertical: margin.big,
-	// 	alignItems: 'center',
-	// },
-	// button: {
-	// 	paddingHorizontal: padding.big - 4,
-	// },
+	footer: {
+		marginVertical: 22,
+		alignItems: 'center',
+	},
 })
 
 export default ReviewScreen
