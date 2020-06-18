@@ -1,9 +1,12 @@
 import moment from 'moment'
+require('moment/locale/ru.js')
 
 export const timeAgo = (date = new Date()) => {
-	return moment(date).locale('ru').fromNow()
+	moment.locale('ru')
+	return moment(date).fromNow()
 }
 
 export const getTimeDate = (date = new Date()) => {
-	return moment(date).locale('ru').format('DD/MM/YYYY [at] hh:mma')
+	moment.locale('ru')
+	return moment(date).format('DD/MM/YYYY [at] hh:mma')
 }

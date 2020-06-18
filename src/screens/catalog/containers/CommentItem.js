@@ -1,6 +1,8 @@
 import React from 'react'
 import { StyleSheet, Image, View, Text } from 'react-native'
+
 import TextHtml from 'src/components/TextHtml'
+import Rating from 'src/components/Rating'
 
 import { timeAgo } from 'src/utils/time'
 
@@ -19,7 +21,7 @@ const CommentItem = ({ data }) => {
 					<Image source={{ uri: data.reviewer_avatar_urls['96'] }} style={styles.avatar} />
 					<View style={styles.center}>
 						<Text style={{ fontWeight: '600' }}>{data.reviewer}</Text>
-						{/* <Rating size={12} startingValue={data.rating} readonly /> */}
+						<Rating size={12} startingValue={data.rating} readonly />
 					</View>
 				</View>
 
@@ -51,7 +53,7 @@ const styles = StyleSheet.create({
 		marginRight: 0,
 		marginBottom: 16,
 		flexDirection: 'row',
-		alignItems: 'center',
+		alignItems: 'flex-start',
 		justifyContent: 'space-between',
 	},
 	center: {
