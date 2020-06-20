@@ -18,7 +18,7 @@ import Container from 'src/components/Container'
 import TextHtml from 'src/components/TextHtml'
 
 // Containers
-import ProductImages from './catalog/containers/ProductImages'
+import ProductImages from '../catalog/containers/ProductImages'
 
 import { getSinglePage } from 'src/modules/page/service'
 
@@ -126,9 +126,8 @@ class FAQScreen extends React.Component {
 	renderData() {
 		const { navigation } = this.props
 		const { data, fullText } = this.state
-		const { acf, content, title } = data
+		const { acf, content, title, id } = data
 		const { photo_gallery, adress_room, phone_number, instagram, web_page, work_time } = acf
-
 		return (
 			<ScrollView>
 				<View style={{ height: 400 }}>
@@ -154,7 +153,7 @@ class FAQScreen extends React.Component {
 						<TouchableOpacity
 							style={styles.list}
 							onPress={() =>
-								navigation.push('MapLocation', {
+								navigation.push('MapLocationFAQ', {
 									headerTitle: 'Адрес на карте',
 									address: adress_room,
 								})
@@ -223,9 +222,9 @@ class FAQScreen extends React.Component {
 						<TouchableOpacity
 							style={styles.list}
 							onPress={() =>
-								navigation.push('Reviews', {
-									product_id: id,
-									image: photo_gallery.images_faq[0][0],
+								navigation.push('ReviewsFAQ', {
+									page_id: id,
+									image: photo_gallery.images_faq[0][0].thumbnail_image_url,
 									name: title.rendered,
 									headerTitle: 'Отзывы',
 								})

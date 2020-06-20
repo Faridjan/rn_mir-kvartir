@@ -10,7 +10,12 @@ import { NavigationContainer, DefaultTheme } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
-// Screens
+//Tools
+import { THEME } from '../theme'
+
+/**********  Screens ************/
+
+// Object
 import CategoryScreen from '../screens/catalog/CategoryScreen'
 import SearchScreen from '../screens/catalog/SearchScreen'
 import ReviewsScreen from '../screens/catalog/ReviewsScreen'
@@ -18,11 +23,15 @@ import ReviewFormScreen from '../screens/catalog/ReviewFormScreen'
 import MapLocationScreen from '../screens/catalog/MapLocationScreen'
 import ProductListScreen from '../screens/catalog/ProductListScreen'
 import ObjectScreen from '../screens/catalog/ObjectScreen'
-import FAQScreen from '../screens/FAQScreen'
+
+// FAQ
+import FAQScreen from '../screens/FAQ/FAQScreen'
+import MapLocationFAQScreen from '../screens/FAQ/MapLocationFAQScreen'
+import ReviewsFAQScreen from '../screens/FAQ/ReviewsFAQScreen'
+import ReviewFormFAQScreen from '../screens/FAQ/ReviewFormFAQScreen'
+
 import FoodScreen from '../screens/FoodScreen'
 import ProfileScreen from '../screens/ProfileScreen'
-
-import { THEME } from '../theme'
 
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -122,7 +131,13 @@ const FAQNavigation = () => {
 	return (
 		<Stack.Navigator screenOptions={defaultNavigationOptions}>
 			<Stack.Screen name='FAQ' component={FAQScreen} />
-			<Stack.Screen name='MapLocation' component={MapLocationScreen} />
+			<Stack.Screen name='MapLocationFAQ' component={MapLocationFAQScreen} />
+			<Stack.Screen name='ReviewsFAQ' component={ReviewsFAQScreen} />
+			<Stack.Screen
+				name='ReviewFormFAQ'
+				component={ReviewFormFAQScreen}
+				options={{ title: 'Оставить отзыв' }}
+			/>
 		</Stack.Navigator>
 	)
 }

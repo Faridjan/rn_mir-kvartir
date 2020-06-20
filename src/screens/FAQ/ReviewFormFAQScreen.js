@@ -8,53 +8,51 @@ import Rating from 'src/components/Rating'
 import Container from 'src/components/Container'
 import Input from 'src/components/input/Input'
 
-import { addProductReviews } from 'src/modules/product/service'
+import { addPageComments } from 'src/modules/page/service'
 
-class ReviewFormScreen extends React.Component {
+class ReviewFormFAQScreen extends React.Component {
 	constructor(props) {
 		super(props)
 		const {
 			// auth: { isLogin, user },
 			route,
 		} = props
-		const product_id = route.params['product_id']
+		const post = route.params['page_id']
 		this.state = {
-			product_id,
-			review: '',
-			// reviewer: isLogin ? user.display_name : '',
-			reviewer: '',
-			// reviewer_email: isLogin ? user.user_email : '',
-			reviewer_email: '',
-			rating: 1,
-			// status: isLogin ? 'approved' : 'hold',
-			status: 'approved',
-		}
-	}
+			post,
+			content: '',
+			// author_name: isLogin ? user.display_name : '',
+			author_name: '',
+			// author_email: isLogin ? user.user_email : '',
+			author_email: '',
+			acf: { rating: 1 },
 
-	componentDidMount() {
-		// this.keyboardEventListeners = [
-		// 	Keyboard.addListener('keyboardDidShow', this.visible(false)),
-		// 	Keyboard.addListener('keyboardDidHide', this.visible(true)),
-		// ]
+			// status: isLogin ? 'approved' : 'hold',
+			// status: 'hold',
+		}
 	}
 
 	addReview = async () => {
 		const { navigation } = this.props
-		const { product_id } = this.state
-		if (product_id) {
+		const { post } = this.state
+		if (post) {
 			try {
-				const dataSet = await addProductReviews(this.state)
+				const dataSet = await addPageComments(this.state)
 				if (dataSet) {
 					showMessage({
 						duration: 3000,
-						message: 'Отзыв успешно отправлен',
+						message: 'Отзыв успешно отправлен!',
 						type: 'success',
 					})
-					this.props.route.params.cb(product_id)
+					this.props.route.params.cb(post)
 					navigation.goBack()
 				}
 			} catch (e) {
-				console.log(e)
+				showMessage({
+					duration: 3000,
+					message: e.message,
+					type: 'alert',
+				})
 			}
 		}
 	}
@@ -66,20 +64,18 @@ class ReviewFormScreen extends React.Component {
 			// auth: { isLogin },
 			// dataReview,
 		} = this.props
-		const { review, reviewer, reviewer_email, rating } = this.state
+		const { content, author_name, author_email, acf } = this.state
 
 		const imageProduct = route.params['image']
 		const nameProduct = route.params['name']
 
 		return (
-			<Container style={{ marginBottom: 0 }} behavior='padding'>
-				<ScrollView>
-					<KeyboardAvoidingView behavior='height'>
+			<Container>
+				<KeyboardAvoidingView behavior='height'>
+					<ScrollView>
 						<View style={[styles.viewContent, { marginBottom: 20 }]}>
 							<Image
-								source={
-									imageProduct ? { uri: imageProduct.src } : require('src/assets/pDefault.png')
-								}
+								source={imageProduct ? { uri: imageProduct } : require('src/assets/pDefault.png')}
 								resizeMode='contain'
 								style={[styles.image, { marginBottom: 10 }]}
 							/>
@@ -91,8 +87,10 @@ class ReviewFormScreen extends React.Component {
 							</Text>
 							<Rating
 								size={20}
-								startingValue={rating}
-								onStartRating={(value) => this.setState({ rating: value })}
+								startingValue={acf.rating}
+								onStartRating={(value) =>
+									this.setState({ acf: { ...this.state.acf, rating: value } })
+								}
 							/>
 						</View>
 
@@ -101,34 +99,34 @@ class ReviewFormScreen extends React.Component {
 								label='Ваш отзыв'
 								multiline
 								numberOfLines={8}
-								value={review}
-								onChangeText={(value) => this.setState({ review: value })}
+								value={content}
+								onChangeText={(value) => this.setState({ content: value })}
 							/>
 
 							{/* {!isLogin && (
 								<Input
 									label='Ваше имя'
-									value={reviewer}
-									onChangeText={(value) => this.setState({ reviewer: value })}
+									value={author_name}
+									onChangeText={(value) => this.setState({ author_name: value })}
 								/>
 							)}
 							{!isLogin && (
 								<Input
 									label='Ваш E-mail'
-									value={reviewer_email}
-									onChangeText={(value) => this.setState({ reviewer_email: value })}
+									value={author_email}
+									onChangeText={(value) => this.setState({ author_email: value })}
 								/>
 							)} */}
 
 							<Input
 								label='Ваше имя'
-								value={reviewer}
-								onChangeText={(value) => this.setState({ reviewer: value })}
+								value={author_name}
+								onChangeText={(value) => this.setState({ author_name: value })}
 							/>
 							<Input
 								label='Ваш E-mail'
-								value={reviewer_email}
-								onChangeText={(value) => this.setState({ reviewer_email: value })}
+								value={author_email}
+								onChangeText={(value) => this.setState({ author_email: value })}
 							/>
 						</View>
 						<Button
@@ -137,8 +135,8 @@ class ReviewFormScreen extends React.Component {
 							containerStyle={{ marginBottom: 20 }}
 							onPress={this.addReview}
 						/>
-					</KeyboardAvoidingView>
-				</ScrollView>
+					</ScrollView>
+				</KeyboardAvoidingView>
 			</Container>
 		)
 	}
@@ -158,4 +156,4 @@ const styles = {
 	},
 }
 
-export default ReviewFormScreen
+export default ReviewFormFAQScreen

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { StyleSheet, StatusBar, View } from 'react-native'
 import { AppNavigation } from './src/navigation/AppNavigation'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
+import FlashMessage from 'react-native-flash-message'
 
 export default class App extends Component {
 	render() {
@@ -11,6 +12,7 @@ export default class App extends Component {
 					<StatusBar barStyle='light-content' />
 					<AppNavigation />
 				</View>
+				<FlashMessage position='top' />
 			</SafeAreaProvider>
 		)
 	}

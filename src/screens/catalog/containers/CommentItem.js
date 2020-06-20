@@ -7,6 +7,13 @@ import Rating from 'src/components/Rating'
 import { timeAgo } from 'src/utils/time'
 
 const CommentItem = ({ data }) => {
+	const avatar = data.reviewer_avatar_urls
+		? data.reviewer_avatar_urls['96']
+		: data.author_avatar_urls['96']
+	const author = data.reviewer ? data.reviewer : data.author_name
+	const date = data.date_created ? data.date_created : data.date
+	const content = data.review ? data.review : data.content.rendered
+
 	return (
 		<View
 			style={[
@@ -18,18 +25,18 @@ const CommentItem = ({ data }) => {
 		>
 			<View style={styles.row}>
 				<View style={{ flexDirection: 'row' }}>
-					<Image source={{ uri: data.reviewer_avatar_urls['96'] }} style={styles.avatar} />
+					<Image source={{ uri: avatar }} style={styles.avatar} />
 					<View style={styles.center}>
-						<Text style={{ fontWeight: '600' }}>{data.reviewer}</Text>
-						<Rating size={12} startingValue={data.rating} readonly />
+						<Text style={{ fontWeight: '600' }}>{author}</Text>
+						{data.rating ? null : <Rating size={12} startingValue={data.rating} readonly />}
 					</View>
 				</View>
 
 				<Text colorThird style={styles.textCreateAt}>
-					{timeAgo(data.date_created)}
+					{timeAgo(date)}
 				</Text>
 			</View>
-			<TextHtml value={data.review} />
+			<TextHtml value={content} />
 		</View>
 	)
 }

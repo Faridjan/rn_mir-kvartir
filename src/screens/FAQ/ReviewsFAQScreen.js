@@ -4,17 +4,17 @@ import { StyleSheet, View, Text, ScrollView, ActivityIndicator, Button } from 'r
 
 // Modules
 import concat from 'lodash/concat'
-import CommentItem from './containers/CommentItem'
+import CommentItem from '../catalog/containers/CommentItem'
 import { showMessage } from 'react-native-flash-message'
 
 // Components
 import Container from 'src/components/Container'
 
 // Utils
-import { getProductReviews } from 'src/modules/product/service'
+import { getPageComments } from 'src/modules/page/service'
 import { TextInput } from 'react-native-gesture-handler'
 
-class ReviewScreen extends React.Component {
+class ReviewFAQScreen extends React.Component {
 	constructor(props) {
 		super(props)
 
@@ -28,17 +28,16 @@ class ReviewScreen extends React.Component {
 
 	componentDidMount() {
 		const { route } = this.props
-		const product_id = route.params['product_id']
-		if (product_id) {
-			this.fetchReview(product_id)
+		const page_id = route.params['page_id']
+		if (page_id) {
+			this.fetchReview(page_id)
 		}
 	}
 
-	fetchReview = async (product_id) => {
+	fetchReview = async (page_id) => {
 		try {
-			const dataGet = await getProductReviews(product_id)
+			const dataGet = await getPageComments(page_id)
 			if (dataGet.length) {
-				console.log(dataGet)
 				this.setState((preState) => {
 					return {
 						error: null,
@@ -64,7 +63,9 @@ class ReviewScreen extends React.Component {
 		const { route } = this.props
 		const image = route.params['image']
 		const name = route.params['name']
-		const product_id = route.params['product_id']
+		const page_id = route.params['page_id']
+
+		console.log(dataReview)
 
 		return (
 			<Container>
@@ -83,10 +84,10 @@ class ReviewScreen extends React.Component {
 					<Button
 						title='Оставить отзыв'
 						onPress={() =>
-							this.props.navigation.navigate('ReviewForm', {
+							this.props.navigation.navigate('ReviewFormFAQ', {
 								image: image,
 								name: name,
-								product_id: product_id,
+								page_id: page_id,
 								cb: this.fetchReview,
 							})
 						}
@@ -107,4 +108,4 @@ const styles = StyleSheet.create({
 	},
 })
 
-export default ReviewScreen
+export default ReviewFAQScreen
