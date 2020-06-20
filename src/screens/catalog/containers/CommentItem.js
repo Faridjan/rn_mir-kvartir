@@ -14,6 +14,8 @@ const CommentItem = ({ data }) => {
 	const date = data.date_created ? data.date_created : data.date
 	const content = data.review ? data.review : data.content.rendered
 
+	console.log(data)
+
 	return (
 		<View
 			style={[
@@ -28,7 +30,9 @@ const CommentItem = ({ data }) => {
 					<Image source={{ uri: avatar }} style={styles.avatar} />
 					<View style={styles.center}>
 						<Text style={{ fontWeight: '600' }}>{author}</Text>
-						{data.rating ? null : <Rating size={12} startingValue={data.rating} readonly />}
+						{data.rating || data.acf.rating ? (
+							<Rating size={12} startingValue={data.rating} readonly />
+						) : null}
 					</View>
 				</View>
 
