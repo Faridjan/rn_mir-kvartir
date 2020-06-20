@@ -38,6 +38,7 @@ class ReviewFormFAQScreen extends React.Component {
 		if (post) {
 			try {
 				const dataSet = await addPageComments(this.state)
+				console.log(this.state)
 				if (dataSet) {
 					showMessage({
 						duration: 3000,
@@ -70,8 +71,8 @@ class ReviewFormFAQScreen extends React.Component {
 		const nameProduct = route.params['name']
 
 		return (
-			<Container>
-				<KeyboardAvoidingView behavior='height'>
+			<Container style={{ marginBottom: 0 }}>
+				<KeyboardAvoidingView>
 					<ScrollView>
 						<View style={[styles.viewContent, { marginBottom: 20 }]}>
 							<Image

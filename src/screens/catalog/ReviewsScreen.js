@@ -67,7 +67,7 @@ class ReviewScreen extends React.Component {
 		const product_id = route.params['product_id']
 
 		return (
-			<Container>
+			<Container style={{ marginBottom: 0 }}>
 				<ScrollView>
 					{loading ? (
 						<View style={{ flex: 1, justifyContent: 'center', alignContent: 'center' }}>

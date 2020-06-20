@@ -14,8 +14,6 @@ const CommentItem = ({ data }) => {
 	const date = data.date_created ? data.date_created : data.date
 	const content = data.review ? data.review : data.content.rendered
 
-	console.log(data)
-
 	return (
 		<View
 			style={[

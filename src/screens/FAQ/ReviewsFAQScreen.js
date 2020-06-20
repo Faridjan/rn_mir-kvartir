@@ -68,7 +68,7 @@ class ReviewFAQScreen extends React.Component {
 		console.log(dataReview)
 
 		return (
-			<Container>
+			<Container style={{ marginBottom: 0 }}>
 				<ScrollView>
 					{loading ? (
 						<View style={{ flex: 1, justifyContent: 'center', alignContent: 'center' }}>

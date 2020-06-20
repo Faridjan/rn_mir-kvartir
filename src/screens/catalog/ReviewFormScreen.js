@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, ScrollView, Image, Text, Button, KeyboardAvoidingView } from 'react-native'
+import { View, ScrollView, Image, Text, Button, Keyboard, KeyboardAvoidingView } from 'react-native'
 import { showMessage } from 'react-native-flash-message'
 
 import Rating from 'src/components/Rating'
@@ -32,10 +32,10 @@ class ReviewFormScreen extends React.Component {
 	}
 
 	componentDidMount() {
-		// this.keyboardEventListeners = [
-		// 	Keyboard.addListener('keyboardDidShow', this.visible(false)),
-		// 	Keyboard.addListener('keyboardDidHide', this.visible(true)),
-		// ]
+		this.keyboardEventListeners = [
+			// Keyboard.addListener('keyboardDidShow', this.visible(false)),
+			// Keyboard.addListener('keyboardDidHide', this.visible(true)),
+		]
 	}
 
 	addReview = async () => {
@@ -72,9 +72,9 @@ class ReviewFormScreen extends React.Component {
 		const nameProduct = route.params['name']
 
 		return (
-			<Container style={{ marginBottom: 0 }} behavior='padding'>
+			<Container style={{ marginBottom: 0 }}>
 				<ScrollView>
-					<KeyboardAvoidingView behavior='height'>
+					<KeyboardAvoidingView>
 						<View style={[styles.viewContent, { marginBottom: 20 }]}>
 							<Image
 								source={
