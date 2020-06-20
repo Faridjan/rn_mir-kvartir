@@ -141,7 +141,7 @@ export default class CompanySingle extends Component {
 						<TouchableOpacity
 							style={styles.list}
 							onPress={() =>
-								navigation.push('Reviews', {
+								navigation.push('Booking', {
 									id,
 									headerTitle: 'Бронирование',
 								})

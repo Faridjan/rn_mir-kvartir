@@ -18,11 +18,12 @@ import { THEME } from '../theme'
 // Object
 import CategoryScreen from '../screens/catalog/CategoryScreen'
 import SearchScreen from '../screens/catalog/SearchScreen'
+import ObjectScreen from '../screens/catalog/ObjectScreen'
+import BookingScreen from '../screens/catalog/BookingScreen'
+import MapLocationScreen from '../screens/catalog/MapLocationScreen'
 import ReviewsScreen from '../screens/catalog/ReviewsScreen'
 import ReviewFormScreen from '../screens/catalog/ReviewFormScreen'
-import MapLocationScreen from '../screens/catalog/MapLocationScreen'
 import ProductListScreen from '../screens/catalog/ProductListScreen'
-import ObjectScreen from '../screens/catalog/ObjectScreen'
 
 // FAQ
 import FAQScreen from '../screens/FAQ/FAQScreen'
@@ -111,6 +112,11 @@ const CategoryNavigation = () => {
 			<Stack.Screen
 				name='MapLocation'
 				component={MapLocationScreen}
+				options={({ route }) => ({ title: route.params.headerTitle })}
+			/>
+			<Stack.Screen
+				name='Booking'
+				component={BookingScreen}
 				options={({ route }) => ({ title: route.params.headerTitle })}
 			/>
 			<Stack.Screen

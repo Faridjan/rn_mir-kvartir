@@ -6,7 +6,8 @@ const TOP = 8
 const BOTTOM = 4
 
 class ViewLabel extends React.Component {
-	UNSAFE_componentWillMount() {
+	constructor(props) {
+		super(props)
 		this._animatedIsFocused = new Animated.Value(this.props.isHeading ? 1 : 0)
 	}
 	componentDidUpdate() {
