@@ -4,6 +4,7 @@ import InputBasic from './InputBasic'
 import ViewLabel, { MIN_HEIGHT } from '../ViewLabel'
 
 import { Feather } from '@expo/vector-icons'
+import { TextInputMask } from 'react-native-masked-text'
 
 class Input extends React.Component {
 	constructor(props) {
@@ -52,11 +53,46 @@ class Input extends React.Component {
 	}
 
 	render() {
-		const { label, error, secureTextEntry, theme, style, multiline, ...rest } = this.props
+		const { label, error, secureTextEntry, theme, style, multiline, type, ...rest } = this.props
 		const { isSecure, isHeading } = this.state
 		return (
 			<ViewLabel label={label} error={error} isHeading={isHeading}>
 				<View style={styles.viewInput}>
+					{/* {type !== 'input-mask' ? (
+						<TextInputMask
+							type={'custom'}
+							options={{
+								mask: '+7 (999) 999 99 99',
+							}}
+							inputRef={this.input}
+							onBlur={this.handleBlur}
+							onFocus={this.handleFocus}
+							style={[
+								styles.input,
+								!multiline && {
+									height: MIN_HEIGHT,
+								},
+								style && style,
+							]}
+						/>
+					) : (
+						<InputBasic
+							{...rest}
+							inputRef={this.input}
+							testID='RN-text-input'
+							onBlur={this.handleBlur}
+							onFocus={this.handleFocus}
+							secureTextEntry={isSecure}
+							multiline={multiline}
+							style={[
+								styles.input,
+								!multiline && {
+									height: MIN_HEIGHT,
+								},
+								style && style,
+							]}
+						/>
+					)} */}
 					<InputBasic
 						{...rest}
 						inputRef={this.input}
@@ -73,6 +109,7 @@ class Input extends React.Component {
 							style && style,
 						]}
 					/>
+
 					{secureTextEntry && (
 						<Feather
 							name={isSecure ? 'eye' : 'eye-off'}

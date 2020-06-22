@@ -7,13 +7,15 @@ import FlashMessage from 'react-native-flash-message'
 export default class App extends Component {
 	render() {
 		return (
-			<SafeAreaProvider>
-				<View style={styles.container}>
-					<StatusBar barStyle='light-content' />
-					<AppNavigation />
-				</View>
-				<FlashMessage position='top' />
-			</SafeAreaProvider>
+			<>
+				<SafeAreaProvider>
+					<View style={styles.container}>
+						<StatusBar />
+						<AppNavigation />
+					</View>
+					<FlashMessage position='top' />
+				</SafeAreaProvider>
+			</>
 		)
 	}
 }

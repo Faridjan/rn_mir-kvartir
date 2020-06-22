@@ -77,14 +77,13 @@ export default class CompanySingle extends Component {
 	render() {
 		const { navigation } = this.props
 		const { product, fullText } = this.state
-		const { id, price, name, description, meta_data } = product
+		const { id, name, description, meta_data, variations } = product
 
 		let address = this.getMetaData(meta_data, 'adress_room')
-		let typeBasePrice = this.getMetaData(meta_data, 'type_base_price')
-		let addPrice = this.getMetaData(meta_data, 'add_price')
-		let typeAddPrice = this.getMetaData(meta_data, 'type_add_price')
 
 		const images = this.images()
+
+		console.log(product)
 
 		return (
 			<ScrollView>
@@ -95,16 +94,20 @@ export default class CompanySingle extends Component {
 				<Container>
 					<View>
 						<View style={styles.viewPrice}>
-							{price ? (
+							{variations.night ? (
 								<Text style={styles.priceGroup}>
-									<Text style={styles.price}>{toLocaleStringPrice(price)} </Text>
-									<Text style={styles.priceType}>{typeBasePrice}</Text>
+									<Text style={styles.price}>
+										{toLocaleStringPrice(variations.night.regular_price)}
+									</Text>
+									<Text style={styles.priceType}> тг / ночь</Text>
 								</Text>
 							) : null}
-							{addPrice ? (
+							{variations.day ? (
 								<Text style={styles.priceGroup}>
-									<Text style={styles.price}>{toLocaleStringPrice(addPrice)} </Text>
-									<Text style={styles.priceType}> {typeAddPrice}</Text>
+									<Text style={styles.price}>
+										{toLocaleStringPrice(variations.day.regular_price)}
+									</Text>
+									<Text style={styles.priceType}> тг / сутки</Text>
 								</Text>
 							) : null}
 						</View>
@@ -142,7 +145,7 @@ export default class CompanySingle extends Component {
 							style={styles.list}
 							onPress={() =>
 								navigation.push('Booking', {
-									id,
+									variations,
 									headerTitle: 'Бронирование',
 								})
 							}

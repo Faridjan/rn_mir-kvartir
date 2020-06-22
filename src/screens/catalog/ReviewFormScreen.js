@@ -48,6 +48,7 @@ class ReviewFormScreen extends React.Component {
 					showMessage({
 						duration: 3000,
 						message: 'Отзыв успешно отправлен',
+						hideStatusBar: true,
 						type: 'success',
 					})
 					this.props.route.params.cb(product_id)
