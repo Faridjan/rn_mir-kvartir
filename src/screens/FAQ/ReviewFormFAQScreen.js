@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, ScrollView, Image, Text, Button, KeyboardAvoidingView } from 'react-native'
+import { View, ScrollView, Image, Text, TouchableOpacity, KeyboardAvoidingView } from 'react-native'
 import { showMessage } from 'react-native-flash-message'
 
 import Rating from 'src/components/Rating'
@@ -25,7 +25,9 @@ class ReviewFormFAQScreen extends React.Component {
 			author_name: '',
 			// author_email: isLogin ? user.user_email : '',
 			author_email: '',
-			acf: { rating: 1 },
+			pushing: false,
+			acf: [{ rating: 1 }],
+			pushing: false,
 
 			// status: isLogin ? 'approved' : 'hold',
 			// status: 'hold',
@@ -33,12 +35,23 @@ class ReviewFormFAQScreen extends React.Component {
 	}
 
 	addReview = async () => {
+		const { content, pushing, author_name, author_email, post } = this.state
+		if (pushing) return
+		else if (!content || !author_name || !author_email) {
+			showMessage({
+				duration: 3000,
+				message: 'Заполните все поля',
+				type: 'warning',
+			})
+			return
+		}
+
+		this.setState({ pushing: true })
+
 		const { navigation } = this.props
-		const { post } = this.state
 		if (post) {
 			try {
 				const dataSet = await addPageComments(this.state)
-				console.log(this.state)
 				if (dataSet) {
 					showMessage({
 						duration: 3000,
@@ -130,12 +143,22 @@ class ReviewFormFAQScreen extends React.Component {
 								onChangeText={(value) => this.setState({ author_email: value })}
 							/>
 						</View>
-						<Button
-							// loading={dataReview.get('loadingAdd')}
-							title='Отправить'
-							containerStyle={{ marginBottom: 20 }}
+						<TouchableOpacity
+							style={{
+								marginBottom: 20,
+								paddingVertical: 10,
+								backgroundColor: '#000',
+								alignSelf: 'center',
+								width: '60%',
+							}}
 							onPress={this.addReview}
-						/>
+						>
+							{this.state.pushing ? (
+								<ActivityIndicator animating={this.state.isLoading} />
+							) : (
+								<Text style={{ color: '#fff', textAlign: 'center' }}>Отправить</Text>
+							)}
+						</TouchableOpacity>
 					</ScrollView>
 				</KeyboardAvoidingView>
 			</Container>

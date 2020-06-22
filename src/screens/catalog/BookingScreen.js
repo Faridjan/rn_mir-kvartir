@@ -116,7 +116,12 @@ export default class BookingScreen extends Component {
 	}
 
 	getPrice() {
-		return this.state.type.regular_price * this.state.hotel * parseInt(this.getDiffDays())
+		return (
+			this.state.type.regular_price *
+			this.state.hotel *
+			parseInt(this.getDiffDays()) *
+			(parseInt(this.state.adults) + parseInt(this.state.children))
+		)
 	}
 
 	getDiffDays() {
@@ -316,7 +321,7 @@ export default class BookingScreen extends Component {
 								alignSelf: 'center',
 							}}
 							onPress={() => {
-								this.pushOrder()
+								if (!pushing) this.pushOrder()
 							}}
 						>
 							{pushing ? (

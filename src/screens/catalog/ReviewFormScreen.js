@@ -1,5 +1,14 @@
 import React from 'react'
-import { View, ScrollView, Image, Text, Button, Keyboard, KeyboardAvoidingView } from 'react-native'
+import {
+	View,
+	ScrollView,
+	Image,
+	Text,
+	ActivityIndicator,
+	Keyboard,
+	TouchableOpacity,
+	KeyboardAvoidingView,
+} from 'react-native'
 import { showMessage } from 'react-native-flash-message'
 
 import Rating from 'src/components/Rating'
@@ -28,6 +37,7 @@ class ReviewFormScreen extends React.Component {
 			rating: 1,
 			// status: isLogin ? 'approved' : 'hold',
 			status: 'approved',
+			pushing: false,
 		}
 	}
 
@@ -39,6 +49,19 @@ class ReviewFormScreen extends React.Component {
 	}
 
 	addReview = async () => {
+		const { reviewer, pushing, reviewer_email, review } = this.state
+
+		if (pushing) return
+		else if (!reviewer || !review || !reviewer_email) {
+			showMessage({
+				duration: 3000,
+				message: 'Заполните все поля',
+				type: 'warning',
+			})
+			return
+		}
+
+		this.setState({ pushing: true })
 		const { navigation } = this.props
 		const { product_id } = this.state
 		if (product_id) {
@@ -48,14 +71,17 @@ class ReviewFormScreen extends React.Component {
 					showMessage({
 						duration: 3000,
 						message: 'Отзыв успешно отправлен',
-						hideStatusBar: true,
 						type: 'success',
 					})
 					this.props.route.params.cb(product_id)
 					navigation.goBack()
 				}
 			} catch (e) {
-				console.log(e)
+				showMessage({
+					duration: 3000,
+					message: e.message,
+					type: 'warning',
+				})
 			}
 		}
 	}
@@ -132,12 +158,23 @@ class ReviewFormScreen extends React.Component {
 								onChangeText={(value) => this.setState({ reviewer_email: value })}
 							/>
 						</View>
-						<Button
-							// loading={dataReview.get('loadingAdd')}
-							title='Отправить'
-							containerStyle={{ marginBottom: 20 }}
+
+						<TouchableOpacity
+							style={{
+								marginBottom: 20,
+								paddingVertical: 10,
+								backgroundColor: '#000',
+								alignSelf: 'center',
+								width: '60%',
+							}}
 							onPress={this.addReview}
-						/>
+						>
+							{this.state.pushing ? (
+								<ActivityIndicator animating={this.state.isLoading} />
+							) : (
+								<Text style={{ color: '#fff', textAlign: 'center' }}>Отправить</Text>
+							)}
+						</TouchableOpacity>
 					</KeyboardAvoidingView>
 				</ScrollView>
 			</Container>

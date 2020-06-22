@@ -1,6 +1,13 @@
 // React
 import React from 'react'
-import { StyleSheet, View, Text, ScrollView, ActivityIndicator, Button } from 'react-native'
+import {
+	StyleSheet,
+	View,
+	Text,
+	ScrollView,
+	ActivityIndicator,
+	TouchableOpacity,
+} from 'react-native'
 
 // Modules
 import concat from 'lodash/concat'
@@ -81,8 +88,14 @@ class ReviewFAQScreen extends React.Component {
 					)}
 				</ScrollView>
 				<View style={styles.footer}>
-					<Button
-						title='Оставить отзыв'
+					<TouchableOpacity
+						style={{
+							marginBottom: 20,
+							paddingVertical: 10,
+							backgroundColor: '#000',
+							alignSelf: 'center',
+							width: '60%',
+						}}
 						onPress={() =>
 							this.props.navigation.navigate('ReviewFormFAQ', {
 								image: image,
@@ -91,7 +104,9 @@ class ReviewFAQScreen extends React.Component {
 								cb: this.fetchReview,
 							})
 						}
-					/>
+					>
+						<Text style={{ color: '#fff', textAlign: 'center' }}>Оставить отзыв</Text>
+					</TouchableOpacity>
 				</View>
 			</Container>
 		)
