@@ -34,7 +34,6 @@ export default class BookingScreen extends Component {
 			type: this.props.route.params.variations.night,
 			adults: 1,
 			children: 0,
-			hotel: 1,
 			firstName: '',
 			lastName: '',
 			phone: '',
@@ -88,10 +87,6 @@ export default class BookingScreen extends Component {
 						key: 'Детей',
 						value: this.state.children,
 					},
-					{
-						key: 'Кол-во номеров',
-						value: this.state.hotel,
-					},
 				],
 				line_items: [
 					{
@@ -118,7 +113,6 @@ export default class BookingScreen extends Component {
 	getPrice() {
 		return (
 			this.state.type.regular_price *
-			this.state.hotel *
 			parseInt(this.getDiffDays()) *
 			(parseInt(this.state.adults) + parseInt(this.state.children))
 		)
@@ -145,7 +139,6 @@ export default class BookingScreen extends Component {
 			adults,
 			pushing,
 			children,
-			hotel,
 			firstName,
 			lastName,
 			phone,
@@ -160,29 +153,14 @@ export default class BookingScreen extends Component {
 				<ScrollView>
 					<KeyboardAvoidingView>
 						<Text style={styles.title}>Квартира:</Text>
-						<View style={styles.halfInput}>
-							<View style={{ ...styles.picker, flex: 1, marginRight: 10 }}>
-								<Picker
-									selectedValue={type}
-									onValueChange={(itemValue, itemIndex) => this.setState({ type: itemValue })}
-								>
-									<Picker.Item label='Ночь' value={variations.night} />
-									<Picker.Item label='Сутки' value={variations.day} />
-								</Picker>
-							</View>
-							<View style={{ ...styles.picker, width: '50%' }}>
-								<Picker
-									selectedValue={hotel}
-									onValueChange={(itemValue, itemIndex) => this.setState({ hotel: itemValue })}
-								>
-									<Picker.Item label='1 номер' value='1' />
-									<Picker.Item label='2 номера' value='2' />
-									<Picker.Item label='3 номера' value='3' />
-									<Picker.Item label='4 номера' value='4' />
-									<Picker.Item label='5 номеров' value='5' />
-									<Picker.Item label='6 номеров' value='6' />
-								</Picker>
-							</View>
+						<View style={{ ...styles.picker, flex: 1, marginRight: 10 }}>
+							<Picker
+								selectedValue={type}
+								onValueChange={(itemValue, itemIndex) => this.setState({ type: itemValue })}
+							>
+								<Picker.Item label='Ночь' value={variations.night} />
+								<Picker.Item label='Сутки' value={variations.day} />
+							</Picker>
 						</View>
 						<View style={styles.halfInput}>
 							<View style={{ flex: 1, marginRight: 10 }}>
