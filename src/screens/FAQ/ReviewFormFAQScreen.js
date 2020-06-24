@@ -85,7 +85,7 @@ class ReviewFormFAQScreen extends React.Component {
 
 		return (
 			<Container style={{ marginBottom: 0 }}>
-				<KeyboardAvoidingView behavior={Platform.OS == 'ios' ? 'padding' : 'height'} keyboardVerticalOffset={Platform.select({ ios: 200, android: 0 })}>
+				<KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={Platform.select({ ios: 200, android: 0 })}>
 					<ScrollView>
 						<View style={[styles.viewContent, { marginBottom: 20 }]}>
 							<Image source={imageProduct ? { uri: imageProduct } : require('src/assets/pDefault.png')} resizeMode="contain" style={[styles.image, { marginBottom: 10 }]} />

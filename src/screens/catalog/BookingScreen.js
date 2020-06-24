@@ -95,7 +95,7 @@ export default class BookingScreen extends Component {
 			<Container style={styles.container}>
 				{/* <Text style={styles.title}> Бронирование</Text> */}
 				<ScrollView>
-					<KeyboardAvoidingView behavior={Platform.OS == 'ios' ? 'padding' : 'height'} keyboardVerticalOffset={Platform.select({ ios: 200, android: 0 })}>
+					<KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={Platform.select({ ios: 200, android: 0 })}>
 						<Text style={styles.title}>Квартира:</Text>
 						<View style={{ ...styles.picker }}>
 							<Picker selectedValue={type} onValueChange={(itemValue, itemIndex) => this.setState({ type: itemValue })}>
