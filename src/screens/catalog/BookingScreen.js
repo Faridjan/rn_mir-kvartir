@@ -1,6 +1,6 @@
 // React
 import React, { Component } from 'react'
-import { Text, StyleSheet, ScrollView, View, KeyboardAvoidingView, Picker, TouchableOpacity, ActivityIndicator } from 'react-native'
+import { Text, StyleSheet, ScrollView, View, KeyboardAvoidingView, Picker, TouchableOpacity, ActivityIndicator, Platform } from 'react-native'
 
 // Components
 import Container from 'src/components/Container'
@@ -8,10 +8,8 @@ import Input from 'src/components/input/Input'
 
 // Modules
 import moment from 'moment'
-import DateTimePicker from '@react-native-community/datetimepicker'
 import { createOrder } from 'src/modules/product/service'
 import { showMessage } from 'react-native-flash-message'
-import { Fontisto } from '@expo/vector-icons'
 
 export default class BookingScreen extends Component {
 	constructor(props) {
@@ -40,7 +38,7 @@ export default class BookingScreen extends Component {
 
 	pushOrder = async () => {
 		const { firstName, lastName, phone } = this.state
-		if (!firstName || !lastName || !phone) {
+		if (!firstName || !phone) {
 			showMessage({
 				duration: 3000,
 				renderFlashMessageIcon: true,
@@ -58,12 +56,11 @@ export default class BookingScreen extends Component {
 				set_paid: true,
 				billing: {
 					first_name: this.state.firstName,
-					last_name: this.state.lastName,
 					phone: this.state.phone,
 				},
 				line_items: [
 					{
-						product_id: this.state.type.id,
+						product_id: this.state.type,
 					},
 				],
 			}
@@ -98,9 +95,9 @@ export default class BookingScreen extends Component {
 			<Container style={styles.container}>
 				{/* <Text style={styles.title}> Бронирование</Text> */}
 				<ScrollView>
-					<KeyboardAvoidingView>
+					<KeyboardAvoidingView behavior={Platform.OS == 'ios' ? 'padding' : 'height'} keyboardVerticalOffset={Platform.select({ ios: 200, android: 0 })}>
 						<Text style={styles.title}>Квартира:</Text>
-						<View style={{ ...styles.picker, flex: 1 }}>
+						<View style={{ ...styles.picker }}>
 							<Picker selectedValue={type} onValueChange={(itemValue, itemIndex) => this.setState({ type: itemValue })}>
 								<Picker.Item label="Час" value={variations.hour.id} />
 								<Picker.Item label="Ночь" value={variations.night.id} />
@@ -112,7 +109,7 @@ export default class BookingScreen extends Component {
 						<Input label="Имя" value={firstName} onChangeText={(value) => this.setState({ firstName: value })} />
 						<Input label="Телефон" type="input-mask" keyboardType="phone-pad" value={phone} onChangeText={(value) => this.setState({ phone: value })} />
 
-						<Text style={{ marginTop: 20 }}>
+						<Text style={{ marginTop: 20, marginBottom: 15 }}>
 							<Text style={{ color: 'green' }}>ПРЕДОПЛАТА НЕ ТРЕБУЕТСЯ</Text> — платите на месте. Бесплатная отмена бронирования
 						</Text>
 						<Text style={{ ...styles.price, textAlign: 'right' }}>
