@@ -22,7 +22,7 @@ export default class BookingScreen extends Component {
 		this.state = {
 			arrival: moment(),
 			departure: moment().add({ days: 1 }),
-			type: this.props.route.params.variations.night,
+			type: this.props.route.params.variations.night.id,
 			adults: 1,
 			children: 0,
 			firstName: '',
@@ -83,25 +83,15 @@ export default class BookingScreen extends Component {
 		}
 	}
 
-	getPrice() {
-		return this.state.type.regular_price * parseInt(this.getDiffDays()) * (parseInt(this.state.adults) + parseInt(this.state.children))
-	}
-
-	getDiffDays() {
-		return this.state.departure.diff(this.state.arrival, 'days')
-	}
-
-	getTotalDesc() {
-		const guest = parseInt(this.state.adults) + parseInt(this.state.children)
-		const guestText = guest == 1 ? 'гостя' : 'гостей'
-		const type = 1
-		const typeText = this.state.type.id === this.props.route.params.variations.night.id ? 'ночь' : 'сутки'
-		return `За ${guest} ${guestText} и ${type} ${typeText}`
+	getPrice(variations, id) {
+		for (let i in variations) {
+			if (variations[i].id === id) return variations[i].regular_price
+		}
+		return 0
 	}
 
 	render() {
 		const { type, pushing, firstName, phone } = this.state
-
 		const { variations } = this.props.route.params
 
 		return (
@@ -112,9 +102,9 @@ export default class BookingScreen extends Component {
 						<Text style={styles.title}>Квартира:</Text>
 						<View style={{ ...styles.picker, flex: 1 }}>
 							<Picker selectedValue={type} onValueChange={(itemValue, itemIndex) => this.setState({ type: itemValue })}>
-								<Picker.Item label="Час" value={variations.hour} />
-								<Picker.Item label="Ночь" value={variations.night} />
-								<Picker.Item label="Сутки" value={variations.day} />
+								<Picker.Item label="Час" value={variations.hour.id} />
+								<Picker.Item label="Ночь" value={variations.night.id} />
+								<Picker.Item label="Сутки" value={variations.day.id} />
 							</Picker>
 						</View>
 
@@ -126,9 +116,9 @@ export default class BookingScreen extends Component {
 							<Text style={{ color: 'green' }}>ПРЕДОПЛАТА НЕ ТРЕБУЕТСЯ</Text> — платите на месте. Бесплатная отмена бронирования
 						</Text>
 						<Text style={{ ...styles.price, textAlign: 'right' }}>
-							Цена: <Text>{this.getPrice()}</Text> ₸
+							Цена: <Text>{this.getPrice(variations, type)}</Text> ₸
 						</Text>
-						<Text style={{ textAlign: 'right' }}>{this.getTotalDesc()}</Text>
+
 						<TouchableOpacity
 							activeOpacity={0.8}
 							style={{
