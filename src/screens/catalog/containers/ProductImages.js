@@ -1,15 +1,6 @@
 import React, { Component } from 'react'
 
-import {
-	Modal,
-	StyleSheet,
-	View,
-	TouchableOpacity,
-	FlatList,
-	Dimensions,
-	Image,
-	ActivityIndicator,
-} from 'react-native'
+import { Modal, StyleSheet, View, TouchableOpacity, FlatList, Dimensions, Image, ActivityIndicator } from 'react-native'
 import { AntDesign } from '@expo/vector-icons'
 
 import ImageViewer from 'react-native-image-zoom-viewer'
@@ -35,17 +26,8 @@ class ProductImages extends Component {
 		const { height } = this.props
 		const src = item.full_image_url ? item.full_image_url : item.src
 		return (
-			<TouchableOpacity
-				activeOpacity={1}
-				style={styles.viewImage}
-				onPress={() => this.setState({ visible: true })}
-			>
-				<Image
-					source={{ uri: src, cache: 'reload' }}
-					resizeMode='cover'
-					style={{ height: height, width: width }}
-					PlaceholderContent={<ActivityIndicator />}
-				/>
+			<TouchableOpacity activeOpacity={1} style={styles.viewImage} onPress={() => this.setState({ visible: true })}>
+				<Image source={{ uri: src, cache: 'reload' }} resizeMode="cover" style={{ height: height, width: width }} PlaceholderContent={<ActivityIndicator />} />
 			</TouchableOpacity>
 		)
 	}
@@ -74,11 +56,7 @@ class ProductImages extends Component {
 					}}
 				/>
 				<View style={styles.viewFooter}>
-					<Pagination
-						containerStyle={styles.viewPagination}
-						activeVisit={indexCurrency}
-						count={images.length}
-					/>
+					<Pagination containerStyle={styles.viewPagination} activeVisit={indexCurrency} count={images.length} />
 				</View>
 				<Modal visible={visible} transparent={true}>
 					<ImageViewer
@@ -93,13 +71,7 @@ class ProductImages extends Component {
 						})}
 						renderHeader={() => (
 							<Container style={styles.viewHeaderImages}>
-								<AntDesign
-									name='close'
-									size={24}
-									color='white'
-									iconStyle={styles.iconClose}
-									onPress={() => this.setState({ visible: false })}
-								/>
+								<AntDesign name="close" size={24} color="white" iconStyle={styles.iconClose} onPress={() => this.setState({ visible: false })} />
 							</Container>
 						)}
 					/>
@@ -112,7 +84,7 @@ class ProductImages extends Component {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: 'green',
+		backgroundColor: '#ccc',
 		marginBottom: 8,
 	},
 	viewImage: {

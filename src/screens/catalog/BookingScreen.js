@@ -1,15 +1,6 @@
 // React
 import React, { Component } from 'react'
-import {
-	Text,
-	StyleSheet,
-	ScrollView,
-	View,
-	KeyboardAvoidingView,
-	Picker,
-	TouchableOpacity,
-	ActivityIndicator,
-} from 'react-native'
+import { Text, StyleSheet, ScrollView, View, KeyboardAvoidingView, Picker, TouchableOpacity, ActivityIndicator } from 'react-native'
 
 // Components
 import Container from 'src/components/Container'
@@ -70,24 +61,6 @@ export default class BookingScreen extends Component {
 					last_name: this.state.lastName,
 					phone: this.state.phone,
 				},
-				meta_data: [
-					{
-						key: 'Дата заезда',
-						value: this.state.arrival,
-					},
-					{
-						key: 'Дата отъезда',
-						value: this.state.departure,
-					},
-					{
-						key: 'Взрослых',
-						value: this.state.adults,
-					},
-					{
-						key: 'Детей',
-						value: this.state.children,
-					},
-				],
 				line_items: [
 					{
 						product_id: this.state.type.id,
@@ -111,11 +84,7 @@ export default class BookingScreen extends Component {
 	}
 
 	getPrice() {
-		return (
-			this.state.type.regular_price *
-			parseInt(this.getDiffDays()) *
-			(parseInt(this.state.adults) + parseInt(this.state.children))
-		)
+		return this.state.type.regular_price * parseInt(this.getDiffDays()) * (parseInt(this.state.adults) + parseInt(this.state.children))
 	}
 
 	getDiffDays() {
@@ -126,162 +95,35 @@ export default class BookingScreen extends Component {
 		const guest = parseInt(this.state.adults) + parseInt(this.state.children)
 		const guestText = guest == 1 ? 'гостя' : 'гостей'
 		const type = 1
-		const typeText =
-			this.state.type.id === this.props.route.params.variations.night.id ? 'ночь' : 'сутки'
+		const typeText = this.state.type.id === this.props.route.params.variations.night.id ? 'ночь' : 'сутки'
 		return `За ${guest} ${guestText} и ${type} ${typeText}`
 	}
 
 	render() {
-		const {
-			type,
-			arrival,
-			departure,
-			adults,
-			pushing,
-			children,
-			firstName,
-			lastName,
-			phone,
-			showDatePickerArival,
-			showDatePickerDeparture,
-		} = this.state
+		const { type, pushing, firstName, phone } = this.state
 
 		const { variations } = this.props.route.params
+
 		return (
 			<Container style={styles.container}>
 				{/* <Text style={styles.title}> Бронирование</Text> */}
 				<ScrollView>
 					<KeyboardAvoidingView>
 						<Text style={styles.title}>Квартира:</Text>
-						<View style={{ ...styles.picker, flex: 1, marginRight: 10 }}>
-							<Picker
-								selectedValue={type}
-								onValueChange={(itemValue, itemIndex) => this.setState({ type: itemValue })}
-							>
-								<Picker.Item label='Ночь' value={variations.night} />
-								<Picker.Item label='Сутки' value={variations.day} />
+						<View style={{ ...styles.picker, flex: 1 }}>
+							<Picker selectedValue={type} onValueChange={(itemValue, itemIndex) => this.setState({ type: itemValue })}>
+								<Picker.Item label="Час" value={variations.hour} />
+								<Picker.Item label="Ночь" value={variations.night} />
+								<Picker.Item label="Сутки" value={variations.day} />
 							</Picker>
-						</View>
-						<View style={styles.halfInput}>
-							<View style={{ flex: 1, marginRight: 10 }}>
-								{/* <Input
-									label='Дата заезда'
-									value={arrival}
-									onChangeText={(value) => this.setState({ arrival: value })}
-								/> */}
-								<TouchableOpacity
-									style={{ ...styles.picker, ...styles.input }}
-									onPress={() => this.setState({ showDatePickerArival: true })}
-								>
-									<Fontisto name='date' size={16} color='black' style={{ marginRight: 10 }} />
-									<Text>{arrival.format('DD-MM-YYYY')}</Text>
-								</TouchableOpacity>
-								{showDatePickerArival && (
-									<DateTimePicker
-										testID='dateTimePicker'
-										value={moment(arrival).toDate()}
-										mode='date'
-										is24Hour={true}
-										display='default'
-										onChange={(event, selectedDate) => {
-											this.setState({
-												arrival: moment(selectedDate),
-												showDatePickerArival: false,
-											})
-										}}
-									/>
-								)}
-							</View>
-							<View style={{ width: '50%' }}>
-								<TouchableOpacity
-									style={{ ...styles.picker, ...styles.input }}
-									onPress={() => this.setState({ showDatePickerDeparture: true })}
-								>
-									<Fontisto name='date' size={16} color='black' style={{ marginRight: 10 }} />
-									<Text>{departure.format('DD-MM-YYYY')}</Text>
-								</TouchableOpacity>
-								{showDatePickerDeparture && (
-									<DateTimePicker
-										testID='dateTimePicker'
-										value={moment(departure).toDate()}
-										minimumDate={moment(arrival).toDate()}
-										is24Hour={true}
-										display='default'
-										onChange={(event, selectedDate) => {
-											this.setState({
-												departure: moment(selectedDate),
-												showDatePickerDeparture: false,
-											})
-										}}
-									/>
-								)}
-							</View>
-						</View>
-
-						<Text style={{ fontStyle: 'italic', marginLeft: 4, color: '#999', marginBottom: 10 }}>
-							{this.getDiffDays()}
-							<Text>
-								{this.state.type.id === this.props.route.params.variations.night.id
-									? ' ночь'
-									: ' сутки'}
-							</Text>
-						</Text>
-						<View style={styles.halfInput}>
-							<View style={{ flex: 1, marginRight: 10 }}>
-								<View style={styles.picker}>
-									<Picker
-										selectedValue={adults}
-										onValueChange={(itemValue, itemIndex) => this.setState({ adults: itemValue })}
-									>
-										<Picker.Item label='1 взрослых' value='1' />
-										<Picker.Item label='2 взрослых' value='2' />
-										<Picker.Item label='3 взрослых' value='3' />
-										<Picker.Item label='4 взрослых' value='4' />
-										<Picker.Item label='5 взрослых' value='5' />
-										<Picker.Item label='6 взрослых' value='6' />
-									</Picker>
-								</View>
-							</View>
-							<View style={{ width: '50%' }}>
-								<View style={styles.picker}>
-									<Picker
-										selectedValue={children}
-										onValueChange={(itemValue, itemIndex) => this.setState({ children: itemValue })}
-									>
-										<Picker.Item label='Без детей' value='0' />
-										<Picker.Item label='1 ребенок' value='1' />
-										<Picker.Item label='2 детей' value='2' />
-										<Picker.Item label='3 детей' value='3' />
-										<Picker.Item label='4 детей' value='4' />
-										<Picker.Item label='5 детей' value='5' />
-										<Picker.Item label='6 детей' value='6' />
-									</Picker>
-								</View>
-							</View>
 						</View>
 
 						<Text style={{ ...styles.title, marginTop: 30 }}>Личные данные:</Text>
-						<Input
-							label='Имя'
-							value={firstName}
-							onChangeText={(value) => this.setState({ firstName: value })}
-						/>
-						<Input
-							label='Фамилия'
-							value={lastName}
-							onChangeText={(value) => this.setState({ lastName: value })}
-						/>
-						<Input
-							label='Телефон'
-							type='input-mask'
-							keyboardType='phone-pad'
-							value={phone}
-							onChangeText={(value) => this.setState({ phone: value })}
-						/>
+						<Input label="Имя" value={firstName} onChangeText={(value) => this.setState({ firstName: value })} />
+						<Input label="Телефон" type="input-mask" keyboardType="phone-pad" value={phone} onChangeText={(value) => this.setState({ phone: value })} />
 
 						<Text style={{ marginTop: 20 }}>
-							<Text style={{ color: 'green' }}>ПРЕДОПЛАТА НЕ ТРЕБУЕТСЯ</Text> — платите на месте.
-							Бесплатная отмена бронирования
+							<Text style={{ color: 'green' }}>ПРЕДОПЛАТА НЕ ТРЕБУЕТСЯ</Text> — платите на месте. Бесплатная отмена бронирования
 						</Text>
 						<Text style={{ ...styles.price, textAlign: 'right' }}>
 							Цена: <Text>{this.getPrice()}</Text> ₸
@@ -302,13 +144,7 @@ export default class BookingScreen extends Component {
 								if (!pushing) this.pushOrder()
 							}}
 						>
-							{pushing ? (
-								<ActivityIndicator size='small' color='#fff' />
-							) : (
-								<Text style={{ color: '#fff', textAlign: 'center', fontSize: 16 }}>
-									Забронировать
-								</Text>
-							)}
+							{pushing ? <ActivityIndicator size="small" color="#fff" /> : <Text style={{ color: '#fff', textAlign: 'center', fontSize: 16 }}>Забронировать</Text>}
 						</TouchableOpacity>
 					</KeyboardAvoidingView>
 				</ScrollView>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView, Linking } from 'react-native'
 import { SimpleLineIcons, FontAwesome, AntDesign } from '@expo/vector-icons'
 
 import merge from 'lodash/merge'
@@ -79,11 +79,12 @@ export default class CompanySingle extends Component {
 		const { product, fullText } = this.state
 		const { id, name, description, meta_data, variations } = product
 
-		let address = this.getMetaData(meta_data, 'adress_room')
+		const address = this.getMetaData(meta_data, 'adress_room')
+		const phone_number = this.getMetaData(meta_data, 'phone_hotel')
 
 		const images = this.images()
 
-		console.log(product)
+		console.log(meta_data, '----------')
 
 		return (
 			<ScrollView>
@@ -94,33 +95,27 @@ export default class CompanySingle extends Component {
 				<Container>
 					<View>
 						<View style={styles.viewPrice}>
+							{variations.hour ? (
+								<Text style={styles.priceGroup}>
+									<Text style={styles.price}>{toLocaleStringPrice(variations.hour.regular_price)}</Text>
+									<Text style={styles.priceType}> тг / час</Text>
+								</Text>
+							) : null}
 							{variations.night ? (
 								<Text style={styles.priceGroup}>
-									<Text style={styles.price}>
-										{toLocaleStringPrice(variations.night.regular_price)}
-									</Text>
+									<Text style={styles.price}>{toLocaleStringPrice(variations.night.regular_price)}</Text>
 									<Text style={styles.priceType}> тг / ночь</Text>
 								</Text>
 							) : null}
 							{variations.day ? (
 								<Text style={styles.priceGroup}>
-									<Text style={styles.price}>
-										{toLocaleStringPrice(variations.day.regular_price)}
-									</Text>
+									<Text style={styles.price}>{toLocaleStringPrice(variations.day.regular_price)}</Text>
 									<Text style={styles.priceType}> тг / сутки</Text>
 								</Text>
 							) : null}
 						</View>
 
-						<View style={{ marginBottom: 16 }}>
-							{description ? (
-								<DescriptionItem
-									fullText={fullText}
-									onPress={() => this.setState({ fullText: true })}
-									text={description}
-								/>
-							) : null}
-						</View>
+						<View style={{ marginBottom: 16 }}>{description ? <DescriptionItem fullText={fullText} onPress={() => this.setState({ fullText: true })} text={description} /> : null}</View>
 
 						<TouchableOpacity
 							style={styles.list}
@@ -132,12 +127,19 @@ export default class CompanySingle extends Component {
 							}
 						>
 							<View>
-								<Text>
-									{`${address.street_name_short} ${address.street_number}` || 'Адрес на карте'}
-								</Text>
+								<Text>{`${address.street_name_short} ${address.street_number}` || 'Адрес на карте'}</Text>
 							</View>
 							<View>
-								<SimpleLineIcons style={{ ...styles.icon, fontSize: 25 }} name='map' />
+								<SimpleLineIcons style={{ ...styles.icon, fontSize: 25 }} name="map" />
+							</View>
+						</TouchableOpacity>
+
+						<TouchableOpacity style={styles.list} onPress={() => Linking.openURL(`tel:${phone_number}`)}>
+							<View>
+								<Text>{phone_number}</Text>
+							</View>
+							<View>
+								<SimpleLineIcons name="phone" style={styles.icon} />
 							</View>
 						</TouchableOpacity>
 
@@ -154,7 +156,7 @@ export default class CompanySingle extends Component {
 								<Text>Забронировать</Text>
 							</View>
 							<View>
-								<AntDesign style={styles.icon} name='calendar' />
+								<AntDesign style={styles.icon} name="calendar" />
 							</View>
 						</TouchableOpacity>
 
@@ -173,7 +175,7 @@ export default class CompanySingle extends Component {
 								<Text>Отзывы</Text>
 							</View>
 							<View>
-								<FontAwesome style={styles.icon} name='comment-o' />
+								<FontAwesome style={styles.icon} name="comment-o" />
 							</View>
 						</TouchableOpacity>
 					</View>
@@ -222,7 +224,7 @@ const styles = StyleSheet.create({
 	// 	flexDirection: 'column',
 	// },
 	price: {
-		fontSize: 22,
+		fontSize: 18,
 		fontWeight: 'bold',
 	},
 })
