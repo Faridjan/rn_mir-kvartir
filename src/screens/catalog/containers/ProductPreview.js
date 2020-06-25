@@ -7,12 +7,9 @@ const toLocaleStringPrice = (data) => data.toString().replace(/\B(?=(\d{3})+(?!\
 class ProductPreview extends Component {
 	render() {
 		const { item, navigation } = this.props
-		const { images, price, meta_data } = item
+		const { images, variations, meta_data } = item
 
 		let address = meta_data.find((val) => val.key === 'adress_room')
-		let typeBasePrice = meta_data.find((val) => val.key === 'type_base_price')
-		let addPrice = meta_data.find((val) => val.key === 'add_price')
-		let typeAddPrice = meta_data.find((val) => val.key === 'type_add_price')
 
 		return (
 			<TouchableOpacity
@@ -35,10 +32,32 @@ class ProductPreview extends Component {
 							</Text>
 						) : null}
 
-						<Text style={styles.priceContainer}>
-							<Text style={styles.price}>{toLocaleStringPrice(price)} </Text>
-							<Text>{price && typeBasePrice ? typeBasePrice.value : null}</Text>
-						</Text>
+						<View style={styles.viewPrice}>
+							{variations.hour ? (
+								<Text style={styles.priceGroup}>
+									<Text style={styles.price}>
+										{toLocaleStringPrice(variations.hour.regular_price)}
+									</Text>
+									<Text style={styles.priceType}> тг/час</Text>
+								</Text>
+							) : null}
+							{variations.night ? (
+								<Text style={styles.priceGroup}>
+									<Text style={styles.price}>
+										{toLocaleStringPrice(variations.night.regular_price)}
+									</Text>
+									<Text style={styles.priceType}> тг/ночь</Text>
+								</Text>
+							) : null}
+							{variations.day ? (
+								<Text style={styles.priceGroup}>
+									<Text style={styles.price}>
+										{toLocaleStringPrice(variations.day.regular_price)}
+									</Text>
+									<Text style={styles.priceType}> тг/сутки</Text>
+								</Text>
+							) : null}
+						</View>
 					</View>
 				</View>
 			</TouchableOpacity>
@@ -56,6 +75,16 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		alignItems: 'center',
 	},
+	viewPrice: {
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		alignItems: 'center',
+		paddingRight: 10,
+	},
+	price: {
+		fontSize: 18,
+		fontWeight: 'bold',
+	},
 	img: {
 		width: 85,
 		height: 85,
@@ -63,18 +92,16 @@ const styles = StyleSheet.create({
 	},
 	textContainer: {
 		marginLeft: 15,
+		flexGrow: 1,
 	},
 	name: {
 		fontSize: 16,
 		fontWeight: 'bold',
+		marginBottom: 3,
 	},
-	address: { fontSize: 16 },
+	address: { fontSize: 16, marginBottom: 3 },
 	priceContainer: {
 		fontSize: 16,
-	},
-	price: {
-		fontWeight: 'bold',
-		paddingRight: 5,
 	},
 })
 
