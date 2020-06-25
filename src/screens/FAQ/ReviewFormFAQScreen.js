@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, ScrollView, Image, Text, TouchableOpacity, KeyboardAvoidingView } from 'react-native'
+import { View, ScrollView, Image, Text, TouchableOpacity, KeyboardAvoidingView, Platform } from 'react-native'
 import { showMessage } from 'react-native-flash-message'
 
 import Rating from 'src/components/Rating'
@@ -85,37 +85,21 @@ class ReviewFormFAQScreen extends React.Component {
 
 		return (
 			<Container style={{ marginBottom: 0 }}>
-				<KeyboardAvoidingView>
+				<KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={Platform.select({ ios: 200, android: 0 })}>
 					<ScrollView>
 						<View style={[styles.viewContent, { marginBottom: 20 }]}>
-							<Image
-								source={imageProduct ? { uri: imageProduct } : require('src/assets/pDefault.png')}
-								resizeMode='contain'
-								style={[styles.image, { marginBottom: 10 }]}
-							/>
+							<Image source={imageProduct ? { uri: imageProduct } : require('src/assets/pDefault.png')} resizeMode="contain" style={[styles.image, { marginBottom: 10 }]} />
 							<Text medium style={{ marginBottom: 10 }}>
 								{nameProduct}
 							</Text>
 							<Text colorThird style={styles.tab}>
 								Отметьте кол-во звезд
 							</Text>
-							<Rating
-								size={20}
-								startingValue={acf.rating}
-								onStartRating={(value) =>
-									this.setState({ acf: { ...this.state.acf, rating: value } })
-								}
-							/>
+							<Rating size={20} startingValue={acf.rating} onStartRating={(value) => this.setState({ acf: { ...this.state.acf, rating: value } })} />
 						</View>
 
 						<View style={{ marginBottom: 10 }}>
-							<Input
-								label='Ваш отзыв'
-								multiline
-								numberOfLines={8}
-								value={content}
-								onChangeText={(value) => this.setState({ content: value })}
-							/>
+							<Input label="Ваш отзыв" multiline numberOfLines={8} value={content} onChangeText={(value) => this.setState({ content: value })} />
 
 							{/* {!isLogin && (
 								<Input
@@ -132,16 +116,8 @@ class ReviewFormFAQScreen extends React.Component {
 								/>
 							)} */}
 
-							<Input
-								label='Ваше имя'
-								value={author_name}
-								onChangeText={(value) => this.setState({ author_name: value })}
-							/>
-							<Input
-								label='Ваш E-mail'
-								value={author_email}
-								onChangeText={(value) => this.setState({ author_email: value })}
-							/>
+							<Input label="Ваше имя" value={author_name} onChangeText={(value) => this.setState({ author_name: value })} />
+							<Input label="Ваш E-mail" value={author_email} onChangeText={(value) => this.setState({ author_email: value })} />
 						</View>
 						<TouchableOpacity
 							style={{
@@ -153,11 +129,7 @@ class ReviewFormFAQScreen extends React.Component {
 							}}
 							onPress={this.addReview}
 						>
-							{this.state.pushing ? (
-								<ActivityIndicator animating={this.state.isLoading} />
-							) : (
-								<Text style={{ color: '#fff', textAlign: 'center' }}>Отправить</Text>
-							)}
+							{this.state.pushing ? <ActivityIndicator animating={this.state.isLoading} /> : <Text style={{ color: '#fff', textAlign: 'center' }}>Отправить</Text>}
 						</TouchableOpacity>
 					</ScrollView>
 				</KeyboardAvoidingView>
