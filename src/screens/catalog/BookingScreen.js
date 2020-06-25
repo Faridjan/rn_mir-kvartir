@@ -175,6 +175,7 @@ export default class BookingScreen extends Component {
 								>
 									<Fontisto name='date' size={16} color='black' style={{ marginRight: 10 }} />
 									<Text>{arrival.format('DD-MM-YYYY')}</Text>
+									<Text style={styles.labelDate}>Дата заезда</Text>
 								</TouchableOpacity>
 								{showDatePickerArival && (
 									<DateTimePicker
@@ -182,6 +183,7 @@ export default class BookingScreen extends Component {
 										value={moment(arrival).toDate()}
 										mode='date'
 										is24Hour={true}
+										minimumDate={moment(arrival).toDate()}
 										display='default'
 										onChange={(event, selectedDate) => {
 											this.setState({
@@ -199,6 +201,7 @@ export default class BookingScreen extends Component {
 								>
 									<Fontisto name='date' size={16} color='black' style={{ marginRight: 10 }} />
 									<Text>{departure.format('DD-MM-YYYY')}</Text>
+									<Text style={styles.labelDate}>Дата отъезда</Text>
 								</TouchableOpacity>
 								{showDatePickerDeparture && (
 									<DateTimePicker
@@ -349,6 +352,16 @@ const styles = StyleSheet.create({
 		minHeight: 48,
 		flexDirection: 'row',
 		alignItems: 'center',
+	},
+	labelDate: {
+		position: 'absolute',
+		left: 10,
+		top: -9,
+		backgroundColor: '#fff',
+		paddingVertical: 2,
+		paddingHorizontal: 5,
+		fontSize: 10,
+		lineHeight: 14,
 	},
 	halfInput: {
 		flexDirection: 'row',
