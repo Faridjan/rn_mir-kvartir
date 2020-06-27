@@ -97,9 +97,9 @@ const styles = StyleSheet.create({
 	name: {
 		fontSize: 16,
 		fontWeight: 'bold',
-		marginBottom: 3,
+		marginBottom: 6,
 	},
-	address: { fontSize: 16, marginBottom: 3 },
+	address: { fontSize: 16, marginBottom: 6 },
 	priceContainer: {
 		fontSize: 16,
 	},
