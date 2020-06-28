@@ -26,11 +26,16 @@ export default class BookingScreen extends Component {
 		super(props)
 
 		// const durationDate = this.getDurationDate(nowDate, nextDate)
+		const { variations } = this.props.route.params
 
 		this.state = {
 			arrival: moment(),
 			departure: moment().add({ days: 1 }),
-			type: this.props.route.params.variations.night.id,
+			type: variations.night
+				? variations.night.id
+				: variations.hour
+				? variations.hour.id
+				: variations.day.id,
 			adults: 1,
 			children: 0,
 			firstName: '',
@@ -91,15 +96,19 @@ export default class BookingScreen extends Component {
 	}
 
 	getPrice(variations, id) {
-		for (let i in variations) {
-			if (variations[i].id === id) return variations[i].regular_price
-		}
-		return 0
+		let variation = 0
+		Object.keys(variations).forEach((i) => {
+			if (variations[i].id == id) {
+				variation = variations[i].regular_price
+			}
+		})
+		return variation
 	}
 
 	render() {
 		const { type, pushing, firstName, phone } = this.state
 		const { variations } = this.props.route.params
+		const variationsLength = Object.keys(variations).length
 
 		return (
 			<Container style={styles.container}>
@@ -110,15 +119,21 @@ export default class BookingScreen extends Component {
 						keyboardVerticalOffset={Platform.select({ ios: 200, android: 0 })}
 					>
 						<Text style={styles.title}>Квартира:</Text>
-						<View style={{ ...styles.picker }}>
-							<Picker
-								selectedValue={type}
-								onValueChange={(itemValue, itemIndex) => this.setState({ type: itemValue })}
-							>
-								<Picker.Item label='Час' value={variations.hour.id} />
-								<Picker.Item label='Ночь' value={variations.night.id} />
-								<Picker.Item label='Сутки' value={variations.day.id} />
-							</Picker>
+						<View style={[styles.picker, variationsLength === 1 ? styles.input : null]}>
+							{variationsLength > 1 ? (
+								<Picker
+									selectedValue={type}
+									onValueChange={(itemValue, itemIndex) => this.setState({ type: itemValue })}
+								>
+									{variations.hour ? <Picker.Item label='Час' value={variations.hour.id} /> : null}
+									{variations.night ? (
+										<Picker.Item label='Ночь' value={variations.night.id} />
+									) : null}
+									{variations.day ? <Picker.Item label='Сутки' value={variations.day.id} /> : null}
+								</Picker>
+							) : (
+								<Text style={styles.inp}>Сутки</Text>
+							)}
 						</View>
 
 						<Text style={{ ...styles.title, marginTop: 30 }}>Личные данные:</Text>
@@ -198,13 +213,12 @@ const styles = StyleSheet.create({
 		marginTop: 8,
 		marginBottom: 4,
 		borderColor: '#e9ecef',
+		justifyContent: 'center',
 	},
 	input: {
 		paddingVertical: 4,
 		paddingHorizontal: 16,
 		minHeight: 48,
-		flexDirection: 'row',
-		alignItems: 'center',
 	},
 	labelDate: {
 		position: 'absolute',
