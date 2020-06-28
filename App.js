@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
+import AsyncStorage from '@react-native-community/async-storage'
+import { StyleSheet, StatusBar, View } from 'react-native'
 
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
 
-import { StyleSheet, StatusBar, View } from 'react-native'
 import { AppNavigation } from 'src/navigation/AppNavigation'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import FlashMessage from 'react-native-flash-message'
@@ -15,9 +16,9 @@ import globalConfig from 'src/utils/global'
 
 const { store, persistor } = configureStore()
 
-type Props = {}
+//AsyncStorage.clear()
 
-export default class App extends Component<Props> {
+export default class App extends Component {
 	componentDidMount() {
 		store.subscribe(() => {
 			const state = store.getState()

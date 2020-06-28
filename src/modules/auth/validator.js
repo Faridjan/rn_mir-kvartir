@@ -126,3 +126,29 @@ export function validatorChangePassword(data, language) {
 
 	return errors
 }
+
+export function validatorUpdateAccount(data) {
+	let errors = Map()
+
+	if (!data || !data.first_name || !isLength(data.first_name, { min: 1, max: 32 })) {
+		errors = errors.set('first_name', 'First Name must be between 1 and 32 characters!')
+	}
+
+	if (!data || !data.last_name || !isLength(data.last_name, { min: 1, max: 32 })) {
+		errors = errors.set('last_name', 'Last Name must be between 1 and 32 characters!')
+	}
+
+	// if (
+	//   !data ||
+	//   !data.last_name ||
+	//   !isLength(data.last_name, {min: 1, max: 32})
+	// ) {
+	//   errors = errors.set('last_name', validators.text_last_name);
+	// }
+
+	if (!data || !data.email || !isEmail(data.email)) {
+		errors = errors.set('email', 'E-Mail does not appear to be valid!')
+	}
+
+	return errors
+}

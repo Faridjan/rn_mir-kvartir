@@ -7,11 +7,9 @@ export default class ProfileScreen extends Component {
 	render() {
 		const { navigation } = this.props
 		return (
-			<ScrollView>
-				<Container>
-					<HeaderMe navigation={navigation} />
-				</Container>
-			</ScrollView>
+			<Container>
+				<HeaderMe navigation={navigation} />
+			</Container>
 		)
 	}
 }

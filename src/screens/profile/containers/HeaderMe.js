@@ -1,13 +1,25 @@
+// REACT
 import React from 'react'
+import { StyleSheet, ScrollView, Text, TouchableOpacity, Image } from 'react-native'
+import { Ionicons } from '@expo/vector-icons'
+
+// REDUX
 import { connect } from 'react-redux'
 import { compose } from 'redux'
 
+// UTILS
 import truncate from 'lodash/truncate'
 import isEqual from 'lodash/isEqual'
 
-import { StyleSheet, Button, View, Text, TouchableOpacity } from 'react-native'
-
+// MODULES
 import { authSelector } from 'src/modules/auth/selectors'
+import { signOut } from 'src/modules/auth/actions'
+
+// COMPONENTS
+import { EvilIcons } from '@expo/vector-icons'
+import Container from 'src/components/Container'
+import Separator from 'src/components/Separator'
+import { Row } from 'src/components/Gird'
 
 const HeaderMe = (props) => {
 	const {
@@ -15,11 +27,14 @@ const HeaderMe = (props) => {
 		auth: { isLogin, user },
 	} = props
 
-	console.log(props)
+	const handleLogout = () => {
+		props.signOut()
+		// this.props.navigation.goBack()
+	}
 
-	let nameUser = 'Hello'
+	let nameUser = 'Hello!'
 	if (isLogin && user && !isEqual(user, {})) {
-		const stringName = { name: user.display_name }
+		const stringName = `Привет, ${user.display_name}`
 
 		nameUser = truncate(stringName, {
 			length: 20,
@@ -28,33 +43,63 @@ const HeaderMe = (props) => {
 	}
 	if (!isLogin) {
 		return (
-			<>
+			<ScrollView contentContainerStyle={{ justifyContent: 'center', flex: 1 }}>
 				<Text style={styles.logoutDescription}>
 					Для полноценного использования приложения необходимо авторизоваться
 				</Text>
-				<View style={styles.logoutViewButton}>
-					<Button
-						title='Зарегистрироваться'
-						containerStyle={styles.flex}
-						type='outline'
+				<Row style={styles.logoutViewButton}>
+					<TouchableOpacity
+						activeOpacity={0.5}
+						style={styles.btn1}
 						onPress={() => navigation.navigate('Auth', { screen: 'Register' })}
-					/>
-					<Text>----------------------</Text>
-					<Button
-						title='Войти'
-						containerStyle={styles.flex}
+					>
+						<Text style={styles.btn1Text}>Регистрация</Text>
+					</TouchableOpacity>
+					<Separator small />
+					<TouchableOpacity
+						activeOpacity={0.5}
+						style={styles.btn2}
 						onPress={() => navigation.navigate('Auth', { screen: 'Login' })}
-					/>
-				</View>
-			</>
+					>
+						<Text style={styles.btn2Text}>Вход</Text>
+					</TouchableOpacity>
+				</Row>
+			</ScrollView>
 		)
 	}
-	return <Text style={styles.item}> {nameUser}</Text>
+	return (
+		<ScrollView>
+			<Row style={styles.item}>
+				{user.user_url ? (
+					<Image
+						style={styles.avatar}
+						source={user.user_url ? { uri: user.user_url } : require('src/assets/pDefault.png')}
+					/>
+				) : (
+					<EvilIcons name='user' size={70} color='#1a73e8' style={{ marginRight: 10 }} />
+				)}
+
+				<Text style={styles.greeting}>{nameUser}</Text>
+			</Row>
+			<TouchableOpacity style={styles.list} onPress={() => navigation.push('EditProfile')}>
+				<Text>Редактировать данные</Text>
+				<Ionicons name='ios-arrow-forward' style={styles.icon} color='black' />
+			</TouchableOpacity>
+			<TouchableOpacity style={styles.list} onPress={() => navigation.push('ChangePassword')}>
+				<Text>Пароль</Text>
+				<Ionicons name='ios-arrow-forward' style={styles.icon} color='black' />
+			</TouchableOpacity>
+			<TouchableOpacity style={{ ...styles.list, ...styles.listLeftIco }} onPress={handleLogout}>
+				<Text>Выйти</Text>
+			</TouchableOpacity>
+		</ScrollView>
+	)
 }
 
 const styles = StyleSheet.create({
 	logoutDescription: {
 		textAlign: 'center',
+		marginBottom: 20,
 	},
 	logoutViewButton: {
 		marginTop: 4,
@@ -64,12 +109,46 @@ const styles = StyleSheet.create({
 	flex: {
 		flex: 1,
 	},
+	btn1: {
+		padding: 12,
+		borderRadius: 3,
+		borderWidth: 1,
+		flex: 1,
+		borderBottomColor: '#000',
+	},
+	btn2: {
+		padding: 12,
+		borderRadius: 3,
+		flex: 1,
+		backgroundColor: '#000',
+	},
+	btn1Text: {
+		color: '#000',
+		textAlign: 'center',
+	},
+	btn2Text: {
+		color: '#fff',
+		textAlign: 'center',
+	},
 	loginBell: {
 		flexDirection: 'row',
 		alignItems: 'center',
 	},
 	item: {
-		paddingVertical: 4,
+		padding: 20,
+		alignItems: 'center',
+		borderRadius: 5,
+		backgroundColor: 'rgba(0, 0, 0, 0.1)',
+		marginBottom: 30,
+	},
+	avatar: {
+		width: 70,
+		height: 70,
+		borderRadius: 35,
+		marginRight: 10,
+	},
+	greeting: {
+		fontSize: 15,
 	},
 	badge: {
 		height: 20,
@@ -80,12 +159,31 @@ const styles = StyleSheet.create({
 		fontSize: 9,
 		lineHeight: 20,
 	},
+	list: {
+		borderColor: '#ccc',
+		borderTopWidth: 0,
+		borderBottomWidth: 1,
+		marginLeft: 0,
+		paddingVertical: 20,
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'space-between',
+	},
+	icon: {
+		color: '#000',
+		fontSize: 16,
+		marginRight: 10,
+	},
 })
 
-const mapStateToProps = (state) => {
+const putStateToProps = (state) => {
 	return {
 		auth: authSelector(state),
 	}
 }
 
-export default connect(mapStateToProps)(HeaderMe)
+const putDispatchToProps = (dispatch) => ({
+	signOut: () => dispatch(signOut()),
+})
+
+export default connect(putStateToProps, putDispatchToProps)(HeaderMe)

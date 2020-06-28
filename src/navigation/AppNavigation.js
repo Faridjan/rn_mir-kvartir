@@ -17,6 +17,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 //Tools
 import { THEME } from '../theme'
 
+import NavigationService from 'src/utils/navigation'
+
 /**********  Screens ************/
 
 // Object
@@ -43,6 +45,8 @@ import ProfileScreen from 'src/screens/profile/ProfileScreen'
 import LoginScreen from 'src/screens/profile/LoginScreen'
 import RegisterScreen from 'src/screens/profile/RegisterScreen'
 import ForgotScreen from 'src/screens/profile/ForgotScreen'
+import EditProfileScreen from 'src/screens/profile/EditProfileScreen'
+import ChangePasswordScreen from 'src/screens/profile/ChangePasswordScreen'
 
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -235,6 +239,20 @@ const ProfileNavigation = () => {
 				}}
 			/>
 			<Stack.Screen
+				name='EditProfile'
+				component={EditProfileScreen}
+				options={{
+					title: 'Изменить личные данные',
+				}}
+			/>
+			<Stack.Screen
+				name='ChangePassword'
+				component={ChangePasswordScreen}
+				options={{
+					title: 'Изменение пароля',
+				}}
+			/>
+			<Stack.Screen
 				name='Auth'
 				component={AuthNavigation}
 				options={({ route }) => ({
@@ -361,7 +379,12 @@ const MainBottomTabsNavigation = () => {
 // Navigation Container
 export const AppNavigation = () => {
 	return (
-		<NavigationContainer theme={MyTheme}>
+		<NavigationContainer
+			theme={MyTheme}
+			ref={(navigatorRef) => {
+				NavigationService.setTopLevelNavigator(navigatorRef)
+			}}
+		>
 			<MainBottomTabsNavigation />
 		</NavigationContainer>
 	)

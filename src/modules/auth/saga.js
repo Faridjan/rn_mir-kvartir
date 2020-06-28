@@ -1,48 +1,73 @@
-// import firebase from '@react-native-firebase/app';
-// import {GoogleSignin} from '@react-native-community/google-signin';
+// import firebase from '@react-native-firebase/app'
+// import { GoogleSignin } from '@react-native-community/google-signin'
 import AsyncStorage from '@react-native-community/async-storage'
 import { put, call, select, takeEvery } from 'redux-saga/effects'
 import { showMessage } from 'react-native-flash-message'
 import { handleError } from 'src/utils/error'
+
+import { CommonActions } from '@react-navigation/native'
+
+// import languages from 'src/locales'
 
 import * as Actions from './constants'
 
 import { userIdSelector } from './selectors'
 import {
 	loginWithEmail,
-	loginWithMobile,
+	// loginWithMobile,
 	registerWithEmail,
-	loginWithGoogle,
-	loginWithFacebook,
-	logout,
+	// loginWithGoogle,
+	// loginWithFacebook,
+	// logout,
 	changeEmail,
 	changePassword,
 	forgotPassword,
 	updateCustomer,
 	getCustomer,
-	loginWithApple,
+	// getFilesDownload,
+	// loginWithApple,
+	// digitsLoginUser,
+	// digitsCreateUser,
+	// digitsLogoutUser,
 } from './service'
 
 import {
-	validatorSignIn,
-	validatorRegister,
+	// validatorSignIn,
+	// validatorRegister,
 	validatorForgotPassword,
 	validatorChangePassword,
 } from './validator'
+
 // import { validatorAddress } from '../cart/validator'
 
+// import appleAuth, {
+// 	AppleAuthRequestOperation,
+// 	AppleAuthCredentialState,
+// } from '@invertase/react-native-apple-authentication'
+
+// import { languageSelector, requiredLoginSelector } from '../common/selectors'
+
 import NavigationService from 'src/utils/navigation'
-
 // import { rootSwitch } from 'src/config/navigator'
-// import { shippingAddressInit } from './config'
+import { shippingAddressInit } from './config'
 
-async function signOut() {
-	// Sign Out Firebase
-	// await firebase.auth().signOut();
-	// Sign Out Google
-	// await GoogleSignin.revokeAccess();
-	// await GoogleSignin.signOut();
-}
+// async function signOut() {
+// 	// Sign Out Firebase
+// 	await firebase.auth().signOut()
+// 	// Sign Out Google
+// 	await GoogleSignin.revokeAccess()
+// 	await GoogleSignin.signOut()
+
+// 	// Sign Out Apple
+// 	await appleAuth.performRequest({
+// 		requestedOperation: AppleAuthRequestOperation.LOGOUT,
+// 	})
+
+// 	// Sign Out Facebook
+
+// 	// Sign Out Digits
+// 	await digitsLogoutUser()
+// }
 
 /**
  * Do login success
@@ -59,7 +84,7 @@ function* doLoginSuccess(token, user = {}) {
 		type: Actions.GET_SHIPPING_ADDRESS,
 		payload: user.ID,
 	})
-	yield call(NavigationService.navigate, 'Food')
+	yield call(NavigationService.navigate, 'Profile')
 	yield call(AsyncStorage.setItem, 'token', token)
 }
 
@@ -71,6 +96,8 @@ function* doLoginSuccess(token, user = {}) {
  */
 function* signInWithEmailSaga({ username, password }) {
 	try {
+		// const language = yield select(languageSelector)
+		// const { token, user } = yield call(loginWithEmail, { username, password, language })
 		const { token, user } = yield call(loginWithEmail, { username, password })
 		yield call(doLoginSuccess, token, user)
 	} catch (e) {
@@ -83,6 +110,63 @@ function* signInWithEmailSaga({ username, password }) {
 		})
 	}
 }
+
+/**
+ * Sign In With OTP
+ * @param data
+ * @returns {Generator<<"PUT", PutEffectDescriptor<{payload: {message: *}, type: string}>>|<"CALL", CallEffectDescriptor>, void, ?>}
+ */
+// function* signInWithOtpSaga({ payload }) {
+// 	try {
+// 		// const language = yield select(languageSelector);
+// 		const { success, data } = yield call(digitsLoginUser, payload.data)
+// 		if (success) {
+// 			const { token, user } = data
+// 			yield call(doLoginSuccess, token, user)
+// 		} else {
+// 			yield call(handleError, new Error('Something wrong.'))
+// 		}
+// 	} catch (e) {
+// 		// yield call(handleError, e)
+// 		yield put({
+// 			type: Actions.SIGN_IN_WITH_OTP_ERROR,
+// 			payload: {
+// 				message: e.message,
+// 			},
+// 		})
+// 	}
+// }
+
+/**
+ * Sign up with email
+ * @param payload
+ * @returns {IterableIterator<*>}
+ */
+// function* signUpWithOtplSaga({ payload }) {
+// 	try {
+// 		const language = yield select(languageSelector)
+// 		const { success, data } = yield call(digitsCreateUser, payload.data)
+// 		if (success) {
+// 			const { token, user } = data
+// 			yield call(showMessage, {
+// 				message: languages[language].notifications.text_create_user_success,
+// 				type: 'info',
+// 			})
+// 			yield call(doLoginSuccess, token, user)
+// 		} else {
+// 			yield call(handleError, new Error('Something wrong.'))
+// 		}
+// 	} catch (e) {
+// 		console.log(e)
+// 		yield call(handleError, e)
+// 		yield put({
+// 			type: Actions.SIGN_UP_WITH_EMAIL_ERROR,
+// 			payload: {
+// 				message: e.message,
+// 			},
+// 		})
+// 	}
+// }
 
 /**
  * Sign In mobile saga
@@ -111,7 +195,7 @@ function* signUpWithEmailSaga({ payload }) {
 		const { data } = payload
 		const { token, user } = yield call(registerWithEmail, data)
 		yield call(showMessage, {
-			message: 'You created user success.',
+			message: 'Регистрация прошла успешно',
 			type: 'info',
 		})
 		yield call(doLoginSuccess, token, user)
@@ -181,12 +265,14 @@ function* signUpWithEmailSaga({ payload }) {
 
 function* forgotPasswordSideEffect(action) {
 	try {
-		const errors = validatorForgotPassword(action.email, language)
+		// const language = yield select(languageSelector)
+		// const errors = validatorForgotPassword(action.email, language)
+		const errors = validatorForgotPassword(action.email)
 		if (errors.size > 0) {
 			yield put({
 				type: Actions.FORGOT_PASSWORD_ERROR,
 				payload: {
-					message: 'Fill information fail.',
+					message: 'Ошибка заполнения полей',
 					errors: errors.toJS(),
 				},
 			})
@@ -196,7 +282,7 @@ function* forgotPasswordSideEffect(action) {
 				type: Actions.FORGOT_PASSWORD_SUCCESS,
 			})
 			yield call(showMessage, {
-				message: 'Check your email to reset password.',
+				message: 'Сообщение для сброса пароля отправлено. Проверьте ваш email.',
 				type: 'info',
 			})
 		}
@@ -245,12 +331,14 @@ function* changeEmailSaga({ payload }) {
  */
 function* changePasswordSaga({ payload }) {
 	try {
-		const errors = validatorChangePassword(payload, language)
+		// const language = yield select(languageSelector)
+		// const errors = validatorChangePassword(payload, language)
+		const errors = validatorChangePassword(payload)
 		if (errors.size > 0) {
 			yield put({
 				type: Actions.CHANGE_PASSWORD_ERROR,
 				payload: {
-					message: 'Fill information fail.',
+					message: 'Ошибка заполнения полей',
 					errors: errors.toJS(),
 				},
 			})
@@ -264,7 +352,7 @@ function* changePasswordSaga({ payload }) {
 				type: Actions.CHANGE_PASSWORD_SUCCESS,
 			})
 			yield call(showMessage, {
-				message: 'Password updated.',
+				message: 'Пароль изменён',
 				type: 'info',
 			})
 		}
@@ -287,16 +375,13 @@ function* signOutSaga() {
 		const requiredLogin = false
 		yield call(AsyncStorage.removeItem, 'token')
 		if (requiredLogin) {
-			yield call(NavigationService.navigate, 'FAQ')
+			yield call(NavigationService.navigate, 'Profile')
 		}
 		// yield call(logout);
 		yield put({ type: Actions.SIGN_OUT_SUCCESS })
-		// yield call(
-		//   navigationService.navigate,
-		//   screens.Auth.AuthStack.WelcomeScreen._name
-		// );
+		yield call(NavigationService.navigate, 'Profile')
 		// Try logout Firebase
-		yield call(signOut)
+		// yield call(signOut)
 	} catch (e) {
 		console.log(e)
 		// yield call(handleError, e);
@@ -306,59 +391,77 @@ function* signOutSaga() {
  * Get shipping address
  * @returns {IterableIterator<*>}
  */
-// function* getShippingAddressSaga({ payload }) {
-// 	try {
-// 		const customer = yield call(getCustomer, payload)
-// 		yield put({
-// 			type: Actions.GET_SHIPPING_ADDRESS_SUCCESS,
-// 			payload: customer.shipping || shippingAddressInit,
-// 		})
-// 	} catch (e) {
-// 		yield put({
-// 			type: Actions.GET_SHIPPING_ADDRESS_ERROR,
-// 			payload: shippingAddressInit,
-// 		})
-// 	}
-// }
+function* getShippingAddressSaga({ payload }) {
+	try {
+		const customer = yield call(getCustomer, payload)
+		yield put({
+			type: Actions.GET_SHIPPING_ADDRESS_SUCCESS,
+			payload: customer.shipping || shippingAddressInit,
+		})
+	} catch (e) {
+		yield put({
+			type: Actions.GET_SHIPPING_ADDRESS_ERROR,
+			payload: shippingAddressInit,
+		})
+	}
+}
 
 /**
- * Update shipping address
+ * Update customer
  * @returns {IterableIterator<*>}
  */
-// function* updateShippingAddressSaga({ payload }) {
-// 	try {
-// 		const userID = yield select(userIdSelector)
-// 		const errors = validatorAddress(payload)
-// 		if (errors.size > 0) {
-// 			yield put({
-// 				type: Actions.UPDATE_SHIPPING_ADDRESS_ERROR,
-// 				payload: {
-// 					message: 'Fill inputs',
-// 					errors: errors.toJS(),
-// 				},
-// 			})
-// 		} else {
-// 			yield call(updateCustomer, userID, {
-// 				shipping: payload,
-// 			})
-// 			yield put({
-// 				type: Actions.UPDATE_SHIPPING_ADDRESS_SUCCESS,
-// 				payload,
-// 			})
-// 			yield call(showMessage, {
-// 				message: 'Update success',
-// 				type: 'success',
-// 			})
-// 		}
-// 	} catch (e) {
-// 		yield put({
-// 			type: Actions.UPDATE_SHIPPING_ADDRESS_ERROR,
-// 			payload: {
-// 				message: e.message,
-// 			},
-// 		})
-// 	}
-// }
+function* updateCustomerSaga({ payload }) {
+	try {
+		const { data, cb } = payload
+		const userID = yield select(userIdSelector)
+		yield call(updateCustomer, userID, data)
+		yield put({
+			type: Actions.UPDATE_CUSTOMER_SUCCESS,
+		})
+		yield call(showMessage, {
+			message: 'Update success',
+			type: 'success',
+		})
+		yield call(cb)
+	} catch (e) {
+		yield put({
+			type: Actions.UPDATE_CUSTOMER_ERROR,
+		})
+		yield call(showMessage, {
+			message: e.message,
+			type: 'danger',
+		})
+	}
+}
+
+/**
+ * get list file of customer
+ * @returns {IterableIterator<*>}
+ */
+function* getFilesDownloadCustomer({ payload }) {
+	try {
+		const userID = yield select(userIdSelector)
+		const files = yield call(getFilesDownload, userID)
+		if (files && files.length) {
+			yield put({
+				type: Actions.GET_LIST_FILE_DOWNLOAD_SUCCESS,
+				payload: files,
+			})
+		} else {
+			yield put({
+				type: Actions.GET_LIST_FILE_DOWNLOAD_ERROR,
+			})
+		}
+	} catch (e) {
+		yield put({
+			type: Actions.GET_LIST_FILE_DOWNLOAD_ERROR,
+		})
+		yield call(showMessage, {
+			message: e.message,
+			type: 'danger',
+		})
+	}
+}
 
 export default function* authSaga() {
 	yield takeEvery(Actions.SIGN_IN_WITH_EMAIL, signInWithEmailSaga)
@@ -371,6 +474,10 @@ export default function* authSaga() {
 	yield takeEvery(Actions.CHANGE_EMAIL, changeEmailSaga)
 	yield takeEvery(Actions.CHANGE_PASSWORD, changePasswordSaga)
 	yield takeEvery(Actions.FORGOT_PASSWORD, forgotPasswordSideEffect)
-	// yield takeEvery(Actions.GET_SHIPPING_ADDRESS, getShippingAddressSaga)
-	// yield takeEvery(Actions.UPDATE_SHIPPING_ADDRESS, updateShippingAddressSaga)
+	yield takeEvery(Actions.GET_SHIPPING_ADDRESS, getShippingAddressSaga)
+	yield takeEvery(Actions.UPDATE_CUSTOMER, updateCustomerSaga)
+
+	// yield takeEvery(Actions.SIGN_IN_WITH_OTP, signInWithOtpSaga)
+	// yield takeEvery(Actions.SIGN_UP_WITH_OTP, signUpWithOtplSaga)
+	yield takeEvery(Actions.GET_LIST_FILE_DOWNLOAD, getFilesDownloadCustomer)
 }

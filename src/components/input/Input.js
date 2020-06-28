@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, View, Text } from 'react-native'
 import InputBasic from './InputBasic'
 import ViewLabel, { MIN_HEIGHT } from '../ViewLabel'
 
@@ -111,19 +111,22 @@ class Input extends React.Component {
 					/>
 
 					{secureTextEntry && (
-						<Feather
-							name={isSecure ? 'eye' : 'eye-off'}
-							color={isSecure ? '#adb5bd' : 'red'}
-							size={15}
-							containerStyle={styles.viewIcon}
-							iconStyle={styles.icon}
-							underlayColor='transparent'
-							onPress={() =>
-								this.setState({
-									isSecure: !isSecure,
-								})
-							}
-						/>
+						<>
+							<Feather
+								name={isSecure ? 'eye' : 'eye-off'}
+								color={isSecure ? '#adb5bd' : 'red'}
+								size={18}
+								containerStyle={styles.viewIcon}
+								iconStyle={styles.icon}
+								underlayColor='transparent'
+								onPress={() =>
+									this.setState({
+										isSecure: !isSecure,
+									})
+								}
+							/>
+							<Text style={{ width: 10 }}></Text>
+						</>
 					)}
 				</View>
 			</ViewLabel>

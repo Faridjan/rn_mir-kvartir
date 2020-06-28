@@ -1,4 +1,4 @@
-import * as Actions from './constants';
+import * as Actions from './constants'
 
 /**
  * Action login
@@ -6,12 +6,12 @@ import * as Actions from './constants';
  * @param password
  * @returns {{type: string, username: *, password: *}}
  */
-export function signInWithEmail({username, password}) {
-  return {
-    type: Actions.SIGN_IN_WITH_EMAIL,
-    username,
-    password,
-  };
+export function signInWithEmail({ username, password }) {
+	return {
+		type: Actions.SIGN_IN_WITH_EMAIL,
+		username,
+		password,
+	}
 }
 
 /**
@@ -20,10 +20,10 @@ export function signInWithEmail({username, password}) {
  * @returns {{type: string, tokenId}}
  */
 export function signInWithMobile(tokenId) {
-  return {
-    type: Actions.SIGN_IN_WITH_MOBILE,
-    tokenId,
-  };
+	return {
+		type: Actions.SIGN_IN_WITH_MOBILE,
+		tokenId,
+	}
 }
 
 /**
@@ -32,12 +32,12 @@ export function signInWithMobile(tokenId) {
  * @returns {{type: string, payload: *}}
  */
 export function signUpWithEmail(data) {
-  return {
-    type: Actions.SIGN_UP_WITH_EMAIL,
-    payload: {
-      data,
-    },
-  };
+	return {
+		type: Actions.SIGN_UP_WITH_EMAIL,
+		payload: {
+			data,
+		},
+	}
 }
 
 /**
@@ -46,21 +46,21 @@ export function signUpWithEmail(data) {
  * @returns {{type: string, payload: {data: *}}}
  */
 export function signInWithGoogle(idToken) {
-  return {
-    type: Actions.SIGN_IN_WITH_GOOGLE,
-    payload: {
-      idToken,
-    },
-  };
+	return {
+		type: Actions.SIGN_IN_WITH_GOOGLE,
+		payload: {
+			idToken,
+		},
+	}
 }
 
 /**
  * Action login google cancel
  */
 export function signInWithGoogleCancel() {
-  return {
-    type: Actions.SIGN_IN_WITH_GOOGLE_CANCEL,
-  };
+	return {
+		type: Actions.SIGN_IN_WITH_GOOGLE_CANCEL,
+	}
 }
 
 /**
@@ -69,34 +69,34 @@ export function signInWithGoogleCancel() {
  * @returns {{type: string, payload: *}}
  */
 export function signInWithFacebook(data) {
-  return {
-    type: Actions.SIGN_IN_WITH_FACEBOOK,
-    payload: {
-      data,
-    },
-  };
+	return {
+		type: Actions.SIGN_IN_WITH_FACEBOOK,
+		payload: {
+			data,
+		},
+	}
 }
 
 /**
  * Action login facebook cancel
  */
 export function signInWithFacebookCancel() {
-  return {
-    type: Actions.SIGN_IN_WITH_GOOGLE_CANCEL,
-  };
+	return {
+		type: Actions.SIGN_IN_WITH_GOOGLE_CANCEL,
+	}
 }
 
 export function forgotPassword(email) {
-  return {
-    type: Actions.FORGOT_PASSWORD,
-    email,
-  };
+	return {
+		type: Actions.FORGOT_PASSWORD,
+		email,
+	}
 }
 
 export function checkAuth() {
-  return {
-    type: Actions.CHECK_AUTH,
-  };
+	return {
+		type: Actions.CHECK_AUTH,
+	}
 }
 
 /**
@@ -105,26 +105,53 @@ export function checkAuth() {
  * @param u_email
  * @returns {{type: string, payload: {password: *, email: *}}}
  */
-export function changeEmail({u_password, u_email}) {
-  return {
-    type: Actions.CHANGE_EMAIL,
-    payload: {
-      u_password,
-      u_email,
-    },
-  };
+export function changeEmail({ u_password, u_email }) {
+	return {
+		type: Actions.CHANGE_EMAIL,
+		payload: {
+			u_password,
+			u_email,
+		},
+	}
 }
 
 /**
- * Update address
+ * Update customer
  * @param data
- * @returns {{type: string, payload: {password: *, email: *}}}
+ * @returns {{type: string, payload: {data: *, cb: *}}}
  */
-export function updateShippingAddress(data) {
-  return {
-    type: Actions.UPDATE_SHIPPING_ADDRESS,
-    payload: data,
-  };
+export function updateCustomer(data, cb = () => {}) {
+	return {
+		type: Actions.UPDATE_CUSTOMER,
+		payload: {
+			data,
+			cb,
+		},
+	}
+}
+
+/**
+ * Update user
+ * @param data
+ * @returns {{type: string, payload: *}}
+ */
+export function updateShippingAddressSuccess(data) {
+	return {
+		type: Actions.UPDATE_SHIPPING_ADDRESS_SUCCESS,
+		payload: data,
+	}
+}
+
+/**
+ * Update user
+ * @param data
+ * @returns {{type: string, payload: *}}
+ */
+export function updateUserSuccess(data) {
+	return {
+		type: Actions.UPDATE_USER_SUCCESS,
+		payload: data,
+	}
 }
 
 /**
@@ -133,10 +160,10 @@ export function updateShippingAddress(data) {
  * @returns {{type: string, payload: object}}
  */
 export function changePassword(data) {
-  return {
-    type: Actions.CHANGE_PASSWORD,
-    payload: data,
-  };
+	return {
+		type: Actions.CHANGE_PASSWORD,
+		payload: data,
+	}
 }
 
 /**
@@ -144,9 +171,9 @@ export function changePassword(data) {
  * @returns {{type: string}}
  */
 export function signOut() {
-  return {
-    type: Actions.SIGN_OUT,
-  };
+	return {
+		type: Actions.SIGN_OUT,
+	}
 }
 
 /**
@@ -155,12 +182,49 @@ export function signOut() {
  * @param user
  * @returns {{payload: {identityToken: *, user: *}, type: string}}
  */
-export function signInWithApple(identityToken, user) {
-  return {
-    type: Actions.SIGN_IN_WITH_APPLE,
-    payload: {
-      identityToken,
-      user,
-    },
-  };
+export function signInWithApple(payload) {
+	return {
+		type: Actions.SIGN_IN_WITH_APPLE,
+		payload,
+	}
+}
+
+/**
+ * Sign Up with OTP
+ * @param data
+ * @returns {{type: string, payload: *}}
+ */
+export function signUpWithOtp(data) {
+	return {
+		type: Actions.SIGN_UP_WITH_OTP,
+		payload: {
+			data,
+		},
+	}
+}
+
+/**
+ * Sign In with OTP
+ * @param data
+ * @returns {{payload: {identityToken: *, user: *}, type: string}}
+ */
+export function signInWithOtp(data) {
+	return {
+		type: Actions.SIGN_IN_WITH_OTP,
+		payload: {
+			data,
+		},
+	}
+}
+
+/**
+ * Get List file download of user
+ * @param data
+ * @returns {{type: string, payload: *}}
+ */
+export function getFilesDonwload() {
+	return {
+		type: Actions.GET_LIST_FILE_DOWNLOAD,
+		payload: {},
+	}
 }

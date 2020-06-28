@@ -1,7 +1,15 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { StyleSheet, ScrollView, View, Text, Button, KeyboardAvoidingView } from 'react-native'
+import {
+	StyleSheet,
+	ScrollView,
+	View,
+	Text,
+	TouchableOpacity,
+	ActivityIndicator,
+	KeyboardAvoidingView,
+} from 'react-native'
 
 import Container from 'src/components/Container'
 import Input from 'src/components/input/Input'
@@ -33,91 +41,101 @@ class LoginScreen extends React.Component {
 		const {
 			navigation,
 			auth: { pending, loginError },
-			requiredLogin,
 		} = this.props
 		const { username, password } = this.state
 		const { message, errors } = loginError
 
 		return (
-			<View>
+			<Container style={{ marginBottom: 0 }}>
 				<KeyboardAvoidingView behavior='height' style={styles.keyboard}>
 					<ScrollView>
 						<Container>
 							{message ? <TextHtml value={message} /> : null}
 							<Input
-								label='Email Address or Username'
+								label='Email или Логин'
 								value={username}
 								onChangeText={(value) => this.setState({ username: value })}
 								error={errors && errors.username}
 							/>
 							<Input
-								label='Password *'
+								label='Пароль'
 								value={password}
 								secureTextEntry
 								onChangeText={(value) => this.setState({ password: value })}
 								error={errors && errors.password}
 							/>
-							<Button
-								title='Sign In'
-								loading={pending}
-								onPress={this.handleLogin}
-								containerStyle={styles.margin}
-							/>
-							<Text> </Text>
+
+							<TouchableOpacity activeOpacity={0.5} style={styles.btn2} onPress={this.handleLogin}>
+								{pending ? (
+									<ActivityIndicator size='small' color='#fff' />
+								) : (
+									<Text style={styles.btn2Text}>Войти</Text>
+								)}
+							</TouchableOpacity>
+
 							<Text
 								onPress={() => navigation.navigate('Auth', { screen: 'Forgot' })}
 								style={styles.textForgot}
-								medium
 							>
-								Forgot Password
+								Забыли пароль?
 							</Text>
-							<View style={[styles.viewOr, styles.margin]}>
-								<Text style={styles.textOr}>----------------------------</Text>
-							</View>
 						</Container>
 					</ScrollView>
 				</KeyboardAvoidingView>
-				<Container style={styles.margin}>
-					<Text h6 colorThird style={styles.textAccount}>
-						Don't have an account?
-					</Text>
-					<Button
-						title='Register'
-						type='outline'
+				<View>
+					<Text style={styles.textAccount}>Нет аккаунта?</Text>
+
+					<TouchableOpacity
+						activeOpacity={0.5}
+						style={styles.btn1}
 						onPress={() => navigation.navigate('Auth', { screen: 'Register' })}
-					/>
-				</Container>
-			</View>
+					>
+						<Text style={styles.btn1Text}>Зарегистрироваться</Text>
+					</TouchableOpacity>
+				</View>
+			</Container>
 		)
 	}
 }
 
 const styles = StyleSheet.create({
 	keyboard: {
-		// flex: 1,
+		flex: 1,
 	},
 	textForgot: {
 		textAlign: 'center',
-	},
-	viewOr: {
-		flexDirection: 'row',
-		alignItems: 'center',
-	},
-	divOr: {
-		flex: 1,
-	},
-	textOr: {
-		marginHorizontal: 16,
+		fontWeight: 'bold',
 	},
 	textAccount: {
 		textAlign: 'center',
 		marginBottom: 16,
-	},
-	margin: {
-		marginVertical: 25,
+		color: '#999',
 	},
 	viewSocial: {
 		marginBottom: 25,
+	},
+	btn1: {
+		padding: 12,
+		borderRadius: 3,
+		borderWidth: 1,
+		marginBottom: 15,
+		borderBottomColor: '#000',
+	},
+	btn2: {
+		padding: 12,
+		borderRadius: 3,
+		flexDirection: 'row',
+		justifyContent: 'center',
+		backgroundColor: '#000',
+		marginVertical: 15,
+	},
+	btn1Text: {
+		color: '#000',
+		textAlign: 'center',
+	},
+	btn2Text: {
+		color: '#fff',
+		textAlign: 'center',
 	},
 })
 
