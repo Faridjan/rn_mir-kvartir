@@ -84,6 +84,7 @@ class ReviewFormScreen extends React.Component {
 				})
 			}
 		}
+		this.setState({ pushing: false })
 	}
 
 	render() {

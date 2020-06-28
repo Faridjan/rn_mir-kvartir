@@ -72,8 +72,6 @@ class ReviewFAQScreen extends React.Component {
 		const name = route.params['name']
 		const page_id = route.params['page_id']
 
-		console.log(dataReview)
-
 		return (
 			<Container style={{ marginBottom: 0 }}>
 				<ScrollView>
