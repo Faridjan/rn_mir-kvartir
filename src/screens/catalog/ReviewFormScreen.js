@@ -1,5 +1,16 @@
 import React from 'react'
-import { View, ScrollView, Image, Text, ActivityIndicator, Keyboard, TouchableOpacity, KeyboardAvoidingView, Platform } from 'react-native'
+import { connect } from 'react-redux'
+import {
+	View,
+	ScrollView,
+	Image,
+	Text,
+	ActivityIndicator,
+	Keyboard,
+	TouchableOpacity,
+	KeyboardAvoidingView,
+	Platform,
+} from 'react-native'
 import { showMessage } from 'react-native-flash-message'
 
 import Rating from 'src/components/Rating'
@@ -8,26 +19,24 @@ import Rating from 'src/components/Rating'
 import Container from 'src/components/Container'
 import Input from 'src/components/input/Input'
 
+import { authSelector } from 'src/modules/auth/selectors'
 import { addProductReviews } from 'src/modules/product/service'
 
 class ReviewFormScreen extends React.Component {
 	constructor(props) {
 		super(props)
 		const {
-			// auth: { isLogin, user },
+			auth: { isLogin, user },
 			route,
 		} = props
 		const product_id = route.params['product_id']
 		this.state = {
 			product_id,
 			review: '',
-			// reviewer: isLogin ? user.display_name : '',
-			reviewer: '',
-			// reviewer_email: isLogin ? user.user_email : '',
-			reviewer_email: '',
+			reviewer: isLogin ? user.display_name : '',
+			reviewer_email: isLogin ? user.user_email : '',
 			rating: 1,
-			// status: isLogin ? 'approved' : 'hold',
-			status: 'approved',
+			status: isLogin ? 'approved' : 'hold',
 			pushing: false,
 		}
 	}
@@ -79,9 +88,8 @@ class ReviewFormScreen extends React.Component {
 
 	render() {
 		const {
-			navigation,
 			route,
-			// auth: { isLogin },
+			auth: { isLogin },
 			// dataReview,
 		} = this.props
 		const { review, reviewer, reviewer_email, rating } = this.state
@@ -92,22 +100,41 @@ class ReviewFormScreen extends React.Component {
 		return (
 			<Container style={{ marginBottom: 0 }}>
 				<ScrollView>
-					<KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={Platform.select({ ios: 200, android: 0 })}>
+					<KeyboardAvoidingView
+						behavior='padding'
+						keyboardVerticalOffset={Platform.select({ ios: 200, android: 0 })}
+					>
 						<View style={[styles.viewContent, { marginBottom: 20 }]}>
-							<Image source={imageProduct ? { uri: imageProduct.src } : require('src/assets/pDefault.png')} resizeMode="contain" style={[styles.image, { marginBottom: 10 }]} />
+							<Image
+								source={
+									imageProduct ? { uri: imageProduct.src } : require('src/assets/pDefault.png')
+								}
+								resizeMode='contain'
+								style={[styles.image, { marginBottom: 10 }]}
+							/>
 							<Text medium style={{ marginBottom: 10 }}>
 								{nameProduct}
 							</Text>
 							<Text colorThird style={styles.tab}>
 								Отметьте кол-во звезд
 							</Text>
-							<Rating size={20} startingValue={rating} onStartRating={(value) => this.setState({ rating: value })} />
+							<Rating
+								size={20}
+								startingValue={rating}
+								onStartRating={(value) => this.setState({ rating: value })}
+							/>
 						</View>
 
 						<View style={{ marginBottom: 10 }}>
-							<Input label="Ваш отзыв" multiline numberOfLines={8} value={review} onChangeText={(value) => this.setState({ review: value })} />
+							<Input
+								label='Ваш отзыв'
+								multiline
+								numberOfLines={8}
+								value={review}
+								onChangeText={(value) => this.setState({ review: value })}
+							/>
 
-							{/* {!isLogin && (
+							{!isLogin && (
 								<Input
 									label='Ваше имя'
 									value={reviewer}
@@ -120,10 +147,18 @@ class ReviewFormScreen extends React.Component {
 									value={reviewer_email}
 									onChangeText={(value) => this.setState({ reviewer_email: value })}
 								/>
-							)} */}
-
-							<Input label="Ваше имя" value={reviewer} onChangeText={(value) => this.setState({ reviewer: value })} />
-							<Input label="Ваш E-mail" value={reviewer_email} onChangeText={(value) => this.setState({ reviewer_email: value })} />
+							)}
+							{/* 
+							<Input
+								label='Ваше имя'
+								value={reviewer}
+								onChangeText={(value) => this.setState({ reviewer: value })}
+							/>
+							<Input
+								label='Ваш E-mail'
+								value={reviewer_email}
+								onChangeText={(value) => this.setState({ reviewer_email: value })}
+							/> */}
 						</View>
 
 						<TouchableOpacity
@@ -136,7 +171,11 @@ class ReviewFormScreen extends React.Component {
 							}}
 							onPress={this.addReview}
 						>
-							{this.state.pushing ? <ActivityIndicator animating={this.state.isLoading} /> : <Text style={{ color: '#fff', textAlign: 'center' }}>Отправить</Text>}
+							{this.state.pushing ? (
+								<ActivityIndicator animating={this.state.isLoading} />
+							) : (
+								<Text style={{ color: '#fff', textAlign: 'center' }}>Отправить</Text>
+							)}
 						</TouchableOpacity>
 					</KeyboardAvoidingView>
 				</ScrollView>
@@ -159,4 +198,9 @@ const styles = {
 	},
 }
 
-export default ReviewFormScreen
+const mapStateToProps = (state) => {
+	return {
+		auth: authSelector(state),
+	}
+}
+export default connect(mapStateToProps)(ReviewFormScreen)
