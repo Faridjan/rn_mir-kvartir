@@ -38,7 +38,10 @@ import ReviewsFAQScreen from 'src/screens/FAQ/ReviewsFAQScreen'
 import ReviewFormFAQScreen from 'src/screens/FAQ/ReviewFormFAQScreen'
 
 // FOOD
-import FoodScreen from 'src/screens/FoodScreen'
+import FoodScreen from 'src/screens/food/FoodScreen'
+import FoodObjectScreen from 'src/screens/food/FoodObjectScreen'
+import FoodListScreen from 'src/screens/food/FoodListScreen'
+import MapLocationFoodScreen from 'src/screens/food/MapLocationFoodScreen'
 
 // PROFILE
 import ProfileScreen from 'src/screens/profile/ProfileScreen'
@@ -195,6 +198,22 @@ const FoodNavigation = () => {
 				options={{
 					title: 'Еда',
 				}}
+			/>
+
+			<Stack.Screen
+				name='FoodList'
+				component={FoodListScreen}
+				options={({ route }) => ({ title: route.params.headerTitle })}
+			/>
+			<Stack.Screen
+				name='FoodObject'
+				component={FoodObjectScreen}
+				options={({ route }) => ({ title: route.params.headerTitle })}
+			/>
+			<Stack.Screen
+				name='MapLocationFood'
+				component={MapLocationFoodScreen}
+				options={({ route }) => ({ title: route.params.headerTitle })}
 			/>
 		</Stack.Navigator>
 	)

@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
 import { Text, View, FlatList, ActivityIndicator, StyleSheet } from 'react-native'
-import Container from '../../components/Container'
+import Container from 'src/components/Container'
 import CategoryItem from './containers/CategoryItem'
 
 import { getCategories } from 'src/modules/category/service'
 
 const noImage = require('src/assets/imgCateDefault.png')
-const rootCategory = 58
+const rootCategory = 54
 
-export default class CategoryScreen extends Component {
+export default class FoodScreen extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {

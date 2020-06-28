@@ -2,8 +2,6 @@ import React, { Component } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView, Linking } from 'react-native'
 import { SimpleLineIcons, FontAwesome, AntDesign } from '@expo/vector-icons'
 
-import merge from 'lodash/merge'
-
 // Components
 import Container from 'src/components/Container'
 import TextHtml from 'src/components/TextHtml'
@@ -77,7 +75,7 @@ export default class CompanySingle extends Component {
 	render() {
 		const { navigation } = this.props
 		const { product, fullText } = this.state
-		const { id, name, description, meta_data, variations } = product
+		const { id, name, description, meta_data, variations, sale_price, regular_price } = product
 
 		const address = this.getMetaData(meta_data, 'adress_room')
 		const phone_number = this.getMetaData(meta_data, 'phone_hotel')
@@ -93,28 +91,16 @@ export default class CompanySingle extends Component {
 				<Container>
 					<View>
 						<View style={styles.viewPrice}>
-							{variations.hour ? (
-								<Text style={styles.priceGroup}>
-									<Text style={styles.price}>
-										{toLocaleStringPrice(variations.hour.regular_price)}
-									</Text>
-									<Text style={styles.priceType}> тг / час</Text>
+							<Text>
+								<Text style={[styles.price, sale_price && styles.priceOld]}>
+									{toLocaleStringPrice(regular_price)}
 								</Text>
-							) : null}
-							{variations.night ? (
-								<Text style={styles.priceGroup}>
-									<Text style={styles.price}>
-										{toLocaleStringPrice(variations.night.regular_price)}
-									</Text>
-									<Text style={styles.priceType}> тг / ночь</Text>
-								</Text>
-							) : null}
-							{variations.day ? (
-								<Text style={styles.priceGroup}>
-									<Text style={styles.price}>
-										{toLocaleStringPrice(variations.day.regular_price)}
-									</Text>
-									<Text style={styles.priceType}> тг / сутки</Text>
+								<Text style={[styles.priceType, sale_price && styles.priceOld]}> ₸</Text>
+							</Text>
+							{sale_price ? (
+								<Text style={styles.salePrice}>
+									<Text style={styles.price}>{toLocaleStringPrice(sale_price)}</Text>
+									<Text style={styles.priceType}> ₸</Text>
 								</Text>
 							) : null}
 						</View>
@@ -132,7 +118,7 @@ export default class CompanySingle extends Component {
 						<TouchableOpacity
 							style={styles.list}
 							onPress={() =>
-								navigation.push('MapLocation', {
+								navigation.push('MapLocationFood', {
 									headerTitle: 'Адрес на карте',
 									address,
 								})
@@ -157,42 +143,6 @@ export default class CompanySingle extends Component {
 							</View>
 							<View>
 								<SimpleLineIcons name='phone' style={styles.icon} />
-							</View>
-						</TouchableOpacity>
-
-						<TouchableOpacity
-							style={styles.list}
-							onPress={() =>
-								navigation.push('Booking', {
-									variations,
-									headerTitle: 'Бронирование',
-								})
-							}
-						>
-							<View>
-								<Text>Забронировать</Text>
-							</View>
-							<View>
-								<AntDesign style={styles.icon} name='calendar' />
-							</View>
-						</TouchableOpacity>
-
-						<TouchableOpacity
-							style={styles.list}
-							onPress={() =>
-								navigation.push('Reviews', {
-									image: images[0],
-									name,
-									product_id: id,
-									headerTitle: 'Отзывы',
-								})
-							}
-						>
-							<View>
-								<Text>Отзывы</Text>
-							</View>
-							<View>
-								<FontAwesome style={styles.icon} name='comment-o' />
 							</View>
 						</TouchableOpacity>
 					</View>
@@ -233,15 +183,23 @@ const styles = StyleSheet.create({
 	},
 	viewPrice: {
 		flexDirection: 'row',
-		justifyContent: 'space-between',
-		alignItems: 'center',
-		marginBottom: 26,
+		alignItems: 'flex-end',
+		// justifyContent: 'flex-end',
+		marginBottom: 20,
 	},
-	// priceGroup: {
-	// 	flexDirection: 'column',
-	// },
 	price: {
-		fontSize: 18,
+		fontSize: 22,
 		fontWeight: 'bold',
+	},
+	priceType: {
+		fontWeight: 'bold',
+	},
+	priceOld: {
+		textDecorationLine: 'line-through',
+		fontWeight: 'normal',
+		color: '#999',
+	},
+	salePrice: {
+		marginLeft: 10,
 	},
 })

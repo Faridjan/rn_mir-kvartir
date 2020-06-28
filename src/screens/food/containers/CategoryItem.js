@@ -10,15 +10,13 @@ const CategoryItem = (props) => {
 	const { navigation, image, name, index, categoryId } = props
 	return (
 		<TouchableOpacity
-			onPress={() =>
-				navigation.navigate('ProductList', { headerTitle: name, category: categoryId })
-			}
+			onPress={() => navigation.navigate('FoodList', { headerTitle: name, category: categoryId })}
 			activeOpacity={1}
 			style={styles(index).category}
 		>
 			<Image
 				resizeMode='contain'
-				style={{ width: '100%', height: 60, marginBottom: 10 }}
+				style={{ width: '100%', height: 95, marginBottom: 5 }}
 				source={image}
 			/>
 			<Text>{name}</Text>

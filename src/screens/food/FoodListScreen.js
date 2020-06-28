@@ -1,17 +1,29 @@
 import React, { Component } from 'react'
-import { Text, View, FlatList, ActivityIndicator, StyleSheet } from 'react-native'
-import Container from '../../components/Container'
-import CategoryItem from './containers/CategoryItem'
+import { Text, StyleSheet, View, ActivityIndicator, FlatList } from 'react-native'
+import { withNavigation } from '@react-navigation/compat'
+import concat from 'lodash/concat'
 
-import { getCategories } from 'src/modules/category/service'
+// Components
+import Title from '../../components/Title'
 
-const noImage = require('src/assets/imgCateDefault.png')
-const rootCategory = 58
+// Modules
+import { getProducts } from 'src/modules/product/service'
 
-export default class CategoryScreen extends Component {
-	constructor(props) {
-		super(props)
+// Containers
+import Container from 'src/components/Container'
+import ProductPreview from './containers/FoodPreview'
+
+export default class FoodListScreen extends Component {
+	constructor(props, context) {
+		super(props, context)
+		const { route } = props
+
+		const category = route.params.category
+		let name = route.params.headerTitle
+
 		this.state = {
+			category,
+			name,
 			loading: true,
 			refreshing: false,
 			loadingMore: false,
@@ -21,22 +33,24 @@ export default class CategoryScreen extends Component {
 	}
 
 	componentDidMount() {
-		this.fetchCategories()
+		this.fetchProducts()
 	}
 
 	getData = (page) => {
+		const { category } = this.state
+
 		const query = {
 			status: 'publish',
 			lang: 'ru',
 			per_page: 7,
 			page: page,
-			parent: rootCategory, // Взять все подкатегории родительской категории по этому ID
+			category,
 		}
 
-		return getCategories(query)
+		return getProducts(query)
 	}
 
-	fetchCategories = async (page = this.state.page) => {
+	fetchProducts = async (page = this.state.page) => {
 		try {
 			const dataGet = await this.getData(page)
 
@@ -73,7 +87,7 @@ export default class CategoryScreen extends Component {
 					loadingMore: true,
 				}),
 				() => {
-					this.fetchCategories()
+					this.fetchProducts()
 				},
 			)
 		}
@@ -86,15 +100,14 @@ export default class CategoryScreen extends Component {
 				refreshing: true,
 			},
 			() => {
-				this.fetchCategories()
+				this.fetchProducts()
 			},
 		)
 	}
 
 	render() {
-		const { data, refreshing, loading } = this.state
-		// const listData = data.filter((c) => c.parent === 0)
-		const listData = data
+		const { category, name, data, loading, loadingMore, refreshing } = this.state
+
 		return (
 			<>
 				{loading ? (
@@ -102,33 +115,25 @@ export default class CategoryScreen extends Component {
 						<ActivityIndicator size='large' color='red' />
 					</View>
 				) : data.length ? (
-					<Container>
+					<Container style={{ marginTop: 0, paddingTop: 0 }}>
 						<FlatList
-							data={listData}
-							keyExtractor={(item) => `${item.id}`}
+							data={data}
+							contentContainerStyle={{ paddingBottom: 20 }}
+							keyExtractor={(item) => item.id.toString()}
+							// numColumns={2}
 							showsHorizontalScrollIndicator={false}
 							showsVerticalScrollIndicator={false}
 							contentContainerStyle={styles.flatContainer}
-							numColumns={2}
 							onEndReached={this.handleLoadMore}
 							refreshing={refreshing}
 							onRefresh={this.handleRefresh}
-							renderItem={({ item, index }) => (
-								<CategoryItem
-									name={item.name}
-									categoryId={item.id}
-									index={index}
-									image={
-										item && item.image && item.image.src
-											? { uri: item.image.src, cache: 'reload' }
-											: noImage
-									}
-								/>
-							)}
+							renderItem={({ item, index, separators }) => <ProductPreview item={item} />}
 						/>
 					</Container>
 				) : (
-					<Text>Пусто</Text>
+					<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+						<Text>Пусто</Text>
+					</View>
 				)}
 			</>
 		)
@@ -137,6 +142,7 @@ export default class CategoryScreen extends Component {
 
 const styles = StyleSheet.create({
 	flatContainer: {
-		flexDirection: 'column',
+		// flexDirection: 'column',
+		// backgroundColor: 'pink',
 	},
 })
