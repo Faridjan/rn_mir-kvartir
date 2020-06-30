@@ -2,7 +2,14 @@ import React from 'react'
 
 import { connect } from 'react-redux'
 
-import { StyleSheet, ScrollView, KeyboardAvoidingView, TouchableOpacity, Text } from 'react-native'
+import {
+	StyleSheet,
+	ScrollView,
+	KeyboardAvoidingView,
+	TouchableOpacity,
+	ActivityIndicator,
+	Text,
+} from 'react-native'
 
 import Container from 'src/components/Container'
 import Input from 'src/components/input/Input'

@@ -123,14 +123,14 @@ const CategoryNavigation = () => {
 				component={CategoryScreen}
 				options={({ navigation }) => ({
 					title: 'Категории',
-					headerRight: () => (
-						<Ionicons
-							name='ios-search'
-							size={24}
-							style={{ marginRight: 15, paddingHorizontal: 5, paddingVertical: 5 }}
-							onPress={() => navigation.navigate('Search')}
-						/>
-					),
+					// headerRight: () => (
+					// 	<Ionicons
+					// 		name='ios-search'
+					// 		size={24}
+					// 		style={{ marginRight: 15, paddingHorizontal: 5, paddingVertical: 5 }}
+					// 		onPress={() => navigation.navigate('Search')}
+					// 	/>
+					// ),
 				})}
 			/>
 			<Stack.Screen
