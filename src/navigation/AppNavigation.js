@@ -1,6 +1,6 @@
 // React
 import React, { Component } from 'react'
-import { Image } from 'react-native'
+import { Image, Text, TouchableOpacity } from 'react-native'
 
 // Expo
 import { Ionicons } from '@expo/vector-icons'
@@ -50,6 +50,7 @@ import RegisterScreen from 'src/screens/profile/RegisterScreen'
 import ForgotScreen from 'src/screens/profile/ForgotScreen'
 import EditProfileScreen from 'src/screens/profile/EditProfileScreen'
 import ChangePasswordScreen from 'src/screens/profile/ChangePasswordScreen'
+import KaspiScreen from 'src/screens/KaspiScreen'
 
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -114,6 +115,15 @@ const MyTheme = {
 	},
 }
 
+const kaspi = (navigation) => (
+	<TouchableOpacity
+		style={{ marginRight: 15 }}
+		onPress={() => navigation.push('Kaspi', { headerTitle: 'Реквизиты' })}
+	>
+		<Text style={{ color: 'red', fontSize: 16, fontWeight: 'bold' }}>Kaspi Gold</Text>
+	</TouchableOpacity>
+)
+
 // Stacks Navigation
 const CategoryNavigation = () => {
 	return (
@@ -123,32 +133,32 @@ const CategoryNavigation = () => {
 				component={CategoryScreen}
 				options={({ navigation }) => ({
 					title: 'Категории',
-					// headerRight: () => (
-					// 	<Ionicons
-					// 		name='ios-search'
-					// 		size={24}
-					// 		style={{ marginRight: 15, paddingHorizontal: 5, paddingVertical: 5 }}
-					// 		onPress={() => navigation.navigate('Search')}
-					// 	/>
-					// ),
+					headerRight: () => kaspi(navigation),
 				})}
 			/>
 			<Stack.Screen
 				name='Search'
 				component={SearchScreen}
-				options={{
+				options={({ navigation }) => ({
 					title: 'Поиск',
-				}}
+					headerRight: () => kaspi(navigation),
+				})}
 			/>
 			<Stack.Screen
 				name='ProductList'
 				component={ProductListScreen}
-				options={({ route }) => ({ title: route.params.headerTitle })}
+				options={({ route, navigation }) => ({
+					title: route.params.headerTitle,
+					headerRight: () => kaspi(navigation),
+				})}
 			/>
 			<Stack.Screen
 				name='Object'
 				component={ObjectScreen}
-				options={({ route }) => ({ title: route.params.headerTitle })}
+				options={({ route, navigation }) => ({
+					title: route.params.headerTitle,
+					headerRight: () => kaspi(navigation),
+				})}
 			/>
 			<Stack.Screen
 				name='MapLocation'
@@ -158,7 +168,10 @@ const CategoryNavigation = () => {
 			<Stack.Screen
 				name='Booking'
 				component={BookingScreen}
-				options={({ route }) => ({ title: route.params.headerTitle })}
+				options={({ route, navigation }) => ({
+					title: route.params.headerTitle,
+					headerRight: () => kaspi(navigation),
+				})}
 			/>
 			<Stack.Screen
 				name='Reviews'
@@ -170,6 +183,11 @@ const CategoryNavigation = () => {
 				component={ReviewFormScreen}
 				options={({ route }) => ({ title: 'Оставить отзыв' })}
 			/>
+			<Stack.Screen
+				name='Kaspi'
+				component={KaspiScreen}
+				options={({ route }) => ({ title: route.params.headerTitle })}
+			/>
 		</Stack.Navigator>
 	)
 }
@@ -177,13 +195,24 @@ const CategoryNavigation = () => {
 const FAQNavigation = () => {
 	return (
 		<Stack.Navigator screenOptions={defaultNavigationOptions}>
-			<Stack.Screen name='FAQ' component={FAQScreen} />
+			<Stack.Screen
+				name='FAQ'
+				component={FAQScreen}
+				options={({ navigation }) => ({
+					headerRight: () => kaspi(navigation),
+				})}
+			/>
 			<Stack.Screen name='MapLocationFAQ' component={MapLocationFAQScreen} />
 			<Stack.Screen name='ReviewsFAQ' component={ReviewsFAQScreen} options={{ title: 'Отзывы' }} />
 			<Stack.Screen
 				name='ReviewFormFAQ'
 				component={ReviewFormFAQScreen}
 				options={{ title: 'Оставить отзыв' }}
+			/>
+			<Stack.Screen
+				name='Kaspi'
+				component={KaspiScreen}
+				options={({ route }) => ({ title: route.params.headerTitle })}
 			/>
 		</Stack.Navigator>
 	)
@@ -195,24 +224,36 @@ const FoodNavigation = () => {
 			<Stack.Screen
 				name='Food'
 				component={FoodScreen}
-				options={{
+				options={({ navigation }) => ({
 					title: 'Еда',
-				}}
+					headerRight: () => kaspi(navigation),
+				})}
 			/>
 
 			<Stack.Screen
 				name='FoodList'
 				component={FoodListScreen}
-				options={({ route }) => ({ title: route.params.headerTitle })}
+				options={({ route, navigation }) => ({
+					title: route.params.headerTitle,
+					headerRight: () => kaspi(navigation),
+				})}
 			/>
 			<Stack.Screen
 				name='FoodObject'
 				component={FoodObjectScreen}
-				options={({ route }) => ({ title: route.params.headerTitle })}
+				options={({ route, navigation }) => ({
+					title: route.params.headerTitle,
+					headerRight: () => kaspi(navigation),
+				})}
 			/>
 			<Stack.Screen
 				name='MapLocationFood'
 				component={MapLocationFoodScreen}
+				options={({ route }) => ({ title: route.params.headerTitle })}
+			/>
+			<Stack.Screen
+				name='Kaspi'
+				component={KaspiScreen}
 				options={({ route }) => ({ title: route.params.headerTitle })}
 			/>
 		</Stack.Navigator>

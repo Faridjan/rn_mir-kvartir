@@ -34,12 +34,12 @@ const HeaderMe = (props) => {
 
 	let nameUser = 'Hello!'
 	if (isLogin && user && !isEqual(user, {})) {
-		const stringName = `Привет, ${user.display_name}`
+		nameUser = `Привет, ${user.display_name}`
 
-		nameUser = truncate(stringName, {
-			length: 20,
-			separator: '...',
-		})
+		// nameUser = truncate(stringName, {
+		// 	length: 20,
+		// 	separator: '...',
+		// })
 	}
 	if (!isLogin) {
 		return (

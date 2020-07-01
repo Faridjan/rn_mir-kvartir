@@ -105,7 +105,7 @@ class ReviewFormFAQScreen extends React.Component {
 							<Text medium style={{ marginBottom: 10 }}>
 								{nameProduct}
 							</Text>
-							<Text colorThird style={styles.tab}>
+							{/* <Text colorThird style={styles.tab}>
 								Отметьте кол-во звезд
 							</Text>
 							<Rating
@@ -114,7 +114,7 @@ class ReviewFormFAQScreen extends React.Component {
 								onStartRating={(value) =>
 									this.setState({ acf: { ...this.state.acf, rating: value } })
 								}
-							/>
+							/> */}
 						</View>
 
 						<View style={{ marginBottom: 10 }}>

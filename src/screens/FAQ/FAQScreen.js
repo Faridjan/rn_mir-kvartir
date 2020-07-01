@@ -127,7 +127,15 @@ class FAQScreen extends React.Component {
 		const { navigation } = this.props
 		const { data, fullText } = this.state
 		const { acf, content, title, id } = data
-		const { photo_gallery, adress_room, phone_number, instagram, web_page, work_time } = acf
+		const {
+			photo_gallery,
+			adress_room,
+			phone_hotel,
+			phone_hotel_2,
+			instagram,
+			web_page,
+			work_time,
+		} = acf
 		return (
 			<ScrollView>
 				<View style={{ height: 400 }}>
@@ -170,17 +178,32 @@ class FAQScreen extends React.Component {
 							</View>
 						</TouchableOpacity>
 
-						<TouchableOpacity
-							style={styles.list}
-							onPress={() => Linking.openURL(`tel:${phone_number}`)}
-						>
-							<View>
-								<Text>{phone_number}</Text>
-							</View>
-							<View>
-								<SimpleLineIcons name='phone' style={styles.icon} />
-							</View>
-						</TouchableOpacity>
+						{phone_hotel ? (
+							<TouchableOpacity
+								style={styles.list}
+								onPress={() => Linking.openURL(`tel:${phone_hotel}`)}
+							>
+								<View>
+									<Text>{phone_hotel}</Text>
+								</View>
+								<View>
+									<SimpleLineIcons name='phone' style={styles.icon} />
+								</View>
+							</TouchableOpacity>
+						) : null}
+						{phone_hotel_2 ? (
+							<TouchableOpacity
+								style={styles.list}
+								onPress={() => Linking.openURL(`tel:${phone_hotel_2}`)}
+							>
+								<View>
+									<Text>{phone_hotel_2}</Text>
+								</View>
+								<View>
+									<SimpleLineIcons name='phone' style={styles.icon} />
+								</View>
+							</TouchableOpacity>
+						) : null}
 
 						{this.renderModal(work_time)}
 						<TouchableOpacity

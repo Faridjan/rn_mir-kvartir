@@ -81,8 +81,11 @@ export default class CompanySingle extends Component {
 
 		const address = this.getMetaData(meta_data, 'adress_room')
 		const phone_number = this.getMetaData(meta_data, 'phone_hotel')
+		const phone_number2 = this.getMetaData(meta_data, 'phone_hotel_2')
 
 		const images = this.images()
+
+		console.log(meta_data)
 
 		return (
 			<ScrollView>
@@ -148,17 +151,32 @@ export default class CompanySingle extends Component {
 							</View>
 						</TouchableOpacity>
 
-						<TouchableOpacity
-							style={styles.list}
-							onPress={() => Linking.openURL(`tel:${phone_number}`)}
-						>
-							<View>
-								<Text>{phone_number}</Text>
-							</View>
-							<View>
-								<SimpleLineIcons name='phone' style={styles.icon} />
-							</View>
-						</TouchableOpacity>
+						{phone_number ? (
+							<TouchableOpacity
+								style={styles.list}
+								onPress={() => Linking.openURL(`tel:${phone_number}`)}
+							>
+								<View>
+									<Text>{phone_number}</Text>
+								</View>
+								<View>
+									<SimpleLineIcons name='phone' style={styles.icon} />
+								</View>
+							</TouchableOpacity>
+						) : null}
+						{phone_number2 ? (
+							<TouchableOpacity
+								style={styles.list}
+								onPress={() => Linking.openURL(`tel:${phone_number2}`)}
+							>
+								<View>
+									<Text>{phone_number2}</Text>
+								</View>
+								<View>
+									<SimpleLineIcons name='phone' style={styles.icon} />
+								</View>
+							</TouchableOpacity>
+						) : null}
 
 						<TouchableOpacity
 							style={styles.list}

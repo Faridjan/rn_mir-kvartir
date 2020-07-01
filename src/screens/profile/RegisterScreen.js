@@ -121,17 +121,17 @@ class RegisterScreen extends React.Component {
 							onChangeText={(value) => this.changeData({ last_name: value })}
 							error={errors && errors.last_name}
 						/>
-						<Input
+						{/* <Input
 							label='Логин'
 							value={name}
 							onChangeText={(value) => this.changeData({ name: value })}
 							error={errors && errors.name}
-						/>
+						/> */}
 
 						<Input
 							label='Email'
 							value={email}
-							onChangeText={(value) => this.changeData({ email: value })}
+							onChangeText={(value) => this.changeData({ email: value, name: value })}
 							error={errors && errors.email}
 						/>
 						<Input
