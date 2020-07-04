@@ -164,7 +164,7 @@ export default class BookingScreen extends Component {
 								marginTop: 25,
 								padding: 10,
 								fontSize: 16,
-								backgroundColor: '#febb02',
+								backgroundColor: '#ff0000',
 								borderRadius: 3,
 								width: '60%',
 								alignSelf: 'center',

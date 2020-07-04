@@ -119,18 +119,18 @@ const styles = StyleSheet.create({
 		borderRadius: 3,
 		borderWidth: 1,
 		marginBottom: 15,
-		borderBottomColor: '#000',
+		borderColor: '#ff0000',
 	},
 	btn2: {
 		padding: 12,
 		borderRadius: 3,
 		flexDirection: 'row',
 		justifyContent: 'center',
-		backgroundColor: '#000',
+		backgroundColor: '#ff0000',
 		marginVertical: 15,
 	},
 	btn1Text: {
-		color: '#000',
+		color: '#ff0000',
 		textAlign: 'center',
 	},
 	btn2Text: {

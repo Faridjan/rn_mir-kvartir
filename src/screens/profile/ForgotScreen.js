@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
 		borderRadius: 3,
 		flexDirection: 'row',
 		justifyContent: 'center',
-		backgroundColor: '#000',
+		backgroundColor: '#ff0000',
 		marginVertical: 15,
 	},
 	btn2Text: {

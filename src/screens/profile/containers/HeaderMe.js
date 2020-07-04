@@ -76,7 +76,7 @@ const HeaderMe = (props) => {
 						source={user.user_url ? { uri: user.user_url } : require('src/assets/pDefault.png')}
 					/>
 				) : (
-					<EvilIcons name='user' size={70} color='#1a73e8' style={{ marginRight: 10 }} />
+					<EvilIcons name='user' size={70} color='#ff0000' style={{ marginRight: 10 }} />
 				)}
 
 				<Text style={styles.greeting}>{nameUser}</Text>
@@ -114,16 +114,16 @@ const styles = StyleSheet.create({
 		borderRadius: 3,
 		borderWidth: 1,
 		flex: 1,
-		borderBottomColor: '#000',
+		borderColor: '#ff0000',
 	},
 	btn2: {
 		padding: 12,
 		borderRadius: 3,
 		flex: 1,
-		backgroundColor: '#000',
+		backgroundColor: '#ff0000',
 	},
 	btn1Text: {
-		color: '#000',
+		color: '#ff0000',
 		textAlign: 'center',
 	},
 	btn2Text: {

@@ -166,7 +166,7 @@ class ReviewFormScreen extends React.Component {
 							style={{
 								marginBottom: 20,
 								paddingVertical: 10,
-								backgroundColor: '#000',
+								backgroundColor: '#ff0000',
 								alignSelf: 'center',
 								width: '60%',
 							}}
