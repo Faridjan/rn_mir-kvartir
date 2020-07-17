@@ -419,7 +419,7 @@ function* updateCustomerSaga({ payload }) {
 			type: Actions.UPDATE_CUSTOMER_SUCCESS,
 		})
 		yield call(showMessage, {
-			message: 'Update success',
+			message: 'Данные успешно обновлены',
 			type: 'success',
 		})
 		yield call(cb)

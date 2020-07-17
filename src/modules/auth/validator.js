@@ -39,11 +39,11 @@ export function validatorSignIn(data, language) {
 			(isAlphanumeric(data.username) && isLength(data.username, { min: 6, max: 20 }))
 		)
 	) {
-		errors = errors.set('username', 'Must fill value is email or username')
+		errors = errors.set('username', 'Необходимо указать E-mail или имени пользователя')
 	}
 
 	if (!data || !data.password || !schema.validate(data.password)) {
-		errors = errors.set('password', 'Password must be between 6 and 20 characters!')
+		errors = errors.set('password', 'Пароль должен содержать от 6 до 20 символов!')
 	}
 
 	return errors
@@ -53,11 +53,11 @@ export function validatorRegister(register, isPhone = true, language) {
 	let errors = Map()
 
 	if (!register || !register.first_name || !isLength(register.first_name, { min: 1, max: 32 })) {
-		errors = errors.set('first_name', 'First Name must be between 1 and 32 characters!')
+		errors = errors.set('first_name', 'Имя должно содержать от 1 до 32 символа!')
 	}
 
 	if (!register || !register.last_name || !isLength(register.last_name, { min: 1, max: 32 })) {
-		errors = errors.set('last_name', 'Last Name must be between 1 and 32 characters!')
+		errors = errors.set('last_name', 'Фамилия должна содержать от 1 до 32 символа!')
 	}
 
 	if (
@@ -68,22 +68,22 @@ export function validatorRegister(register, isPhone = true, language) {
 	) {
 		errors = errors.set(
 			'name',
-			'User Name must be alpha or number and between 8 and 20 characters!',
+			'Имя пользователя должно быть буквенно-цифровым и содержать от 8 до 20 символов!',
 		)
 	}
 
 	if (isPhone) {
 		if (!register || !register.phone_number) {
-			errors = errors.set('phone_number', 'Phone number does not appear to be valid!')
+			errors = errors.set('phone_number', '!')
 		}
 	}
 
 	if (!register || !register.email || !isEmail(register.email)) {
-		errors = errors.set('email', 'E-Mail does not appear to be valid!')
+		errors = errors.set('email', 'Электронная почта не является действительной!')
 	}
 
 	if (!register || !register.password || !schema.validate(register.password)) {
-		errors = errors.set('password', 'Password must be between 6 and 20 characters!')
+		errors = errors.set('password', 'Пароль должен содержать от 6 до 20 символов!')
 	}
 
 	return errors
@@ -93,7 +93,7 @@ export function validatorLoginMobile(phone, language) {
 	let errors = Map()
 
 	if (!phone || !isMobilePhone(phone, undefined, { strictMode: true })) {
-		errors = errors.set('phone_number', 'Phone number does not appear to be valid!')
+		errors = errors.set('phone_number', 'Номер телефона не является действительным!')
 	}
 
 	return errors
@@ -103,7 +103,7 @@ export function validatorForgotPassword(email, language) {
 	let errors = Map()
 
 	if (!email || !isEmail(email)) {
-		errors = errors.set('email', 'E-Mail does not appear to be valid!')
+		errors = errors.set('email', 'Электронная почта не является действительной!')
 	}
 
 	return errors
@@ -113,15 +113,15 @@ export function validatorChangePassword(data, language) {
 	let errors = Map()
 
 	if (!data || !data.password_old) {
-		errors = errors.set('password_old', 'Password old must fill')
+		errors = errors.set('password_old', 'Введите текущий пароль')
 	}
 
 	if (!data || !data.password_new || !schema.validate(data.password_new)) {
-		errors = errors.set('password_new', 'Password must be between 6 and 20 characters!')
+		errors = errors.set('password_new', 'Пароль должен содержать от 6 до 20 символов!')
 	}
 
 	if (!data || !data.password_confirm || data.password_confirm !== data.password_new) {
-		errors = errors.set('password_confirm', 'Confirm Password must same New Password!')
+		errors = errors.set('password_confirm', 'Пароли не совпадают!')
 	}
 
 	return errors
@@ -131,11 +131,11 @@ export function validatorUpdateAccount(data) {
 	let errors = Map()
 
 	if (!data || !data.first_name || !isLength(data.first_name, { min: 1, max: 32 })) {
-		errors = errors.set('first_name', 'First Name must be between 1 and 32 characters!')
+		errors = errors.set('first_name', 'Имя должно содержать от 1 до 32 символа!')
 	}
 
 	if (!data || !data.last_name || !isLength(data.last_name, { min: 1, max: 32 })) {
-		errors = errors.set('last_name', 'Last Name must be between 1 and 32 characters!')
+		errors = errors.set('last_name', 'Фамилия должна содержать от 1 до 32 символа!')
 	}
 
 	// if (
@@ -147,7 +147,7 @@ export function validatorUpdateAccount(data) {
 	// }
 
 	if (!data || !data.email || !isEmail(data.email)) {
-		errors = errors.set('email', 'E-Mail does not appear to be valid!')
+		errors = errors.set('email', 'Электронная почта не является действительной!')
 	}
 
 	return errors
