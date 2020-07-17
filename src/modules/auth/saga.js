@@ -333,7 +333,8 @@ function* changePasswordSaga({ payload }) {
 	try {
 		// const language = yield select(languageSelector)
 		// const errors = validatorChangePassword(payload, language)
-		const errors = validatorChangePassword(payload)
+		const { data, cb } = payload
+		const errors = validatorChangePassword(data)
 		if (errors.size > 0) {
 			yield put({
 				type: Actions.CHANGE_PASSWORD_ERROR,
@@ -343,11 +344,13 @@ function* changePasswordSaga({ payload }) {
 				},
 			})
 		} else {
-			const data = {
-				password_old: payload.password_old,
-				password_new: payload.password_new,
+			const post = {
+				user_id: data.user_id,
+				user_login: data.user_login,
+				password_old: data.password_old,
+				password_new: data.password_new,
 			}
-			yield call(changePassword, data)
+			yield call(changePassword, post)
 			yield put({
 				type: Actions.CHANGE_PASSWORD_SUCCESS,
 			})
@@ -355,6 +358,7 @@ function* changePasswordSaga({ payload }) {
 				message: 'Пароль изменён',
 				type: 'info',
 			})
+			yield call(cb)
 		}
 	} catch (e) {
 		yield put({

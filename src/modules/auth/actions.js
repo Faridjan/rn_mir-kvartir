@@ -159,10 +159,13 @@ export function updateUserSuccess(data) {
  * @param data
  * @returns {{type: string, payload: object}}
  */
-export function changePassword(data) {
+export function changePassword(data, cb = () => {}) {
 	return {
 		type: Actions.CHANGE_PASSWORD,
-		payload: data,
+		payload: {
+			data,
+			cb,
+		},
 	}
 }
 

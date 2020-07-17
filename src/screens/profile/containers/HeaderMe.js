@@ -32,9 +32,11 @@ const HeaderMe = (props) => {
 		// this.props.navigation.goBack()
 	}
 
+	console.log(user)
+
 	let nameUser = 'Hello!'
 	if (isLogin && user && !isEqual(user, {})) {
-		nameUser = `Привет, ${user.display_name}`
+		nameUser = `Привет, ${user.first_name} ${user.last_name}`
 
 		// nameUser = truncate(stringName, {
 		// 	length: 20,

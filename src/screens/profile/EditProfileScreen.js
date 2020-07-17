@@ -55,7 +55,7 @@ class EditAccount extends React.Component {
 		}
 	}
 	saveDataUser = () => {
-		const { dispatch } = this.props
+		const { dispatch, navigation } = this.props
 		const { data } = this.state
 		const user_email = data.email
 		dispatch(
@@ -64,6 +64,7 @@ class EditAccount extends React.Component {
 				user_email,
 			}),
 		)
+		navigation.goBack()
 	}
 
 	changeData(key, value) {

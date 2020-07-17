@@ -15,6 +15,7 @@ import TextHtml from 'src/components/TextHtml'
 
 import { changePassword } from 'src/modules/auth/actions'
 import { authSelector } from 'src/modules/auth/selectors'
+import { auth } from '../../modules/auth/selectors'
 
 class ChangePasswordScreen extends React.Component {
 	static navigationOptions = {
@@ -23,13 +24,15 @@ class ChangePasswordScreen extends React.Component {
 	constructor(props) {
 		super(props)
 		this.state = {
+			user_id: this.props.auth.user.ID,
+			user_login: this.props.auth.user.user_login,
 			password_old: '',
 			password_new: '',
 			password_confirm: '',
 		}
 	}
 	handleChangePassword = () => {
-		this.props.dispatch(changePassword(this.state))
+		this.props.dispatch(changePassword(this.state, this.props.navigation.goBack))
 	}
 
 	render() {

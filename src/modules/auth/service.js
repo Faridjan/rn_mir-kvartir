@@ -29,11 +29,7 @@ export const registerWithEmail = (data) => request.post('/rnlab-app-control/v1/r
 export const forgotPassword = (user_login) =>
 	request.post('/rnlab-app-control/v1/lost-password', { user_login })
 
-export const changePassword = ({ password_old, password_new }) =>
-	request.post('/rnlab-app-control/v1/change-password', {
-		password_old,
-		password_new,
-	})
+export const changePassword = (data) => request.post('/rnlab-app-control/v1/change-password', data)
 
 export const changeEmail = ({ u_password, u_email }) =>
 	request.patch('users/change-email', { u_password, u_email })
