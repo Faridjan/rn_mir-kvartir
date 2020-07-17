@@ -1,7 +1,14 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { StyleSheet, ScrollView, View, Text, TouchableOpacity } from 'react-native'
+import {
+	StyleSheet,
+	ScrollView,
+	View,
+	Text,
+	TouchableOpacity,
+	ActivityIndicator,
+} from 'react-native'
 import Input from 'src/components/input/Input'
 import Container from 'src/components/Container'
 import TextHtml from 'src/components/TextHtml'
