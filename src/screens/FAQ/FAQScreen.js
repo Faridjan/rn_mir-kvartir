@@ -164,6 +164,9 @@ class FAQScreen extends React.Component {
 								navigation.push('MapLocationFAQ', {
 									headerTitle: 'Адрес на карте',
 									address: adress_room,
+									phone1: phone_hotel,
+									phone2: phone_hotel_2,
+									name: 'Мир Квартир',
 								})
 							}
 						>

@@ -122,6 +122,9 @@ export default class CompanySingle extends Component {
 								navigation.push('MapLocationFood', {
 									headerTitle: 'Адрес на карте',
 									address,
+									phone1: phone_number,
+									phone2: phone_number2,
+									name,
 								})
 							}
 						>

@@ -202,7 +202,11 @@ const FAQNavigation = () => {
 					headerRight: () => kaspi(navigation),
 				})}
 			/>
-			<Stack.Screen name='MapLocationFAQ' component={MapLocationFAQScreen} />
+			<Stack.Screen
+				name='MapLocationFAQ'
+				component={MapLocationFAQScreen}
+				options={{ title: 'Наш адрес' }}
+			/>
 			<Stack.Screen name='ReviewsFAQ' component={ReviewsFAQScreen} options={{ title: 'Отзывы' }} />
 			<Stack.Screen
 				name='ReviewFormFAQ'
