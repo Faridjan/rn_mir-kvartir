@@ -73,7 +73,7 @@ export default class KaspiScreen extends Component {
 	render() {
 		const {
 			loading,
-			data: { acf },
+			data: { acf, content },
 		} = this.state
 		return (
 			<Container style={styles.container}>
@@ -96,7 +96,7 @@ export default class KaspiScreen extends Component {
 								</View>
 							</View>
 						</View>
-						<View style={styles.list}>
+						{/* <View style={styles.list}>
 							<View>
 								<View style={styles.rowInfo}>
 									<View style={styles.tdInfo1}>
@@ -123,7 +123,7 @@ export default class KaspiScreen extends Component {
 									</View>
 								</View>
 							</View>
-						</View>
+						</View> */}
 						<TouchableOpacity
 							style={styles.list}
 							onPress={() => {
