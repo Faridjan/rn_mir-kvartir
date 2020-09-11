@@ -26,11 +26,7 @@ class ProductPreview extends Component {
 					<View style={styles.textContainer}>
 						<Text style={styles.name}>{item.name}</Text>
 
-						{address.value ? (
-							<Text style={styles.address}>
-								{address.value.street_name_short} {address.value.street_number}
-							</Text>
-						) : null}
+						{address.value ? <Text style={styles.address}>{address.value.name}</Text> : null}
 
 						<View style={styles.viewPrice}>
 							{variations.hour ? (

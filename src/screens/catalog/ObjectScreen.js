@@ -145,9 +145,7 @@ export default class CompanySingle extends Component {
 							}
 						>
 							<View>
-								<Text>
-									{`${address.street_name_short} ${address.street_number}` || 'Адрес на карте'}
-								</Text>
+								<Text>{`${address.name}` || 'Адрес на карте'}</Text>
 							</View>
 							<View>
 								<SimpleLineIcons style={{ ...styles.icon, fontSize: 25 }} name='map' />
