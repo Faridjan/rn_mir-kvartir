@@ -85,8 +85,6 @@ export default class CompanySingle extends Component {
 
 		const images = this.images()
 
-		console.log(meta_data)
-
 		return (
 			<ScrollView>
 				<View style={{ height: 400 }}>

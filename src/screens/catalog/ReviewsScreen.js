@@ -45,7 +45,6 @@ class ReviewScreen extends React.Component {
 		try {
 			const dataGet = await getProductReviews(product_id)
 			if (dataGet.length) {
-				console.log(dataGet)
 				this.setState((preState) => {
 					return {
 						error: null,

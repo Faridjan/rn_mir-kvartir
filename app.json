@@ -1,31 +1,36 @@
 {
-	"expo": {
-		"name": "Mir Kvartir ",
-		"slug": "mir_kvartir",
-		"platforms": ["ios", "android"],
-		"version": "1.1.1",
-		"orientation": "portrait",
-		"icon": "./src/assets/icon.png",
-		"splash": {
-			"image": "./src/assets/splash.png",
-			"resizeMode": "contain",
-			"backgroundColor": "#ffffff"
-		},
-		"updates": {
-			"fallbackToCacheTimeout": 0
-		},
-		"assetBundlePatterns": ["**/*"],
-		"ios": {
-			"supportsTablet": true,
-			"bundleIdentifier": "com.inplus.rn-mir-kvartir",
-			"buildNumber": "1.1.1"
-		},
-		"android": {
-			"permissions": [],
-			"package": "com.inplus.rn_mir_kvartir",
-			"versionCode": 3
-		},
-		"description": "",
-		"githubUrl": "https://github.com/Faridjan/rn_mir-kvartir.git"
-	}
+  "expo": {
+    "name": "Mir Kvartir ",
+    "slug": "mir_kvartir",
+    "platforms": [
+      "ios",
+      "android"
+    ],
+    "version": "1.1.1",
+    "orientation": "portrait",
+    "icon": "./src/assets/icon.png",
+    "splash": {
+      "image": "./src/assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.inplus.rn-mir-kvartir",
+      "buildNumber": "1.1.1"
+    },
+    "android": {
+      "permissions": [],
+      "package": "com.inplus.rn_mir_kvartir",
+      "versionCode": 3
+    },
+    "description": "",
+    "githubUrl": "https://github.com/Faridjan/rn_mir-kvartir.git"
+  }
 }

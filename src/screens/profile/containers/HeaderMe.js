@@ -32,8 +32,6 @@ const HeaderMe = (props) => {
 		// this.props.navigation.goBack()
 	}
 
-	console.log(user)
-
 	let nameUser = 'Hello!'
 	if (isLogin && user && !isEqual(user, {})) {
 		nameUser = `Привет, ${user.first_name} ${user.last_name}`
