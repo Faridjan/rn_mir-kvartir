@@ -12,23 +12,33 @@ import {
 	Platform,
 } from 'react-native'
 
+import { connect } from 'react-redux'
+
 // Components
 import Container from 'src/components/Container'
 import Input from 'src/components/input/Input'
+
+// Selectors
+import { authSelector } from 'src/modules/auth/selectors'
 
 // Modules
 import moment from 'moment'
 import { createOrder } from 'src/modules/product/service'
 import { showMessage } from 'react-native-flash-message'
 
-export default class BookingScreen extends Component {
+class BookingScreen extends Component {
 	constructor(props) {
 		super(props)
 
 		// const durationDate = this.getDurationDate(nowDate, nextDate)
 		const { variations } = this.props.route.params
+		const {
+			auth: { isLogin, user },
+		} = props
 
 		this.state = {
+			user,
+			isLogin,
 			arrival: moment(),
 			departure: moment().add({ days: 1 }),
 			type: variations.night
@@ -106,7 +116,7 @@ export default class BookingScreen extends Component {
 	}
 
 	render() {
-		const { type, pushing, firstName, phone } = this.state
+		const { type, pushing, firstName, phone, user, isLogin } = this.state
 		const { variations } = this.props.route.params
 		const variationsLength = Object.keys(variations).length
 
@@ -139,7 +149,7 @@ export default class BookingScreen extends Component {
 						<Text style={{ ...styles.title, marginTop: 30 }}>Личные данные:</Text>
 						<Input
 							label='Имя'
-							value={firstName}
+							value={isLogin ? `${user.first_name} ${user.last_name}` : firstName}
 							onChangeText={(value) => this.setState({ firstName: value })}
 						/>
 						<Input
@@ -234,3 +244,10 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 	},
 })
+
+const mapStateToProps = (state) => {
+	return {
+		auth: authSelector(state),
+	}
+}
+export default connect(mapStateToProps)(BookingScreen)

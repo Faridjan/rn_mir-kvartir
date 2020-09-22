@@ -1,5 +1,13 @@
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView, Linking } from 'react-native'
+import {
+	StyleSheet,
+	Text,
+	View,
+	Platform,
+	TouchableOpacity,
+	ScrollView,
+	Linking,
+} from 'react-native'
 import { SimpleLineIcons, FontAwesome, AntDesign } from '@expo/vector-icons'
 
 import merge from 'lodash/merge'
@@ -72,6 +80,15 @@ export default class CompanySingle extends Component {
 	getMetaData = (meta, string) => {
 		const foundResult = meta.find((val) => val.key === string)
 		return foundResult ? foundResult.value : null
+	}
+
+	getPhoneNumberUrl = (phoneNum) => {
+		phoneNum = phoneNum.replace(/\D/g, '')
+		if (Platform.OS !== 'android') {
+			return `telprompt:+${phoneNum}`
+		} else {
+			return `tel:+${phoneNum}`
+		}
 	}
 
 	render() {
@@ -153,7 +170,7 @@ export default class CompanySingle extends Component {
 						{phone_number ? (
 							<TouchableOpacity
 								style={styles.list}
-								onPress={() => Linking.openURL(`tel:${phone_number}`)}
+								onPress={() => Linking.openURL(this.getPhoneNumberUrl(phone_number))}
 							>
 								<View>
 									<Text>{phone_number}</Text>
@@ -166,7 +183,7 @@ export default class CompanySingle extends Component {
 						{phone_number2 ? (
 							<TouchableOpacity
 								style={styles.list}
-								onPress={() => Linking.openURL(`tel:${phone_number2}`)}
+								onPress={() => Linking.openURL(this.getPhoneNumberUrl(phone_number2))}
 							>
 								<View>
 									<Text>{phone_number2}</Text>
