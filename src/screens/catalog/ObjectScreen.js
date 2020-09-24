@@ -110,62 +110,54 @@ export default class CompanySingle extends Component {
 
 				<Container>
 					<View>
-						<View style={styles.viewPrice}>
-							{variations.hour ? (
-								<Text style={styles.priceGroup}>
-									<Text style={styles.price}>
-										{toLocaleStringPrice(variations.hour.regular_price)}
-									</Text>
-									<Text style={styles.priceType}> тг / час</Text>
-								</Text>
-							) : null}
-							{variations.night ? (
-								<Text style={styles.priceGroup}>
-									<Text style={styles.price}>
-										{toLocaleStringPrice(variations.night.regular_price)}
-									</Text>
-									<Text style={styles.priceType}> тг / ночь</Text>
-								</Text>
-							) : null}
-							{variations.day ? (
-								<Text style={styles.priceGroup}>
-									<Text style={styles.price}>
-										{toLocaleStringPrice(variations.day.regular_price)}
-									</Text>
-									<Text style={styles.priceType}> тг / сутки</Text>
-								</Text>
-							) : null}
-						</View>
-
-						<View style={{ marginBottom: 16 }}>
-							{description ? (
-								<DescriptionItem
-									fullText={fullText}
-									onPress={() => this.setState({ fullText: true })}
-									text={description}
-								/>
-							) : null}
-						</View>
-
-						<TouchableOpacity
-							style={styles.list}
-							onPress={() =>
-								navigation.push('MapLocation', {
-									headerTitle: 'Адрес на карте',
-									address,
-									phone1: phone_number,
-									phone2: phone_number2,
-									name,
-								})
-							}
-						>
-							<View>
-								<Text>{`${address.name}` || 'Адрес на карте'}</Text>
+						{variations ? (
+							<View style={styles.viewPrice}>
+								{Object.entries(variations).map(([key, variation]) => {
+									return (
+										<Text style={styles.priceGroup} key={key.toString()}>
+											<Text style={styles.price}>
+												{toLocaleStringPrice(variation.regular_price)}
+											</Text>
+											<Text style={styles.priceType}> {variation.name}</Text>
+										</Text>
+									)
+								})}
 							</View>
-							<View>
-								<SimpleLineIcons style={{ ...styles.icon, fontSize: 25 }} name='map' />
+						) : null}
+
+						{description ? (
+							<View style={{ marginBottom: 16 }}>
+								{description ? (
+									<DescriptionItem
+										fullText={fullText}
+										onPress={() => this.setState({ fullText: true })}
+										text={description}
+									/>
+								) : null}
 							</View>
-						</TouchableOpacity>
+						) : null}
+
+						{address ? (
+							<TouchableOpacity
+								style={styles.list}
+								onPress={() =>
+									navigation.push('MapLocation', {
+										headerTitle: 'Адрес на карте',
+										address,
+										phone1: phone_number,
+										phone2: phone_number2,
+										name,
+									})
+								}
+							>
+								<View>
+									<Text>{`${address.name}` || 'Адрес на карте'}</Text>
+								</View>
+								<View>
+									<SimpleLineIcons style={{ ...styles.icon, fontSize: 25 }} name='map' />
+								</View>
+							</TouchableOpacity>
+						) : null}
 
 						{phone_number ? (
 							<TouchableOpacity
@@ -269,11 +261,13 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignItems: 'center',
-		marginBottom: 26,
+		marginBottom: 16,
+		flexWrap: 'wrap',
 	},
-	// priceGroup: {
-	// 	flexDirection: 'column',
-	// },
+	priceGroup: {
+		flexDirection: 'column',
+		marginBottom: 10,
+	},
 	price: {
 		fontSize: 18,
 		fontWeight: 'bold',

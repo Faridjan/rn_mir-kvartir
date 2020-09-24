@@ -27,6 +27,7 @@ export default class FoodListScreen extends Component {
 			loading: true,
 			refreshing: false,
 			loadingMore: false,
+			subCats: [],
 			data: [],
 			page: 1,
 		}
@@ -34,6 +35,42 @@ export default class FoodListScreen extends Component {
 
 	componentDidMount() {
 		this.fetchProducts()
+		this.fetchCategories()
+	}
+
+	getCats = (page) => {
+		const query = {
+			status: 'publish',
+			lang: 'ru',
+			per_page: 7,
+			page: page,
+			parent: this.state.category, // Взять все подкатегории родительской категории по этому ID
+		}
+
+		return getCategories(query)
+	}
+
+	fetchCategories = async (page = this.state.page) => {
+		try {
+			const dataGet = await this.getCats(page)
+
+			if (dataGet.length <= 7 && dataGet.length > 0) {
+				this.setState((preState) => {
+					return {
+						loadingCats: false,
+						subCats: page === 1 ? dataGet : concat(preState.data, dataGet),
+					}
+				})
+			} else {
+				this.setState({
+					loadingCats: false,
+				})
+			}
+		} catch (e) {
+			this.setState({
+				loadingCats: false,
+			})
+		}
 	}
 
 	getData = (page) => {
@@ -106,7 +143,7 @@ export default class FoodListScreen extends Component {
 	}
 
 	render() {
-		const { category, name, data, loading, loadingMore, refreshing } = this.state
+		const { category, name, data, loading, loadingMore, subCats, refreshing } = this.state
 
 		return (
 			<>
@@ -116,6 +153,31 @@ export default class FoodListScreen extends Component {
 					</View>
 				) : data.length ? (
 					<Container style={{ marginTop: 0, paddingTop: 0 }}>
+						{subCats.length ? (
+							<View style={{ flexDirection: 'column' }}>
+								<FlatList
+									data={subCats}
+									contentContainerStyle={{ marginVertical: 20, paddingHorizontal: 5 }}
+									horizontal={true}
+									showsHorizontalScrollIndicator={false}
+									keyExtractor={(item) => item.id.toString()}
+									renderItem={({ item, index, separators }) => (
+										<TouchableOpacity
+											style={styles.subCatItem}
+											onPress={() =>
+												this.props.navigation.push('FoodList', {
+													headerTitle: item.name,
+													category: item.id,
+												})
+											}
+											activeOpacity={1}
+										>
+											<Text style={styles.subCatItemText}>{item.name}</Text>
+										</TouchableOpacity>
+									)}
+								/>
+							</View>
+						) : null}
 						<FlatList
 							data={data}
 							contentContainerStyle={{ paddingBottom: 20 }}

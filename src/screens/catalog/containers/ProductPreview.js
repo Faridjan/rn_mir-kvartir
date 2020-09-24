@@ -28,32 +28,20 @@ class ProductPreview extends Component {
 
 						{address.value ? <Text style={styles.address}>{address.value.name}</Text> : null}
 
-						<View style={styles.viewPrice}>
-							{variations.hour ? (
-								<Text style={styles.priceGroup}>
-									<Text style={styles.price}>
-										{toLocaleStringPrice(variations.hour.regular_price)}
-									</Text>
-									<Text style={styles.priceType}> тг/час</Text>
-								</Text>
-							) : null}
-							{variations.night ? (
-								<Text style={styles.priceGroup}>
-									<Text style={styles.price}>
-										{toLocaleStringPrice(variations.night.regular_price)}
-									</Text>
-									<Text style={styles.priceType}> тг/ночь</Text>
-								</Text>
-							) : null}
-							{variations.day ? (
-								<Text style={styles.priceGroup}>
-									<Text style={styles.price}>
-										{toLocaleStringPrice(variations.day.regular_price)}
-									</Text>
-									<Text style={styles.priceType}> тг/сутки</Text>
-								</Text>
-							) : null}
-						</View>
+						{variations ? (
+							<View style={styles.viewPrice}>
+								{Object.entries(variations).map(([key, variation]) => {
+									return (
+										<Text style={styles.priceGroup} key={key.toString()}>
+											<Text style={styles.price}>
+												{toLocaleStringPrice(variation.regular_price)}
+											</Text>
+											<Text style={styles.priceType}> {variation.name}</Text>
+										</Text>
+									)
+								})}
+							</View>
+						) : null}
 					</View>
 				</View>
 			</TouchableOpacity>
@@ -75,6 +63,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignItems: 'center',
+		flexWrap: 'wrap',
 		paddingRight: 10,
 	},
 	price: {
