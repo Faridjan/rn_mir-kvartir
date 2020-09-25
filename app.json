@@ -6,7 +6,7 @@
       "ios",
       "android"
     ],
-    "version": "1.1.1",
+    "version": "1.1.2",
     "orientation": "portrait",
     "icon": "./src/assets/icon.png",
     "splash": {
@@ -28,7 +28,7 @@
     "android": {
       "permissions": [],
       "package": "com.inplus.rn_mir_kvartir",
-      "versionCode": 3
+      "versionCode": 4
     },
     "description": "",
     "githubUrl": "https://github.com/Faridjan/rn_mir-kvartir.git"
