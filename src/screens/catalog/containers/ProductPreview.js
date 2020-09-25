@@ -11,6 +11,8 @@ class ProductPreview extends Component {
 
 		let address = meta_data.find((val) => val.key === 'adress_room')
 
+		console.log(address)
+
 		return (
 			<TouchableOpacity
 				onPress={() => {
@@ -26,7 +28,12 @@ class ProductPreview extends Component {
 					<View style={styles.textContainer}>
 						<Text style={styles.name}>{item.name}</Text>
 
-						{address.value ? <Text style={styles.address}>{address.value.name}</Text> : null}
+						{address.value ? (
+							<Text style={styles.address}>
+								{address.value.name ||
+									address.value.street_name + ' ' + address.value.street_number}
+							</Text>
+						) : null}
 
 						{variations ? (
 							<View style={styles.viewPrice}>

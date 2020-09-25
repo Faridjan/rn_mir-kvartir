@@ -145,11 +145,20 @@ class ProductListScreen extends Component {
 	}
 
 	render() {
-		const { category, name, data, loading, loadingMore, refreshing, subCats } = this.state
+		const {
+			category,
+			name,
+			data,
+			loading,
+			loadingMore,
+			refreshing,
+			loadingCats,
+			subCats,
+		} = this.state
 
 		return (
 			<>
-				{loading ? (
+				{loading || loadingCats ? (
 					<View style={{ flex: 1, justifyContent: 'center', alignContent: 'center' }}>
 						<ActivityIndicator size='large' color='red' />
 					</View>
