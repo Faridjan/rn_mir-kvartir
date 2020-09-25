@@ -102,6 +102,10 @@ export default class CompanySingle extends Component {
 
 		const images = this.images()
 
+		const addressName = address.name
+			? address.name
+			: address.street_name_short || address.street_name + ' ' + address.street_number
+
 		return (
 			<ScrollView>
 				<View style={{ height: 400 }}>
@@ -151,7 +155,7 @@ export default class CompanySingle extends Component {
 								}
 							>
 								<View>
-									<Text>{`${address.name}` || 'Адрес на карте'}</Text>
+									<Text>{`${addressName}` || 'Адрес на карте'}</Text>
 								</View>
 								<View>
 									<SimpleLineIcons style={{ ...styles.icon, fontSize: 25 }} name='map' />

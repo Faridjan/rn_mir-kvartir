@@ -26,6 +26,7 @@ import moment from 'moment'
 import { createOrder } from 'src/modules/product/service'
 import { showMessage } from 'react-native-flash-message'
 
+const toLocaleStringPrice = (data) => data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')
 class BookingScreen extends Component {
 	constructor(props) {
 		super(props)
@@ -41,11 +42,7 @@ class BookingScreen extends Component {
 			isLogin,
 			arrival: moment(),
 			departure: moment().add({ days: 1 }),
-			type: variations.night
-				? variations.night.id
-				: variations.hour
-				? variations.hour.id
-				: variations.day.id,
+			type: variations[Object.keys(variations)[0]]['id'],
 			adults: 1,
 			children: 0,
 			firstName: '',
@@ -112,7 +109,7 @@ class BookingScreen extends Component {
 				variation = variations[i].regular_price
 			}
 		})
-		return variation
+		return toLocaleStringPrice(variation)
 	}
 
 	render() {
@@ -130,19 +127,17 @@ class BookingScreen extends Component {
 					>
 						<Text style={styles.title}>Квартира:</Text>
 						<View style={[styles.picker, variationsLength === 1 ? styles.input : null]}>
-							{variationsLength > 1 ? (
+							{variations ? (
 								<Picker
 									selectedValue={type}
 									onValueChange={(itemValue, itemIndex) => this.setState({ type: itemValue })}
 								>
-									{variations.hour ? <Picker.Item label='Час' value={variations.hour.id} /> : null}
-									{variations.night ? (
-										<Picker.Item label='Ночь' value={variations.night.id} />
-									) : null}
-									{variations.day ? <Picker.Item label='Сутки' value={variations.day.id} /> : null}
+									{Object.entries(variations).map(([key, variation]) => {
+										return <Picker.Item label={variation.name} value={variation.id} />
+									})}
 								</Picker>
 							) : (
-								<Text style={styles.inp}>Сутки</Text>
+								<Text style={styles.inp}>Тг</Text>
 							)}
 						</View>
 
