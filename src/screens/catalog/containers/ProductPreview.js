@@ -1,45 +1,50 @@
 import React, { Component } from 'react'
-import { Text, StyleSheet, View, Image, TouchableNativeFeedback } from 'react-native'
+import { Text, StyleSheet, View, Image, TouchableOpacity } from 'react-native'
 import { withNavigation } from '@react-navigation/compat'
 
 const noImage = require('src/assets/imgCateDefault.png')
-
+const toLocaleStringPrice = (data) => data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')
 class ProductPreview extends Component {
 	render() {
 		const { item, navigation } = this.props
-		const { name, images, price, type, id, purchasable, stock_status, meta_data } = item
+		const { images, variations, meta_data } = item
 
 		let address = meta_data.find((val) => val.key === 'adress_room')
-		let typeBasePrice = meta_data.find((val) => val.key === 'type_base_price')
-		let addPrice = meta_data.find((val) => val.key === 'add_price')
-		let typeAddPrice = meta_data.find((val) => val.key === 'type_add_price')
 
 		return (
-			<TouchableNativeFeedback
-				onPress={() => navigation.navigate('Object', { headerTitle: item.title })}
+			<TouchableOpacity
+				onPress={() => {
+					navigation.navigate('Object', { headerTitle: item.name, item })
+				}}
 			>
 				<View style={styles.preview}>
 					<Image
 						resizeMode='cover'
 						style={styles.img}
-						source={images && images[0] ? { uri: images[0].shop_single, cache: 'reload' } : noImage}
+						source={images && images[0] ? { uri: images[0].src, cache: 'reload' } : noImage}
 					/>
 					<View style={styles.textContainer}>
 						<Text style={styles.name}>{item.name}</Text>
 
-						{address.value ? (
-							<Text style={styles.address}>
-								{address.value.street_name_short} {address.value.street_number}
-							</Text>
-						) : null}
+						{address.value ? <Text style={styles.address}>{address.value.name}</Text> : null}
 
-						<Text style={styles.priceContainer}>
-							<Text style={styles.price}>{item.price} </Text>
-							<Text>{price && typeBasePrice ? typeBasePrice.value : null}</Text>
-						</Text>
+						{variations ? (
+							<View style={styles.viewPrice}>
+								{Object.entries(variations).map(([key, variation]) => {
+									return (
+										<Text style={styles.priceGroup} key={key.toString()}>
+											<Text style={styles.price}>
+												{toLocaleStringPrice(variation.regular_price)}
+											</Text>
+											<Text style={styles.priceType}> {variation.name}</Text>
+										</Text>
+									)
+								})}
+							</View>
+						) : null}
 					</View>
 				</View>
-			</TouchableNativeFeedback>
+			</TouchableOpacity>
 		)
 	}
 }
@@ -54,6 +59,17 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		alignItems: 'center',
 	},
+	viewPrice: {
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		alignItems: 'center',
+		flexWrap: 'wrap',
+		paddingRight: 10,
+	},
+	price: {
+		fontSize: 18,
+		fontWeight: 'bold',
+	},
 	img: {
 		width: 85,
 		height: 85,
@@ -61,18 +77,16 @@ const styles = StyleSheet.create({
 	},
 	textContainer: {
 		marginLeft: 15,
+		flexGrow: 1,
 	},
 	name: {
 		fontSize: 16,
 		fontWeight: 'bold',
+		marginBottom: 6,
 	},
-	address: { fontSize: 16 },
+	address: { fontSize: 16, marginBottom: 6 },
 	priceContainer: {
 		fontSize: 16,
-	},
-	price: {
-		fontWeight: 'bold',
-		paddingRight: 5,
 	},
 })
 

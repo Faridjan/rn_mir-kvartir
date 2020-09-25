@@ -4,10 +4,9 @@
     "slug": "mir_kvartir",
     "platforms": [
       "ios",
-      "android",
-      "web"
+      "android"
     ],
-    "version": "1.0.0",
+    "version": "1.1.1",
     "orientation": "portrait",
     "icon": "./src/assets/icon.png",
     "splash": {
@@ -15,7 +14,6 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "androidStatusBar": {},
     "updates": {
       "fallbackToCacheTimeout": 0
     },
@@ -23,7 +21,14 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.inplus.rn-mir-kvartir",
+      "buildNumber": "1.1.1"
+    },
+    "android": {
+      "permissions": [],
+      "package": "com.inplus.rn_mir_kvartir",
+      "versionCode": 3
     },
     "description": "",
     "githubUrl": "https://github.com/Faridjan/rn_mir-kvartir.git"

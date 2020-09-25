@@ -1,35 +1,90 @@
 // React
 import React, { Component } from 'react'
+import { Image, Text, TouchableOpacity } from 'react-native'
 
 // Expo
 import { Ionicons } from '@expo/vector-icons'
 
 // React Navigation
-import { NavigationContainer, DefaultTheme } from '@react-navigation/native'
+import {
+	NavigationContainer,
+	DefaultTheme,
+	getFocusedRouteNameFromRoute,
+} from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
-// Screens
-import CategoryScreen from '../screens/catalog/CategoryScreen'
-import SearchScreen from '../screens/catalog/SearchScreen'
-import ProductListScreen from '../screens/catalog/ProductListScreen'
-import ObjectScreen from '../screens/catalog/ObjectScreen'
-import FAQScreen from '../screens/FAQScreen'
-import FoodScreen from '../screens/FoodScreen'
-import ProfileScreen from '../screens/ProfileScreen'
-import { Image } from 'react-native'
-
+//Tools
 import { THEME } from '../theme'
+
+import NavigationService from 'src/utils/navigation'
+
+/**********  Screens ************/
+
+// Object
+import CategoryScreen from 'src/screens/catalog/CategoryScreen'
+import SearchScreen from 'src/screens/catalog/SearchScreen'
+import ObjectScreen from 'src/screens/catalog/ObjectScreen'
+import BookingScreen from 'src/screens/catalog/BookingScreen'
+import MapLocationScreen from 'src/screens/catalog/MapLocationScreen'
+import ReviewsScreen from 'src/screens/catalog/ReviewsScreen'
+import ReviewFormScreen from 'src/screens/catalog/ReviewFormScreen'
+import ProductListScreen from 'src/screens/catalog/ProductListScreen'
+
+// FAQ
+import FAQScreen from 'src/screens/FAQ/FAQScreen'
+import MapLocationFAQScreen from 'src/screens/FAQ/MapLocationFAQScreen'
+import ReviewsFAQScreen from 'src/screens/FAQ/ReviewsFAQScreen'
+import ReviewFormFAQScreen from 'src/screens/FAQ/ReviewFormFAQScreen'
+
+// FOOD
+import FoodScreen from 'src/screens/food/FoodScreen'
+import FoodObjectScreen from 'src/screens/food/FoodObjectScreen'
+import FoodListScreen from 'src/screens/food/FoodListScreen'
+import MapLocationFoodScreen from 'src/screens/food/MapLocationFoodScreen'
+
+// PROFILE
+import ProfileScreen from 'src/screens/profile/ProfileScreen'
+import LoginScreen from 'src/screens/profile/LoginScreen'
+import RegisterScreen from 'src/screens/profile/RegisterScreen'
+import ForgotScreen from 'src/screens/profile/ForgotScreen'
+import EditProfileScreen from 'src/screens/profile/EditProfileScreen'
+import ChangePasswordScreen from 'src/screens/profile/ChangePasswordScreen'
+import KaspiScreen from 'src/screens/KaspiScreen'
 
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator()
 
 const getTabBarVisibility = (route) => {
 	const routeName = route.state ? route.state.routes[route.state.index].name : ''
-	if (routeName === 'Search') {
+	if (routeName === 'Search' || routeName === 'MapLocation') {
 		return false
 	}
 	return true
+}
+
+const getActiveRouteState = (route) => {
+	if (!route.routes || route.routes.length === 0 || route.index >= route.routes.length) {
+		return route
+	}
+
+	const childActiveRoute = route.routes[route.index]
+	return getActiveRouteState(childActiveRoute)
+}
+
+const getHeaderTitle = (route) => {
+	// If state doesn't exist, we need to default to `screen` param if available, or the initial screen
+	// In our case, it's "Feed" as that's the first screen inside the navigator
+	const routeName = getActiveRouteState(route)
+
+	switch (routeName.params.screen) {
+		case 'Register':
+			return 'Регистрация'
+		case 'Forgot':
+			return 'Восстановление пароля'
+		case 'Login':
+			return 'Вход'
+	}
 }
 
 // Navigation Config
@@ -60,6 +115,15 @@ const MyTheme = {
 	},
 }
 
+const kaspi = (navigation) => (
+	<TouchableOpacity
+		style={{ marginRight: 15 }}
+		onPress={() => navigation.push('Kaspi', { headerTitle: 'Реквизиты' })}
+	>
+		<Text style={{ color: 'red', fontSize: 16, fontWeight: 'bold' }}>Kaspi Gold</Text>
+	</TouchableOpacity>
+)
+
 // Stacks Navigation
 const CategoryNavigation = () => {
 	return (
@@ -69,31 +133,59 @@ const CategoryNavigation = () => {
 				component={CategoryScreen}
 				options={({ navigation }) => ({
 					title: 'Категории',
-					headerRight: () => (
-						<Ionicons
-							name='ios-search'
-							size={24}
-							style={{ marginRight: 15, paddingHorizontal: 5, paddingVertical: 5 }}
-							onPress={() => navigation.navigate('Search')}
-						/>
-					),
+					headerRight: () => kaspi(navigation),
 				})}
 			/>
 			<Stack.Screen
 				name='Search'
 				component={SearchScreen}
-				options={{
+				options={({ navigation }) => ({
 					title: 'Поиск',
-				}}
+					headerRight: () => kaspi(navigation),
+				})}
 			/>
 			<Stack.Screen
 				name='ProductList'
 				component={ProductListScreen}
-				options={({ route }) => ({ title: route.params.headerTitle })}
+				options={({ route, navigation }) => ({
+					title: route.params.headerTitle,
+					headerRight: () => kaspi(navigation),
+				})}
 			/>
 			<Stack.Screen
 				name='Object'
 				component={ObjectScreen}
+				options={({ route, navigation }) => ({
+					title: route.params.headerTitle,
+					headerRight: () => kaspi(navigation),
+				})}
+			/>
+			<Stack.Screen
+				name='MapLocation'
+				component={MapLocationScreen}
+				options={({ route }) => ({ title: route.params.headerTitle })}
+			/>
+			<Stack.Screen
+				name='Booking'
+				component={BookingScreen}
+				options={({ route, navigation }) => ({
+					title: route.params.headerTitle,
+					headerRight: () => kaspi(navigation),
+				})}
+			/>
+			<Stack.Screen
+				name='Reviews'
+				component={ReviewsScreen}
+				options={({ route }) => ({ title: route.params.headerTitle })}
+			/>
+			<Stack.Screen
+				name='ReviewForm'
+				component={ReviewFormScreen}
+				options={({ route }) => ({ title: 'Оставить отзыв' })}
+			/>
+			<Stack.Screen
+				name='Kaspi'
+				component={KaspiScreen}
 				options={({ route }) => ({ title: route.params.headerTitle })}
 			/>
 		</Stack.Navigator>
@@ -103,7 +195,29 @@ const CategoryNavigation = () => {
 const FAQNavigation = () => {
 	return (
 		<Stack.Navigator screenOptions={defaultNavigationOptions}>
-			<Stack.Screen name='FAQ' component={FAQScreen} />
+			<Stack.Screen
+				name='FAQ'
+				component={FAQScreen}
+				options={({ navigation }) => ({
+					headerRight: () => kaspi(navigation),
+				})}
+			/>
+			<Stack.Screen
+				name='MapLocationFAQ'
+				component={MapLocationFAQScreen}
+				options={{ title: 'Наш адрес' }}
+			/>
+			<Stack.Screen name='ReviewsFAQ' component={ReviewsFAQScreen} options={{ title: 'Отзывы' }} />
+			<Stack.Screen
+				name='ReviewFormFAQ'
+				component={ReviewFormFAQScreen}
+				options={{ title: 'Оставить отзыв' }}
+			/>
+			<Stack.Screen
+				name='Kaspi'
+				component={KaspiScreen}
+				options={({ route }) => ({ title: route.params.headerTitle })}
+			/>
 		</Stack.Navigator>
 	)
 }
@@ -114,8 +228,64 @@ const FoodNavigation = () => {
 			<Stack.Screen
 				name='Food'
 				component={FoodScreen}
-				options={{
+				options={({ navigation }) => ({
 					title: 'Еда',
+					headerRight: () => kaspi(navigation),
+				})}
+			/>
+
+			<Stack.Screen
+				name='FoodList'
+				component={FoodListScreen}
+				options={({ route, navigation }) => ({
+					title: route.params.headerTitle,
+					headerRight: () => kaspi(navigation),
+				})}
+			/>
+			<Stack.Screen
+				name='FoodObject'
+				component={FoodObjectScreen}
+				options={({ route, navigation }) => ({
+					title: route.params.headerTitle,
+					headerRight: () => kaspi(navigation),
+				})}
+			/>
+			<Stack.Screen
+				name='MapLocationFood'
+				component={MapLocationFoodScreen}
+				options={({ route }) => ({ title: route.params.headerTitle })}
+			/>
+			<Stack.Screen
+				name='Kaspi'
+				component={KaspiScreen}
+				options={({ route }) => ({ title: route.params.headerTitle })}
+			/>
+		</Stack.Navigator>
+	)
+}
+
+const AuthNavigation = () => {
+	return (
+		<Stack.Navigator screenOptions={defaultNavigationOptions}>
+			<Stack.Screen
+				name='Login'
+				component={LoginScreen}
+				options={{
+					title: 'Авторизация',
+				}}
+			/>
+			<Stack.Screen
+				name='Register'
+				component={RegisterScreen}
+				options={{
+					title: 'Регистрация',
+				}}
+			/>
+			<Stack.Screen
+				name='Forgot'
+				component={ForgotScreen}
+				options={{
+					title: 'Восстановление пароля',
 				}}
 			/>
 		</Stack.Navigator>
@@ -132,6 +302,27 @@ const ProfileNavigation = () => {
 					title: 'Профиль',
 				}}
 			/>
+			<Stack.Screen
+				name='EditProfile'
+				component={EditProfileScreen}
+				options={{
+					title: 'Изменить личные данные',
+				}}
+			/>
+			<Stack.Screen
+				name='ChangePassword'
+				component={ChangePasswordScreen}
+				options={{
+					title: 'Изменение пароля',
+				}}
+			/>
+			<Stack.Screen
+				name='Auth'
+				component={AuthNavigation}
+				options={({ route }) => ({
+					headerTitle: getHeaderTitle(route),
+				})}
+			/>
 		</Stack.Navigator>
 	)
 }
@@ -144,7 +335,6 @@ const MainBottomTabsNavigation = () => {
 				showLabel: false,
 				showIcon: true,
 				style: {
-					height: 50,
 					backgroundColor: '#fff',
 					shadowOpacity: 0,
 					shadowOffset: {
@@ -253,7 +443,12 @@ const MainBottomTabsNavigation = () => {
 // Navigation Container
 export const AppNavigation = () => {
 	return (
-		<NavigationContainer theme={MyTheme}>
+		<NavigationContainer
+			theme={MyTheme}
+			ref={(navigatorRef) => {
+				NavigationService.setTopLevelNavigator(navigatorRef)
+			}}
+		>
 			<MainBottomTabsNavigation />
 		</NavigationContainer>
 	)

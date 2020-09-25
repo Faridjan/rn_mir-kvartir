@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, StyleSheet, View, ActivityIndicator, FlatList } from 'react-native'
+import { Text, StyleSheet, View, ActivityIndicator, TouchableOpacity, FlatList } from 'react-native'
 import { withNavigation } from '@react-navigation/compat'
 import concat from 'lodash/concat'
 
@@ -8,6 +8,7 @@ import Title from '../../components/Title'
 
 // Modules
 import { getProducts } from 'src/modules/product/service'
+import { getCategories } from 'src/modules/category/service'
 
 // Containers
 import Container from 'src/components/Container'
@@ -25,15 +26,53 @@ class ProductListScreen extends Component {
 			category,
 			name,
 			loading: true,
+			loadingCats: true,
 			refreshing: false,
 			loadingMore: false,
 			data: [],
+			subCats: [],
 			page: 1,
+		}
+	}
+
+	getCats = (page) => {
+		const query = {
+			status: 'publish',
+			lang: 'ru',
+			per_page: 7,
+			page: page,
+			parent: this.state.category, // Взять все подкатегории родительской категории по этому ID
+		}
+
+		return getCategories(query)
+	}
+
+	fetchCategories = async (page = this.state.page) => {
+		try {
+			const dataGet = await this.getCats(page)
+
+			if (dataGet.length <= 7 && dataGet.length > 0) {
+				this.setState((preState) => {
+					return {
+						loadingCats: false,
+						subCats: page === 1 ? dataGet : concat(preState.data, dataGet),
+					}
+				})
+			} else {
+				this.setState({
+					loadingCats: false,
+				})
+			}
+		} catch (e) {
+			this.setState({
+				loadingCats: false,
+			})
 		}
 	}
 
 	componentDidMount() {
 		this.fetchProducts()
+		this.fetchCategories()
 	}
 
 	getData = (page) => {
@@ -106,15 +145,41 @@ class ProductListScreen extends Component {
 	}
 
 	render() {
-		const { category, name, data, loading, loadingMore, refreshing } = this.state
+		const { category, name, data, loading, loadingMore, refreshing, subCats } = this.state
+
 		return (
 			<>
 				{loading ? (
 					<View style={{ flex: 1, justifyContent: 'center', alignContent: 'center' }}>
-						<ActivityIndicator size='large' />
+						<ActivityIndicator size='large' color='red' />
 					</View>
 				) : data.length ? (
 					<Container style={{ marginTop: 0, paddingTop: 0 }}>
+						{subCats.length ? (
+							<View style={{ flexDirection: 'column' }}>
+								<FlatList
+									data={subCats}
+									contentContainerStyle={{ marginVertical: 20, paddingHorizontal: 5 }}
+									horizontal={true}
+									showsHorizontalScrollIndicator={false}
+									keyExtractor={(item) => item.id.toString()}
+									renderItem={({ item, index, separators }) => (
+										<TouchableOpacity
+											style={styles.subCatItem}
+											onPress={() =>
+												this.props.navigation.push('ProductList', {
+													headerTitle: item.name,
+													category: item.id,
+												})
+											}
+											activeOpacity={1}
+										>
+											<Text style={styles.subCatItemText}>{item.name}</Text>
+										</TouchableOpacity>
+									)}
+								/>
+							</View>
+						) : null}
 						<FlatList
 							data={data}
 							contentContainerStyle={{ paddingBottom: 20 }}
@@ -127,11 +192,26 @@ class ProductListScreen extends Component {
 						/>
 					</Container>
 				) : (
-					<Text>Пусто</Text>
+					<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+						<Text>Пусто</Text>
+					</View>
 				)}
 			</>
 		)
 	}
 }
+const styles = StyleSheet.create({
+	subCatItem: {
+		borderColor: '#ccc',
+		borderWidth: 2,
+		paddingHorizontal: 20,
+		paddingVertical: 5,
+		borderRadius: 5,
+		marginRight: 10,
+	},
+	subCatItemText: {
+		// color: '#fff',
+	},
+})
 
 export default withNavigation(ProductListScreen)

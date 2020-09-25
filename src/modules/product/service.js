@@ -70,3 +70,9 @@ export const addProductReviews = (data) => request.post(`/wc/v3/products/reviews
  */
 export const getVariations = (product_id, lang, cancelToken) =>
 	request.get(`/wc/v3/products/${product_id}/variations?lang=${lang}&per_page=100`, { cancelToken })
+
+/**
+ *  Create Order
+ * @returns {*}
+ */
+export const createOrder = (data) => request.post(`/wc/v3/orders`, data)

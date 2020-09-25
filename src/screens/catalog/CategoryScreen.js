@@ -6,6 +6,7 @@ import CategoryItem from './containers/CategoryItem'
 import { getCategories } from 'src/modules/category/service'
 
 const noImage = require('src/assets/imgCateDefault.png')
+const rootCategory = 58
 
 export default class CategoryScreen extends Component {
 	constructor(props) {
@@ -24,13 +25,12 @@ export default class CategoryScreen extends Component {
 	}
 
 	getData = (page) => {
-		const { category } = this.state
-
 		const query = {
 			status: 'publish',
 			lang: 'ru',
 			per_page: 7,
 			page: page,
+			parent: rootCategory, // Взять все подкатегории родительской категории по этому ID
 		}
 
 		return getCategories(query)
@@ -92,16 +92,16 @@ export default class CategoryScreen extends Component {
 	}
 
 	render() {
-		const { data, refreshing } = this.state
-		const listData = data ? data.filter((c) => c.parent === 0) : 0
-
+		const { data, refreshing, loading } = this.state
+		// const listData = data.filter((c) => c.parent === 0)
+		const listData = data
 		return (
 			<>
-				{listData === 0 ? (
+				{loading ? (
 					<View style={{ flex: 1, justifyContent: 'center', alignContent: 'center' }}>
-						<ActivityIndicator size='large' />
+						<ActivityIndicator size='large' color='red' />
 					</View>
-				) : (
+				) : data.length ? (
 					<Container>
 						<FlatList
 							data={listData}
@@ -127,6 +127,8 @@ export default class CategoryScreen extends Component {
 							)}
 						/>
 					</Container>
+				) : (
+					<Text>Пусто</Text>
 				)}
 			</>
 		)
